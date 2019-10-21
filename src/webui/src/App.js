@@ -152,7 +152,8 @@ const assetImages = [
   Images.Pro,
   Images.ArgonLogo,
   Images.iOSLogo,
-  Images.androidLogo
+  Images.androidLogo,
+  Images.star
 ];
 
 // cache product images

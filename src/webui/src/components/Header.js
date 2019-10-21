@@ -60,7 +60,8 @@ class Header extends React.Component {
         <BasketButton key='basket-title' navigation={navigation} isWhite={white} />
       ]
     }
-
+    //changable
+    // return (<></>);
     switch (routeName) {
       case 'Home':
         return ([
