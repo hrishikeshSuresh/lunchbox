@@ -3,8 +3,8 @@ import { ImageBackground, Image, StyleSheet, StatusBar, Dimensions, Platform } f
 import { Block, Button, Text, theme } from 'galio-framework';
 
 const { height, width } = Dimensions.get('screen');
-import { Images, argonTheme } from '../constants/';
-import { HeaderHeight } from "../constants/utils";
+import { Images, argonTheme } from '../../constants/';
+import { HeaderHeight } from "../../constants/utils";
 
 export default class Pro extends React.Component {
   render() {

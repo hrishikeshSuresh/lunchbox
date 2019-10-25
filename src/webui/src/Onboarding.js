@@ -110,9 +110,8 @@ import {
 } from "react-native";
 import { Block, Checkbox, Text, theme } from "galio-framework";
 
-import { Button, Icon, Input } from "../components";
-import { Images, argonTheme } from "../constants";
-
+import { Button, Icon, Input } from "./components";
+import { Images, argonTheme } from "./constants";
 const { width, height } = Dimensions.get("screen");
 
 class Onboarding extends React.Component {
@@ -136,8 +135,11 @@ class Onboarding extends React.Component {
   //     }
   //   />
   // </Block>
+  nav(obj){
+    obj.props.navigation.navigate(obj.state.loginas);
+  }
   render() {
-    const { navigation } = this.props;
+    // const { navigation } = this.props;
     return (
       <Block flex middle>
         <StatusBar hidden />
@@ -209,7 +211,7 @@ class Onboarding extends React.Component {
                     </Block>
                     <Block middle>
                       <Button color="primary" style={styles.createButton}
-                        onPress={() => navigation.navigate("Home")}>
+                        onPress={() => this.nav(this)}>
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
                           SIGN IN
                         </Text>
@@ -225,7 +227,8 @@ class Onboarding extends React.Component {
     );
   }
 }
-
+//onPress={() => navigation.navigate("Customer")}>
+ 
 const styles = StyleSheet.create({
   registerContainer: {
     width: width * 0.9,

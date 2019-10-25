@@ -3,8 +3,8 @@ import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
 import { Rating } from 'react-native-ratings';
 
-import { Card } from '../components';
-import articles from '../constants/articles';
+import { Card } from '../../components';
+import articles from '../../constants/articles';
 const { width } = Dimensions.get('screen');
 
 class Home extends React.Component {

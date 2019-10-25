@@ -140,8 +140,8 @@ import { Image } from 'react-native';
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import { Block, GalioProvider } from 'galio-framework';
-
-import Screens from './navigation/Screens';
+import MainNavigation from './MainNavigation'
+// import Screens from './navigation/Screens';
 import { Images, articles, argonTheme } from './constants';
 
 // cache app images
@@ -187,7 +187,9 @@ export default class App extends React.Component {
       return (
         <GalioProvider theme={argonTheme}>
           <Block flex>
-            <Screens />
+            {/* <Screens /> */}
+            {/* <Onboarding /> */}
+            <MainNavigation/>
           </Block>
         </GalioProvider>
       );
