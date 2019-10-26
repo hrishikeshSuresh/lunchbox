@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Block, theme } from "galio-framework";
 
-import Images from "../constants/Images";
+import Images from "../../constants/Images";
 
 const { width } = Dimensions.get("screen");
 

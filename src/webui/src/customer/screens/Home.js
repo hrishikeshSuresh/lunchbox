@@ -1,15 +1,21 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
+import { Rating } from 'react-native-ratings';
 
-import { Card } from '../components';
-import articles from '../constants/articles';
+import { Card } from '../../components';
+import articles from '../../constants/articles';
 const { width } = Dimensions.get('screen');
 
 class Home extends React.Component {
   renderArticles = () => {
     // <Card item={articles[0]} horizontal  />
     // <Card item={articles[4]} full />
+    /*<Rating
+        showRating
+        onFinishRating={this.ratingCompleted}
+        style={{ paddingVertical: 10 }}
+      />*/
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}

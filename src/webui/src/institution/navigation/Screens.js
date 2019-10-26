@@ -10,7 +10,7 @@ import { Block } from "galio-framework";
 
 // screens
 import Home from "../screens/Home";
-import Onboarding from "../screens/Onboarding";
+// import Onboarding from "../screens/Onboarding";
 import Pro from "../screens/Pro";
 import Profile from "../screens/Profile";
 import Register from "../screens/Register";
@@ -18,10 +18,10 @@ import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
 // drawer
 import Menu from "./Menu";
-import DrawerItem from "../components/DrawerItem";
+import DrawerItem from "../../components/DrawerItem";
 
 // header for screens
-import Header from "../components/Header";
+import Header from "../../components/Header";
 
 const transitionConfig = (transitionProps, prevTransitionProps) => ({
   transitionSpec: {
@@ -112,7 +112,7 @@ const HomeStack = createStackNavigator(
     Home: {
       screen: Home,
       navigationOptions: ({ navigation }) => ({
-        header: <Header tabs={tabs.categories}  search options title="Home" navigation={navigation} />
+        header: <Header options title="HomeInstitution" navigation={navigation} />
       })
     },
     Pro: {
@@ -135,12 +135,12 @@ const HomeStack = createStackNavigator(
 // divideru se baga ca si cum ar fi un ecrna dar nu-i nimic duh
 const AppStack = createDrawerNavigator(
   {
-    Onboarding: {
-      screen: Onboarding,
-      navigationOptions: {
-        drawerLabel: () => {}
-      }
-    },
+    // Onboarding: {
+    //   screen: Onboarding,
+    //   navigationOptions: {
+    //     drawerLabel: () => {}
+    //   }
+    // },
     Home: {
       screen: HomeStack,
       navigationOptions: navOpt => ({
@@ -153,7 +153,7 @@ const AppStack = createDrawerNavigator(
       screen: ProfileStack,
       navigationOptions: navOpt => ({
         drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Profile" title="Profile" />
+          <DrawerItem focused={focused} screen="Profile" title="Statistics" />
         )
       })
     },
@@ -185,5 +185,6 @@ const AppStack = createDrawerNavigator(
   Menu
 );
 
-const AppContainer = createAppContainer(AppStack);
-export default AppContainer;
+// const AppContainer = createAppContainer(AppStack);
+// export default AppContainer;
+export default AppStack;

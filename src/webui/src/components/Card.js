@@ -1,11 +1,12 @@
 import React from 'react';
 import { withNavigation } from 'react-navigation';
 import PropTypes from 'prop-types';
-import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback,View } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 
-import { argonTheme } from '../constants';
+import { Images,argonTheme } from '../constants';
 
+const star = require("../assets/imgs/star.png");
 
 class Card extends React.Component {
   render() {
@@ -31,8 +32,13 @@ class Card extends React.Component {
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
           <Block flex space="between" style={styles.cardDescription}>
             <Text size={14} style={styles.cardTitle}>{item.title}</Text>
-            <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold>{item.cta}</Text>
-          </Block>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold style={{}}>{item.cta}</Text>
+            
+            <Text size={12} muted={!ctaColor} color="grey" bold ><Image
+                  source={Images.star}
+                  style={{ height: 10,width: 10}} /> {item.rating}</Text>
+            </View></Block>
         </TouchableWithoutFeedback>
       </Block>
     );
