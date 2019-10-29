@@ -7,5 +7,5 @@
 # import necessary libraries & just create a client that is global for now
 
 from pymongo import MongoClient
-client = MongoClient('localhost', 27017)
+client = MongoClient('127.0.0.1', 27017)
 db = client['lunchbox']
