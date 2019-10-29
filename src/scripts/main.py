@@ -23,7 +23,9 @@ import os
 import json
 from werkzeug import secure_filename, exceptions
 
-# importing other views
+import db_connector
+
+# importing other views 
 import caterer
 import customer
 import institution
