@@ -4,23 +4,24 @@
 # and db = client.lunchbox where lunchbox is the name of the database
 from db_connector import *
 from flask_app import *
-
-# list all available canteens
-@app.route('/showAllCanteens', methods = ['GET'])
-def showAllCanteens():
-    if request.method == 'GET':
-        canteens = db['canteen']
-        cursor = canteens.find({})
-        result = []
-        for i in cursor:
-            result.append(i);
-        print(result)
-        return jsonify(str(result))
+from common import *
 
 # list all available caterers
 @app.route('/showAllCaterers', methods = ['GET'])
 def showAllCaterers():
     if request.method == 'GET':
-        caterers = db['caterers']
-        data = caterers.find({})
-        return jsonify(data)
+        caterer_data = readCatererCollection()
+        all_caterers = set()
+        for document in caterer_data:
+            all_caterers.add(document['name'])
+        return jsonify(str(all_caterers)), 200
+
+# list all available canteens
+@app.route('/showAllCanteens', methods = ['GET'])
+def showAllCanteens():
+    if request.method == 'GET':
+        canteen_data = readCanteenCollection()
+        all_canteens = set()
+        for document in canteen_data:
+            all_canteens.add(document['name'])
+        return jsonify(str(all_canteens)), 200
