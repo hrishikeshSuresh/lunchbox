@@ -14,6 +14,9 @@ import os
 import json
 from werkzeug import secure_filename, exceptions
 
+import pprint
+pp = pprint.PrettyPrinter(indent=2)
+
 # create application instance
 app = Flask(__name__)
 # generating a secret key for sessions
