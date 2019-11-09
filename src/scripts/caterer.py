@@ -15,6 +15,7 @@ def getMenu(establishment_name):
             if document['establishment_name'] == establishment_name:
                 menu_item = {'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency']}
                 establishment_menu.append(menu_item)
+        print("menu sent")
         return jsonify(str(establishment_menu)), 200
 
 # add new item to the menu
@@ -38,7 +39,8 @@ def addItemToMenu(establishment_name):
                       'currency': currency }
         db['menu'].insert(mongo_cmd)
         pp.pprint(mongo_cmd)
-        return jsonify("Added ", item_name, " priced at ", item_price), 200
+        print("item added to the menu")
+        return jsonify("Added " + item_name + " priced at " + item_price), 200
 
 # edit item to the menu
 @app.route('/<establishment_name>/menu/editItem/<item_name>', methods = ['PUT'])
@@ -49,8 +51,24 @@ def editItemInMenu(establishment_name, item_name):
         # check if item is present in the menu
         if(db['menu'].find({'item_name': item_name}).count == 0):
             return jsonify("Item not found"), 200
-        mongo_cmd = { 'item_price': item_price }
+        mongo_update = { 'item_price': item_price }
         # update the collection
         db['menu'].update_one({'establishment_name': establishment_name, 'item_name': item_name},
-                              { '$set': mongo_cmd }, upsert = True)
-        return jsonify("Edited ", item_name, " priced at ", item_price), 200
+                              { '$set': mongo_update }, upsert = True)
+        print("item price edited in the menu")
+        return jsonify("Edited " + item_name + " priced at " + item_price), 200
+
+# delete item from the menu
+@app.route('/<establishment_name>/menu/deleteItem/<item_name>', methods = ['DELETE'])
+def deleteItemFromMenu(establishment_name, item_name):
+    if request.method == 'DELETE':
+        request_data = json.loads(request.get_data().decode())
+        # check if item is present in the menu
+        if(db['menu'].find({'item_name': item_name}).count == 0):
+            return jsonify("Item not found"), 200
+        # delete item from menu
+        mongo_delete = { 'establishment_name': establishment_name,
+                         'item_name': item_name}
+        db['menu'].delete_one(mongo_delete)
+        print("item removed from the menu")
+        return jsonify("Removed " + item_name + " from " + establishment_name + "'s menu"), 200
