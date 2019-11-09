@@ -44,5 +44,26 @@ def addRatingReview():
                       'date': date,
                       'payment_option': payment_option }
         db['sales'].insert(mongo_cmd)
-        print(mongo_cmd, " added.")
+        pp.pprint(mongo_cmd)
         return jsonify("Added review & rating"), 200
+
+# list average ratings and all reviews for a particular caterer/canteen
+@app.route('/<establishment_name>/reviews', methods = ['GET'])
+def getAllReviews(establishment_name):
+    if request.method == 'GET':
+        ratings_data = readRatingsCollection()
+        pp.pprint(ratings_data)
+        # filter needed reviews
+        establishment_reviews = list()
+        for document in ratings_data:
+            if document['establishment_name'] == establishment_name:
+                establishment_reviews.append(document)
+        # find average ratings & accumulate reviews
+        n_ratings = len(establishment_reviews)
+        rating_sum = 0
+        for document in establishment_reviews:
+            rating_sum = rating_sum + int(document['rating'])
+        average_rating = rating_sum/n_ratings
+        average_rating_json = { 'average_rating': average_rating }
+        establishment_reviews.append(average_rating_json)
+        return jsonify(str(establishment_reviews)), 200

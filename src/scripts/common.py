@@ -35,3 +35,14 @@ def readSalesCollection():
     print("\nSALES DATA")
     pp.pprint(sales_data)
     return sales_data
+
+def readRatingsCollection():
+    print("reading ratings data...")
+    ratings_collection = db['ratings']
+    cursor = ratings_collection.find({})
+    ratings_data = []
+    for i in cursor:
+        ratings_data.append(i)
+    print("\nRATINGS DATA")
+    pp.pprint(ratings_data)
+    return ratings_data
