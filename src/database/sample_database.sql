@@ -34,3 +34,12 @@ db.sales.insert({"username": "Shivaji", "establishment_name": "Vidhyarthi Bhavan
 db.sales.insert({"username": "Shah Rukh", "establishment_name": "Delhi Marathi Catering Services", "city": "Bengaluru", "amount": 10000, "currency" : "INR", "payment_option": "Credit Card", "date": ISODate()})
 db.sales.insert({"username": "Shivaji", "establishment_name": "Delhi Marathi Catering Services", "city": "Bengaluru", "amount": 500, "currency" : "INR", "payment_option": "Cash", "date": new Date()})
 db.sales.insert({"username": "Shah Rukh", "establishment_name": "Vidhyarthi Bhavan", "city": "Delhi", "amount": 30000, "currency" : "INR", "payment_option": "Cash", "date": new Date()})
+
+//MENU INFORMATION
+db.createCollection("menu")
+db.menu.insert({"establishment_name": "Vidhyarthi Bhavan", "item_name": "Idly Vada", "item_price": "35", "currency": "INR"})
+db.menu.insert({"establishment_name": "Vidhyarthi Bhavan", "item_name": "Masala Dosa", "item_price": "60", "currency": "INR"})
+db.menu.insert({"establishment_name": "Food Point", "item_name": "Gobi Manchuri", "item_price": "50", "currency": "INR"})
+db.menu.insert({"establishment_name": "Food Point", "item_name": "Chicken Fried Rice", "item_price": "90", "currency": "INR"})
+db.menu.insert({"establishment_name": "Delhi Marathi Catering Services", "item_name": "Marathi Lunch", "item_price": "200", "currency": "INR"})
+db.menu.insert({"establishment_name": "Vintage Delhi Catering Services", "item_name": "South Indian Tamil Meals", "item_price": "300", "currency": "INR"})
