@@ -1,6 +1,7 @@
 # all functions common to all files
 from db_connector import *
 from flask_app import *
+from datetime import datetime
 
 def readCanteenCollection():
     print("reading canteen data...")
@@ -24,3 +25,13 @@ def readCatererCollection():
     pp.pprint(caterer_data)
     return caterer_data
 
+def readSalesCollection():
+    print("reading sales data...")
+    sales_collection = db['sales']
+    cursor = sales_collection.find({})
+    sales_data = []
+    for i in cursor:
+        sales_data.append(i)
+    print("\nSALES DATA")
+    pp.pprint(sales_data)
+    return sales_data
