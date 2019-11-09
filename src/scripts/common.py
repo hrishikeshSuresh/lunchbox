@@ -46,3 +46,14 @@ def readRatingsCollection():
     print("\nRATINGS DATA")
     pp.pprint(ratings_data)
     return ratings_data
+
+def readMenuCollection():
+    print("reading menu data...")
+    menu_collection = db['menu']
+    cursor = menu_collection.find({})
+    menu_data = []
+    for i in cursor:
+        menu_data.append(i)
+    print("\nMENU DATA")
+    pp.pprint(menu_data)
+    return menu_data
