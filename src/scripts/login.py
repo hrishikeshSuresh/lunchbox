@@ -9,7 +9,7 @@ app = Flask(__name__) #create the Flask app
 
 @app.route('/api/v1/login', methods = [ 'POST' ]   )
 def login():
-    if request.method == 'GET':
+    if request.method == 'POST':
         username = request.json.get('username')
         password = request.json.get('password')
         user_type = request.json.get('user_type')
