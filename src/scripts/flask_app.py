@@ -8,7 +8,8 @@ from flask import (
     request,
     jsonify,
     session,
-    Response
+    Response,
+    make_response
 )
 
 import sys
