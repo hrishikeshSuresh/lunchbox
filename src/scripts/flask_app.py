@@ -6,7 +6,8 @@ from flask import (
     send_from_directory,
     flash,
     request,
-    jsonify
+    jsonify,
+    session
 )
 
 import sys

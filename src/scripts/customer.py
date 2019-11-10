@@ -125,3 +125,21 @@ def getAllReviews(establishment_name):
         average_rating_json = { 'average_rating': average_rating }
         establishment_reviews.append(average_rating_json)
         return jsonify(str(establishment_reviews)), 200
+
+
+@app.route('/api/v1/change_password')
+def change_password():
+    if request.method == 'POST':
+        request_data = json.loads(request.get_data().decode())
+        if not request.cookies.get('username'):
+            return {},400
+        db_user = db['users'].find({"username":request_data['username']})
+        if db_user['password'] == request_data['password'] and request_data['new_password'] == request_data['change_password']:
+            db['users'].update_one({"username":request_data['username']},{"$set":{"password":request_data["new_password"]}})
+            return jsonify({success:"Password change successful"}), 201
+
+
+
+
+    else:
+        return jsonify({error:"Method not allowed"}), 405
