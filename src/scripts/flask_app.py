@@ -7,7 +7,8 @@ from flask import (
     flash,
     request,
     jsonify,
-    session
+    session,
+    Response
 )
 
 import sys
