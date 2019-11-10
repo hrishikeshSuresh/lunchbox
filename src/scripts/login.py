@@ -14,7 +14,7 @@ def login():
         password = request.json.get('password')
         user_type = request.json.get('user_type')
         user_collection = db['users']
-        if(user_collection.find({ "username": username  , "password": password , "account_type":    })):
+        if(user_collection.find({ "username": username  , "password": password , "account_type": user_type   })):
             '''#Random string
             N = 7 
             res = ''.join(random.choices(string.ascii_uppercase + string.digits, k = N)) 
