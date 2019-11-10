@@ -25,7 +25,7 @@ def listmenuitems():
     for document in menu_data:
         if document['status']==1:
             count=count+1
-            menu_item = {'establishment_name':document['establishment_name'],'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency'], 'img': document['img']}
+            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img']}
             item_list.append(menu_item)
     print("menu sent")
     if count==0:
@@ -48,7 +48,7 @@ def searchforfood(searchstr):
         
         if (item_flag!=-1 or est_pat!=-1) and document['status']==1:
             count=count+1
-            search_item = {'establishment_name':document['establishment_name'], 'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency'], 'img':document['img']}
+            search_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img']}
             item_list.append(search_item)
             
     print("menu sent")
@@ -130,16 +130,27 @@ def getAllReviews(establishment_name):
         return jsonify(str(establishment_reviews)), 200
 
 
-@app.route('/api/v1/change_password')
+@app.route('/api/v1/change_password', methods= ['POST'])
 def change_password():
     if request.method == 'POST':
-        request_data = json.loads(request.get_data().decode())
-        if not request.cookies.get('username'):
-            return {},400
-        db_user = db['users'].find({"username":request_data['username']})
-        if db_user['password'] == request_data['password'] and request_data['new_password'] == request_data['confirm_password']:
+        
+        request_data={}
+        request_data["username"] = request.json.get("username")
+        request_data["password"] = request.json.get("password")
+        request_data["new_password"] = request.json.get("new_password")
+        request_data["confirm_password"] = request.json.get("confirm_password")
+        #if not request.cookies.get('username'):
+            #   return {},400
+        db_user = db['users'].find_one({"username":request_data['username']})
+        print("\n\n\n Fucked\n\n\n")
+        print(db_user)
+        if (db_user['password'] == request_data['password'] and request_data['new_password'] == request_data['confirm_password']) and (request_data['password'] != request_data['new_password']) :
+            print("\n\n\n Fucked2\n\n\n")
             db['users'].update_one({"username":request_data['username']},{"$set":{"password":request_data["new_password"]}})
-            return jsonify({success:"Password change successful"}), 201
+            print(' \n \n \n \n jadoskad \n')
+            return jsonify(str({"success":"Password change successful"})), 201
+        else:
+            return jsonify(str({"error":"Invalid credentials"}))
 
 
 
@@ -150,7 +161,7 @@ def change_password():
 
 
 #Place an order
-@app.roue('/placeorder', methods = ['POST'])
+@app.route('/placeorder', methods = ['POST'])
 def placeorder():
     if request.method == 'POST':
         username = request.json.get('username') 
