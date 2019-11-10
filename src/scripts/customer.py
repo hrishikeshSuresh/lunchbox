@@ -43,10 +43,10 @@ def searchforfood(searchstr):
     
     item_list = list()
     for document in menu_data:
-        if (document['item_name']==searchstr or document['establishment_name']==searchstr) and document['status']==1:
+        if (document['item_name'].lower()==searchstr.lower() or document['establishment_name']==searchstr) and document['status']==1:
             count=count+1
             search_item = {'establishment_name':document['establishment_name'], 'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency'], 'img':document['img']}
-            item_list.append(menu_item)
+            item_list.append(search_item)
             
     print("menu sent")
     if count==0:
