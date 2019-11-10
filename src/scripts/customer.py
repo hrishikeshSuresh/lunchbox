@@ -25,16 +25,16 @@ def listmenuitems():
     for document in menu_data:
         if document['status']==1:
             count=count+1
-            menu_item = {'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency']}
+            menu_item = {'establishment_name':document.['establishment_name'],'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency'], 'img': document['img']}
             item_list.append(menu_item)
     print("menu sent")
     if count==0:
         return jsonify(str({})),204
     return jsonify(str(item_list)), 200
 
-#search for a specific item by name 
-@app.route('/api/v1/<itemName>/search_food', methods=['GET'])
-def searchforfood(itemName):
+#search for a specific item by name or by name of the establishment
+@app.route('/api/v1/<searchstr>/search_food', methods=['GET'])
+def searchforfood(searchstr):
     if request.method != 'GET':
         return jsonify(str({error: "Method not allowed"})),405
     menu_data = readMenuCollection()
@@ -43,14 +43,15 @@ def searchforfood(itemName):
     
     item_list = list()
     for document in menu_data:
-        if document['item_name']==itemName and document['status']==1:
+        if (document['item_name']==searchstr or document.['establishment_name']==searchstr) and document['status']==1:
             count=count+1
-            search_item = {'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency']}
-            break;
+            search_item = {'establishment_name':document.['establishment_name'], 'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency'], 'img':document['img']}
+            item_list.append(menu_item)
+            
     print("menu sent")
     if count==0:
         return jsonify(str({})),204
-    return jsonify(str(search_item)), 200
+    return jsonify(str(item_list)), 200
 
 
 
