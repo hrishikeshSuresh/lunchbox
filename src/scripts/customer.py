@@ -13,7 +13,7 @@ from common import *
 
 
 #list all menu items
-@app.route('/api/vi/menu', methods=['GET'])
+@app.route('/api/v1/menu', methods=['GET'])
 def listmenuitems():
     if request.method != 'GET':
         return jsonify(str({error: "Method not allowed"})),405
