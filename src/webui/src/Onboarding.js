@@ -117,7 +117,19 @@ const { width, height } = Dimensions.get("screen");
 class Onboarding extends React.Component {
   constructor(props){
     super(props);
-    this.state={loginas:"Customer"}
+    this.state={
+      loginas:"Customer",
+      user:'',
+      password:'',
+      error:''
+    }
+  }
+  change(text,field){
+    if(field=='user')
+    this.setState({user : text,})
+    if(field=='password')
+    this.setState({password : text,})
+    // console.warn(this.state);
   }
   // Institution - 
   // <Block width={width * 0.8} style={{ marginBottom: 15 }}>
@@ -136,7 +148,34 @@ class Onboarding extends React.Component {
   //   />
   // </Block>
   nav(obj){
-    obj.props.navigation.navigate(obj.state.loginas);
+    // console.warn(obj.state);
+      const url = server_ip+'/api/v1/login';
+      const data = { username:obj.state.user,
+        password:obj.state.password,
+        user_type:obj.state.loginas };
+
+      try{
+      response=fetch(url, {
+          method: 'POST', 
+          body: JSON.stringify(data), 
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => {
+          if(response.status==200){
+            obj.props.navigation.navigate(obj.state.loginas);
+            response.json().then((res)=>console.warn(res));
+          }
+          else{
+            this.setState({error : "Oops! Something isn't right"})
+          }
+        })
+      } catch (error) {
+        console.warn('Error:', error);
+      }
+
+
   }
   render() {
     // const { navigation } = this.props;
@@ -167,6 +206,7 @@ class Onboarding extends React.Component {
                       <Input
                         borderless
                         placeholder="Email"
+                        onChangeText={(text)=>this.change(text,'user')} 
                         iconContent={
                           <Icon
                             size={16}
@@ -183,6 +223,8 @@ class Onboarding extends React.Component {
                         password
                         borderless
                         placeholder="Password"
+                        onChangeText={(text)=>this.change(text,'password')} 
+
                         iconContent={
                           <Icon
                             size={16}
@@ -216,6 +258,9 @@ class Onboarding extends React.Component {
                           SIGN IN
                         </Text>
                       </Button>
+                    </Block>
+                    <Block middle>
+                        <Text size={12}>{this.state.error}</Text>
                     </Block>
                   </KeyboardAvoidingView>
                 </Block>
