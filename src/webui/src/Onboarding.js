@@ -109,12 +109,13 @@ import {
   Picker
 } from "react-native";
 import { Block, Checkbox, Text, theme } from "galio-framework";
-
+import md5 from 'md5';
 import { Button, Icon, Input } from "./components";
 import { Images, argonTheme } from "./constants";
 const { width, height } = Dimensions.get("screen");
 
 class Onboarding extends React.Component {
+  
   constructor(props){
     super(props);
     this.state={
@@ -151,12 +152,13 @@ class Onboarding extends React.Component {
     // console.warn(obj.state);
       const url = server_ip+'/api/v1/login';
       const data = { username:obj.state.user,
-        password:obj.state.password,
+        password:md5(obj.state.password),
         user_type:obj.state.loginas };
 
       try{
       response=fetch(url, {
           method: 'POST', 
+          credentials: 'include',
           body: JSON.stringify(data), 
           headers: {
             'Content-Type': 'application/json'
@@ -164,12 +166,15 @@ class Onboarding extends React.Component {
         })
         .then((response) => {
           if(response.status==200){
-            obj.props.navigation.navigate(obj.state.loginas);
+            if(withflask){
+            obj.props.navigation.navigate(obj.state.loginas);}
             response.json().then((res)=>console.warn(res));
           }
           else{
             this.setState({error : "Oops! Something isn't right"})
           }
+          if(!withflask){obj.props.navigation.navigate(obj.state.loginas);}
+
         })
       } catch (error) {
         console.warn('Error:', error);
