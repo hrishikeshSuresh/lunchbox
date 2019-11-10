@@ -7,6 +7,7 @@ from flask_app import *
 import caterer
 import customer
 import institution
+import login
 
 def main():
     print("Lunchbox starting...")
