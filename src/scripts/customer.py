@@ -137,7 +137,7 @@ def change_password():
         if not request.cookies.get('username'):
             return {},400
         db_user = db['users'].find({"username":request_data['username']})
-        if db_user['password'] == request_data['password'] and request_data['new_password'] == request_data['change_password']:
+        if db_user['password'] == request_data['password'] and request_data['new_password'] == request_data['confirm_password']:
             db['users'].update_one({"username":request_data['username']},{"$set":{"password":request_data["new_password"]}})
             return jsonify({success:"Password change successful"}), 201
 
