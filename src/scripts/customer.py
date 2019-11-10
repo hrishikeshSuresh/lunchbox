@@ -6,6 +6,63 @@ from db_connector import *
 from flask_app import *
 from common import *
 
+
+
+
+
+
+
+#list all menu items
+@app.route('/api/vi/menu', methods=['GET'])
+def listmenuitems():
+    if request.method != 'GET':
+        return jsonify(str({error: "Method not allowed"})),405
+    menu_data = readMenuCollection()
+    count=0
+    pp.pprint(menu_data)
+    
+    item_list = list()
+    for document in menu_data:
+        if document['status']==1:
+            count=count+1
+            menu_item = {'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency']}
+            item_list.append(menu_item)
+    print("menu sent")
+    if count==0:
+        return jsonify(str({})),204
+    return jsonify(str(item_list)), 200
+
+#search for a specific item by name 
+@app.route('/api/v1/<itemName>/search_food', methods=['GET'])
+def searchforfood(itemName):
+    if request.method != 'GET':
+        return jsonify(str({error: "Method not allowed"})),405
+    menu_data = readMenuCollection()
+    count=0
+    pp.pprint(menu_data)
+    
+    item_list = list()
+    for document in menu_data:
+        if document['item_name']==itemName and document['status']==1:
+            count=count+1
+            search_item = {'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency']}
+            break;
+    print("menu sent")
+    if count==0:
+        return jsonify(str({})),204
+    return jsonify(str(search_item)), 200
+
+
+
+
+
+
+
+
+
+
+
+
 # list all available caterers
 @app.route('/showAllCaterers', methods = ['GET'])
 def showAllCaterers():
