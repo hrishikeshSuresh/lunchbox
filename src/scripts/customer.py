@@ -156,10 +156,10 @@ def placeorder():
         username = request.json.get('username') 
         estdname = request.json.get('establishment_name') 
         item = request.json.get('item') 
-        amount = request.json.get('amount')"
+        amount = request.json.get('amount')
         city = request.json.get('city')
         currency = request.json.get('currency')
         payment_option = request.json.get('payment_option')
         db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
-        return jsonify("Redirect to payment for approval"), 200)
+        return jsonify("Redirect to payment for approval"), 200
 
