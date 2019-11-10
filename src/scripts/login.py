@@ -20,7 +20,7 @@ def login():
             session [ 'id' ] = res
             session['logged_in'] = True''' #This code is just in case we need to change it to sessions
 
-            resp = make_response(None, 200)  
+            resp = make_response(jsonify({"Success": "Log in successful"}), 200)  
             resp.set_cookie('username',username)  
             return resp  
 
