@@ -134,7 +134,7 @@
 // });
 
 
-global.server_ip="localhost:4000/"
+global.server_ip="http://10.0.2.2:4000"
 import React from 'react';
 import { Image } from 'react-native';
 import { AppLoading } from 'expo';

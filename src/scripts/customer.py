@@ -6,6 +6,64 @@ from db_connector import *
 from flask_app import *
 from common import *
 
+
+
+
+
+
+
+#list all menu items
+@app.route('/api/vi/menu', methods=['GET'])
+def listmenuitems():
+    if request.method != 'GET':
+        return jsonify(str({error: "Method not allowed"})),405
+    menu_data = readMenuCollection()
+    count=0
+    pp.pprint(menu_data)
+    
+    item_list = list()
+    for document in menu_data:
+        if document['status']==1:
+            count=count+1
+            menu_item = {'establishment_name':document['establishment_name'],'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency'], 'img': document['img']}
+            item_list.append(menu_item)
+    print("menu sent")
+    if count==0:
+        return jsonify(str({})),204
+    return jsonify(str(item_list)), 200
+
+#search for a specific item by name or by name of the establishment
+@app.route('/api/v1/<searchstr>/search_food', methods=['GET'])
+def searchforfood(searchstr):
+    if request.method != 'GET':
+        return jsonify(str({error: "Method not allowed"})),405
+    menu_data = readMenuCollection()
+    count=0
+    pp.pprint(menu_data)
+    
+    item_list = list()
+    for document in menu_data:
+        if (document['item_name']==searchstr or document['establishment_name']==searchstr) and document['status']==1:
+            count=count+1
+            search_item = {'establishment_name':document['establishment_name'], 'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency'], 'img':document['img']}
+            item_list.append(menu_item)
+            
+    print("menu sent")
+    if count==0:
+        return jsonify(str({})),204
+    return jsonify(str(item_list)), 200
+
+
+
+
+
+
+
+
+
+
+
+
 # list all available caterers
 @app.route('/showAllCaterers', methods = ['GET'])
 def showAllCaterers():
@@ -67,3 +125,21 @@ def getAllReviews(establishment_name):
         average_rating_json = { 'average_rating': average_rating }
         establishment_reviews.append(average_rating_json)
         return jsonify(str(establishment_reviews)), 200
+
+
+@app.route('/api/v1/change_password')
+def change_password():
+    if request.method == 'POST':
+        request_data = json.loads(request.get_data().decode())
+        if not request.cookies.get('username'):
+            return {},400
+        db_user = db['users'].find({"username":request_data['username']})
+        if db_user['password'] == request_data['password'] and request_data['new_password'] == request_data['change_password']:
+            db['users'].update_one({"username":request_data['username']},{"$set":{"password":request_data["new_password"]}})
+            return jsonify({success:"Password change successful"}), 201
+
+
+
+
+    else:
+        return jsonify({error:"Method not allowed"}), 405
