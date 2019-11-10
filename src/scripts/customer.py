@@ -146,3 +146,20 @@ def change_password():
 
     else:
         return jsonify({error:"Method not allowed"}), 405
+
+
+
+#Place an order
+@app.roue('/placeorder', methods = ['POST'])
+def placeorder():
+    if request.method == 'POST':
+        username = request.json.get('username') 
+        estdname = request.json.get('establishment_name') 
+        item = request.json.get('item') 
+        amount = request.json.get('amount')"
+        city = request.json.get('city')
+        currency = request.json.get('currency')
+        payment_option = request.json.get('payment_option')
+        db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
+        return jsonify("Redirect to payment for approval"), 200)
+
