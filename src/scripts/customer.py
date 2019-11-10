@@ -40,10 +40,13 @@ def searchforfood(searchstr):
     menu_data = readMenuCollection()
     count=0
     pp.pprint(menu_data)
-    
+    searchstr=searchstr.lower()
     item_list = list()
     for document in menu_data:
-        if (document['item_name'].lower()==searchstr.lower() or document['establishment_name']==searchstr) and document['status']==1:
+        item_flag=(document['item_name'].lower()).find(searchstr)
+        est_pat=(document['establishment_name'].lower()).find(searchstr)
+        
+        if (item_flag!=-1 or est_pat!=-1) and document['status']==1:
             count=count+1
             search_item = {'establishment_name':document['establishment_name'], 'item_name': document['item_name'], 'item_price': document['item_price'], 'currency': document['currency'], 'img':document['img']}
             item_list.append(search_item)
