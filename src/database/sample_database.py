@@ -12,9 +12,9 @@ caterers.insert_one({"establishment_name": "Vintage Delhi Catering Services", "o
 
 
 users = db['users']
-users.insert_one({"username": "Shah Rukh", "password": "lunchbox000x", "account_type": "vendor"})
-users.insert_one({"username": "Shivaji", "password": "pesu12", "account_type": "vendor"})
-users.insert_one({"username": "Hrishi Kesh", "password": "googleme", "account_type": "customer"})
+users.insert_one({"username": "Shah Rukh", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "vendor"})
+users.insert_one({"username": "Shivaji", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "vendor"})
+users.insert_one({"username": "Hrishi Kesh", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "customer"})
 
 
 ratings = db['ratings']
