@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback,View } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 
-import { Images,argonTheme } from '../constants';
+import { Images,argonTheme } from '../../constants';
 
-const star = require("../assets/imgs/star.png");
+const star = require("../../assets/imgs/star.png");
 
-class Card extends React.Component {
+class CartCard extends React.Component {
   render() {
     const { navigation, item, horizontal, full, style, ctaColor, imageStyle } = this.props;
     
@@ -23,7 +23,9 @@ class Card extends React.Component {
     ];
 
     return (
+      
       <Block row={horizontal} card flex style={cardContainer}>
+        {/* <Text>Coming from blah</Text> */}
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Food')}>
           <Block flex style={imgContainer}>
             <Image source={{uri: item.image}} style={imageStyles} />
@@ -32,12 +34,11 @@ class Card extends React.Component {
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Food')}>
           <Block flex space="between" style={styles.cardDescription}>
             <Text size={14} style={styles.cardTitle}>{item.title}</Text>
+            <Text size={12}>{item.from}</Text>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold style={{}}>{item.cta}</Text>
             
-            <Text size={12} muted={!ctaColor} color="grey" bold ><Image
-                  source={Images.star}
-                  style={{ height: 10,width: 10}} /> {item.rating}</Text>
+            <Text size={12} muted={!ctaColor} color="grey" bold > Qty : 1</Text>
             </View></Block>
         </TouchableWithoutFeedback>
       </Block>
@@ -45,7 +46,7 @@ class Card extends React.Component {
   }
 }
 
-Card.propTypes = {
+CartCard.propTypes = {
   item: PropTypes.object,
   horizontal: PropTypes.bool,
   full: PropTypes.bool,
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
   cardTitle: {
     flex: 1,
     flexWrap: 'wrap',
-    paddingBottom: 6
+    paddingBottom: 0
   },
   cardDescription: {
     padding: theme.SIZES.BASE / 2
@@ -101,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(Card);
+export default withNavigation(CartCard);

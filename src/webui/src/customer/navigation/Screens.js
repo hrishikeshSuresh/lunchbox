@@ -11,9 +11,10 @@ import { Block } from "galio-framework";
 // screens
 import Home from "../screens/Home";
 // import Onboarding from "../screens/Onboarding";
-import Pro from "../screens/Pro";
-import Profile from "../screens/Profile";
-import Register from "../screens/Register";
+import Food from "../screens/Food";
+import Cart from "../screens/Cart";
+import Statistics from "../screens/Statistics";
+import Account from "../screens/Account";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
 // drawer
@@ -21,7 +22,7 @@ import Menu from "./Menu";
 import DrawerItem from "../../components/DrawerItem";
 
 // header for screens
-import Header from "../../components/Header";
+import Header from "../extras/Header";
 
 const transitionConfig = (transitionProps, prevTransitionProps) => ({
   transitionSpec: {
@@ -89,15 +90,31 @@ const ArticlesStack = createStackNavigator({
   transitionConfig
 });
 
-const ProfileStack = createStackNavigator(
+const StatisticsStack = createStackNavigator(
   {
-    Profile: {
-      screen: Profile,
+    Statistics: {
+      screen: Statistics,
       navigationOptions: ({ navigation }) => ({
         header: (
-          <Header white transparent title="Profile" iconColor={'#FFF'} navigation={navigation} />
-        ),
-        headerTransparent: true
+          <Header title="Statistics" navigation={navigation} />
+        )
+      })
+    }
+  },
+  {
+    cardStyle: { backgroundColor: "#FFFFFF" },
+    transitionConfig
+  }
+);
+
+const AccountStack = createStackNavigator(
+  {
+    Account: {
+      screen: Account,
+      navigationOptions: ({ navigation }) => ({
+        header: (
+          <Header title="Account" navigation={navigation} />
+        )
       })
     }
   },
@@ -114,14 +131,23 @@ const HomeStack = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         header: <Header tabs={tabs.categories}  search options title="HomeCustomer" navigation={navigation} />
       })
-    },
-    Pro: {
-      screen: Pro,
+    }
+    ,
+    Food: {
+      screen: Food,
       navigationOptions: ({ navigation }) => ({
         header: (
-          <Header left={<Block />} white transparent title="" navigation={navigation} />
-        ),
-        headerTransparent: true
+          <Header title="LunchBox" navigation={navigation} />
+        )
+      })
+    }
+    ,
+    Cart: {
+      screen: Cart,
+      navigationOptions: ({ navigation }) => ({
+        header: (
+          <Header title="My Cart" navigation={navigation} />
+        )
       })
     }
   },
@@ -149,30 +175,30 @@ const AppStack = createDrawerNavigator(
         )
       })
     },
-    Profile: {
-      screen: ProfileStack,
+    Statistics: {
+      screen: StatisticsStack,
       navigationOptions: navOpt => ({
         drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Profile" title="Statistics" />
+          <DrawerItem focused={focused} screen="Statistics" title="Statistics" />
         )
       })
     },
     Account: {
-      screen: Register,
+      screen: AccountStack,
       navigationOptions: navOpt => ({
         drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Register" title="Account" />
+          <DrawerItem focused={focused} screen="Account" title="Account" />
         )
       })
     },
-    Elements: {
-      screen: ElementsStack,
-      navigationOptions: navOpt => ({
-        drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Elements" title="Elements" />
-        )
-      })
-    },
+    // Elements: {
+    //   screen: ElementsStack,
+    //   navigationOptions: navOpt => ({
+    //     drawerLabel: ({ focused }) => (
+    //       <DrawerItem focused={focused} screen="Elements" title="Elements" />
+    //     )
+    //   })
+    // },
     Articles: {
       screen: ArticlesStack,
       navigationOptions: navOpt => ({
