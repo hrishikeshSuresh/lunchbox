@@ -162,8 +162,8 @@ def change_password():
 
 
 #Place an order
-@app.route('/placeorder', methods = ['POST'])
-def placeorder():
+@app.route('/api/v1/place_order', methods = ['POST'])
+def place_order():
     if request.method == 'POST':
         username = request.json.get('username') 
         estdname = request.json.get('establishment_name') 
@@ -175,3 +175,16 @@ def placeorder():
         db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
         return jsonify("Redirect to payment for approval"), 200
 
+
+#Get average rating
+@app.route('/api/v1/get_rating', methods = ['GET'])
+def get_rating():
+    if request.method == 'GET':
+        item = request.json.get('item')
+        rating = 0
+        count = 0 
+        for query in db['ratings'].find({"item": item  }):
+            rating = rating + query.json.get("rating")
+            count+=1
+        rating = rating / count
+        return jsonify ( { "rating": rating }), 200
