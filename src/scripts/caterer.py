@@ -42,6 +42,10 @@ def addItemToMenu(establishment_name):
         print("item added to the menu")
         return jsonify("Added " + item_name + " priced at " + item_price), 200
 
+    
+    
+    
+    
 # edit item to the menu
 @app.route('/<establishment_name>/menu/editItem/<item_name>', methods = ['PUT'])
 def editItemInMenu(establishment_name, item_name):
