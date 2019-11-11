@@ -6,7 +6,7 @@ import { Block, Text, Button as GaButton, theme } from "galio-framework";
 import { articles,argonTheme, tabs } from "../../constants/";
 import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 import { FoodCard,ReviewCard } from '../extras';
-
+import {AsyncStorage} from 'react-native';
 const { width } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
@@ -14,22 +14,74 @@ const cardWidth = width - theme.SIZES.BASE * 2;
 class Food extends React.Component {
   constructor(props){
     super(props);
-    this.state={textValue:0}
+    this.state={textValue:0,it:this.props.navigation.state.params.itempara}
+    this.init()
   }
-  decrement= () => {
+  init=async()=>{
+    try{
+        var cart = await AsyncStorage.getItem('cart');
+        
+        if (cart === null) {
+          await AsyncStorage.setItem('cart', JSON.stringify([]));
+        }
+        cart = JSON.parse(cart)
+        if(this.state.it.id in cart){
+          console.warn("proper")
+          this.setState({textValue:cart[this.state.it.id].qty});
+        }
+
+      }
+      catch(e){
+        console.warn(e)
+      }
+  }
+  decrement= async () => {
     if(this.state.textValue!=0){
       let x=this.state.textValue-1;
       this.setState({
         textValue: x
       })
-      // console.warn(this.state.textValue);
+      try{
+        var cart = await AsyncStorage.getItem('cart');
+        item=this.state.it
+        if (cart === null) {
+          await AsyncStorage.setItem('cart', JSON.stringify([]));
+        }
+        cart = JSON.parse(cart)
+        var sav=item
+        sav["qty"]=this.state.textValue
+        cart[item.id]=sav
+        console.warn(cart)
+        await AsyncStorage.setItem('cart', JSON.stringify(cart));
+
+      }
+      catch(e){
+        console.warn(e)
+      }
     }
   }
-  increment= () => {
+  increment= async () => {
       let x=this.state.textValue+1;
       this.setState({
         textValue: x
       })
+      try{
+        var cart = await AsyncStorage.getItem('cart');
+        item=this.state.it
+        if (cart === null) {
+          await AsyncStorage.setItem('cart', JSON.stringify([]));
+        }
+        cart = JSON.parse(cart)
+        var sav=item
+        sav["qty"]=this.state.textValue
+        cart[item.id]=sav
+        console.warn(cart)
+        await AsyncStorage.setItem('cart', JSON.stringify(cart));
+
+      }
+      catch(e){
+        console.warn(e)
+      }
     // console.warn(this.state.textValue);
 
   }
@@ -37,6 +89,9 @@ class Food extends React.Component {
     // console.warn("width ",width);
     // console.warn("theme.SIZES.BASE",theme.SIZES.BASE);
     // console.warn("cardWidth",cardWidth);
+    // console.warn(this.props.navigation.state.params.itempara)
+
+    // const it=articles[0]
     const rev=[{
       rating:5,
       user:"Adam",
@@ -55,7 +110,7 @@ class Food extends React.Component {
     return (
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
         <Block flex>
-          <FoodCard item={articles[0]} full/>
+          <FoodCard item={this.state.it} full/>
         </Block>
         
         <Block row style={{flexDirection:'row',justifyContent:'flex-end',marginRight:30}}>
