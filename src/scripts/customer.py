@@ -32,6 +32,27 @@ def listmenuitems():
         return jsonify(str({})),204
     return jsonify(str(item_list)), 200
 
+#Filter items by tag
+
+@app.route('/api/v1/search_tag/<tag>', methods=['GET'])
+def filtermenuitems(tag):
+    if request.method != 'GET':
+        return jsonify(str({error: "Method not allowed"})),405
+    menu_data = readMenuCollection()
+    count=0
+    pp.pprint(menu_data)
+    
+    item_list = list()
+    for document in menu_data:
+        if document['status']==1 and (tag in document['tags']):
+            count=count+1
+            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img']}
+            item_list.append(menu_item)
+    print("filter menu sent")
+    if count==0:
+        return jsonify(str({})),204
+    return jsonify(str(item_list)), 200
+
 #search for a specific item by name or by name of the establishment
 @app.route('/api/v1/<searchstr>/search_food', methods=['GET'])
 def searchforfood(searchstr):
@@ -173,4 +194,8 @@ def placeorder():
         payment_option = request.json.get('payment_option')
         db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
         return jsonify("Redirect to payment for approval"), 200
+
+
+
+
 
