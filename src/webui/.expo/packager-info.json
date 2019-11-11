@@ -1,9 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 21845,
+  "expoServerNgrokUrl": "https://pn-dby.anonymous.webui.exp.direct",
+  "packagerNgrokUrl": "https://packager.pn-dby.anonymous.webui.exp.direct",
+  "ngrokPid": 21879,
+  "webpackServerPort": null
 }
