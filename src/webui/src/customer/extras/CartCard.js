@@ -26,19 +26,19 @@ class CartCard extends React.Component {
       
       <Block row={horizontal} card flex style={cardContainer}>
         {/* <Text>Coming from blah</Text> */}
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Food')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
           <Block flex style={imgContainer}>
             <Image source={{uri: item.image}} style={imageStyles} />
           </Block>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Food')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
           <Block flex space="between" style={styles.cardDescription}>
             <Text size={14} style={styles.cardTitle}>{item.title}</Text>
             <Text size={12}>{item.from}</Text>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold style={{}}>{item.cta}</Text>
             
-            <Text size={12} muted={!ctaColor} color="grey" bold > Qty : 1</Text>
+            <Text size={12} muted={!ctaColor} color="grey" bold > Qty : {item.qty}</Text>
             </View></Block>
         </TouchableWithoutFeedback>
       </Block>

@@ -21,17 +21,16 @@ class FoodCard extends React.Component {
       horizontal ? styles.horizontalStyles : styles.verticalStyles,
       styles.shadow
     ];
-
     return (
       
       <Block row={horizontal} card flex style={cardContainer}>
         {/* <Text>Coming from blah</Text> */}
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Food')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
           <Block flex style={imgContainer}>
             <Image source={{uri: item.image}} style={imageStyles} />
           </Block>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Food')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
           <Block flex space="between" style={styles.cardDescription}>
             <Text size={14} style={styles.cardTitle}>{item.title}</Text>
             <Text size={12}>{item.from}</Text>

@@ -28,6 +28,7 @@ def listmenuitems():
             menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img']}
             item_list.append(menu_item)
     print("menu sent")
+    print(len(item_list))
     if count==0:
         return jsonify(str({})),204
     return jsonify(str(item_list)), 200

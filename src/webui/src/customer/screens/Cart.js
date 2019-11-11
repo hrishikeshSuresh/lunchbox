@@ -6,6 +6,7 @@ import { Block, Text, Button as GaButton, theme } from "galio-framework";
 import { articles,argonTheme, tabs } from "../../constants/";
 import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 import {CartCard } from '../extras';
+import {AsyncStorage} from 'react-native';
 
 const { width } = Dimensions.get("screen");
 
@@ -14,45 +15,65 @@ const cardWidth = width - theme.SIZES.BASE * 2;
 class Cart extends React.Component {
   constructor(props){
     super(props);
-    this.state={textValue:0}
+    this.state={textValue:0,total:0,items:[]}
+    this.get_values()
   }
-  decrement= () => {
-    if(this.state.textValue!=0){
-      let x=this.state.textValue-1;
-      this.setState({
-        textValue: x
-      })
-      // console.warn(this.state.textValue);
+  get_values= async () => {
+      try{
+        var cart = await AsyncStorage.getItem('cart');
+        // console.warn("here")
+        if (cart === null) {
+          await AsyncStorage.setItem('cart', JSON.stringify([]));
+        }
+        cart = JSON.parse(cart)
+        var arr=[]
+        var total=0
+        for (i in cart){
+          if(cart[i]["qty"]!=0){
+          arr.push(cart[i])
+          // console.warn(cart[i]['cta'],cart[i].cta)
+          total=total+(cart[i]["cta"].split(' ')[1])*cart[i]["qty"]
+        }
+        }
+        this.setState({items:arr,total:total})
+        // console.warn(this.state)
+      }
+      catch(e){
+        console.warn("blah",e)
+      }
+  }
+  renderhelper=()=>{
+    var block= []
+    let i=0
+    while(i<this.state.items.length){
+      block.push(
+        <Block flex>
+          <CartCard item={this.state.items[i]} horizontal />
+        </Block>
+        )
+      i++
     }
-  }
-  increment= () => {
-      let x=this.state.textValue+1;
-      this.setState({
-        textValue: x
-      })
-    // console.warn(this.state.textValue);
-
+    // console.warn("helper",block)
+    return block
   }
   render() {
+    // this.get_values()
+    // const navigation=this.props
     return (
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
-        <Block flex>
-          <CartCard item={articles[0]} horizontal />
-        </Block>
-        <Block flex>
-          <CartCard item={articles[1]}  horizontal />
-        </Block>
+        {this.renderhelper()}
         <Block style={{flexDirection:'row',justifyContent:'flex-end',marginHorizontal:20 }}>
         <Text
             p
             style={{ marginBottom: theme.SIZES.BASE / 2}}
             color={argonTheme.COLORS.DEFAULT}
           >
-            Total : Rs. 70
+            Total : Rs. {this.state.total}
           </Text>
           </Block>
           <Block center>
-            <Button color="success" style={styles.button}>
+            <Button color="success" style={styles.button} onPress={async() => {alert("Order Placed");this.setState({items:[],total:0});await AsyncStorage.setItem('cart', JSON.stringify([]));
+}}>
               PLACE ORDER
             </Button>
           </Block>
