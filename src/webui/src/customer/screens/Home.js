@@ -61,6 +61,60 @@ class Home extends React.Component {
     }
     return itemlist
   }
+  search_helper(){
+    var itemlist=[]
+    var obj=this
+    if(withflask){
+    const url = server_ip+'/api/v1/menu';
+
+      try{
+      response=fetch(url, {
+          method: 'GET', 
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => {
+          if(response.status==200){
+            // console.warn(JSON.parse(response))
+            response.json().then((res)=>{
+              var myObject = eval('(' + res + ')');
+              for (let i=0;i <myObject.length;i++){
+    //             from: 'vendor',
+    // title: 'Gobi Manchuri',
+    // image: 'https://i.ytimg.com/vi/juJExyqr5W4/maxresdefault.jpg',
+    // cta: 'Rs 40', 
+    // horizontal: true,
+    // rating: 4.5
+                itemlist.push({
+                  from: myObject[i]["establishment_name"],
+                  title:myObject[i]["item_name"],
+                  cta:myObject[i]["currency"]+" "+myObject[i]["item_price"],
+                  image:"data:image/jpg;base64,"+myObject[i]["img"],
+                  rating:4,
+                  id:i
+                })
+              // console.warn(String(myObject[i]["_id"]))
+
+              }
+              obj.setState({itemlist:itemlist})
+              return itemlist
+
+            });
+            // console.warn(response)
+          }
+          else{
+            // this.setState({error : "Oops! Something isn't right"})
+          }
+
+        })
+      } catch (error) {
+        // console.warn('Error:', error);
+      }
+    }
+    return itemlist
+  }
   constructor(props){
     super(props);
     this.state={itemlist:[]}
