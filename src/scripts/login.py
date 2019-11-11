@@ -10,10 +10,11 @@ import string, random
 def login():
     if request.method == 'POST':
         username = request.json.get('username')
-        password = request.json.get('password')
+        password = request.json.get('password').upper()
+        print(password)
         user_type = request.json.get('user_type')
         user_collection = db['users']
-        if(user_collection.find({ "username": username  , "password": password , "account_type": user_type   })):
+        if(user_collection.find_one({ "username": username  , "password": password , "account_type": user_type   })):
             '''#Random string
             N = 7 
             res = ''.join(random.choices(string.ascii_uppercase + string.digits, k = N)) 
@@ -26,6 +27,6 @@ def login():
 
 
         else:
-            return jsonify ( { 'Invalid credentials' }), 401
+            return jsonify ( { "Success":'Invalid credentials' }), 401
 
        

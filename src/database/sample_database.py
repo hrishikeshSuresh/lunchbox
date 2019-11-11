@@ -12,16 +12,18 @@ caterers.insert_one({"establishment_name": "Vintage Delhi Catering Services", "o
 
 
 users = db['users']
-users.insert_one({"username": "Shah Rukh", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "vendor"})
-users.insert_one({"username": "Shivaji", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "vendor"})
-users.insert_one({"username": "Hrishi Kesh", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "customer"})
+users.insert_one({"username": "Shah Rukh", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Vendor"})
+users.insert_one({"username": "Shivaji", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Vendor"})
+users.insert_one({"username": "Hrishikesh", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Customer"})
 
 
 ratings = db['ratings']
+
 ratings.insert_one({"username": "Shah Rukh", "establishment_name": "Delhi Marathi Catering Services","item":"Idly Vada", "city": "Bengaluru", "rating": 4, "review" : "I loved the food they served in my wedding!"})
 ratings.insert_one({"username": "Shivaji", "establishment_name": "Delhi Marathi Catering Services","item":"Idly Vada", "city": "Bengaluru", "rating": 2, "review" : "Bad food. Bad management."})
 ratings.insert_one({"username": "Shah Rukh", "establishment_name": "Vidhyarthi Bhavan","item":"Idly Vada", "city": "Delhi", "rating": 1, "review" : "Bad food. Place is crawling with critters!"})
 ratings.insert_one({"username": "Shivaji", "establishment_name": "Vidhyarthi Bhavan","item":"Idly Vada", "city": "Delhi", "rating": 5, "review" : "Best food. Mera parivar ka favourite place in Delhi!"})
+
 
 
 sales = db['sales']

@@ -28,6 +28,7 @@ def listmenuitems():
             menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img']}
             item_list.append(menu_item)
     print("menu sent")
+    print(len(item_list))
     if count==0:
         return jsonify(str({})),204
     return jsonify(str(item_list)), 200
@@ -182,8 +183,8 @@ def change_password():
 
 
 #Place an order
-@app.route('/placeorder', methods = ['POST'])
-def placeorder():
+@app.route('/api/v1/place_order', methods = ['POST'])
+def place_order():
     if request.method == 'POST':
         username = request.json.get('username') 
         estdname = request.json.get('establishment_name') 
@@ -198,4 +199,18 @@ def placeorder():
 
 
 
+
+
+#Get average rating
+@app.route('/api/v1/get_rating', methods = ['GET'])
+def get_rating():
+    if request.method == 'GET':
+        item = request.json.get('item')
+        rating = 0
+        count = 0 
+        for query in db['ratings'].find({"item": item  }):
+            rating = rating + query.json.get("rating")
+            count+=1
+        rating = rating / count
+        return jsonify ( { "rating": rating }), 200
 
