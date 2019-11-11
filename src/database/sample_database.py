@@ -18,8 +18,8 @@ users.insert_one({"username": "Hrishikesh", "password": "5F4DCC3B5AA765D61D8327D
 
 
 ratings = db['ratings']
-ratings.insert_one({"username": "Shah Rukh", "establishment_name": "Delhi Marathi Catering Services", "city": "Bengaluru", "rating": 4, "review" : "I loved the food they served in my wedding!"})
-ratings.insert_one({"username": "Shivaji", "establishment_name": "Delhi Marathi Catering Services", "city": "Bengaluru", "rating": 2, "review" : "Bad food. Bad management."})
+ratings.insert_one({"username": "Shah Rukh", "establishment_name": "Delhi Marathi Catering Services",  "city": "Bengaluru", "rating": 4, "review" : "I loved the food they served in my wedding!"})
+ratings.insert_one({"username": "Shivaji", "establishment_name": "Delhi Marathi Catering Services",  "city": "Bengaluru", "rating": 2, "review" : "Bad food. Bad management."})
 ratings.insert_one({"username": "Shah Rukh", "establishment_name": "Vidhyarthi Bhavan", "city": "Delhi", "rating": 1, "review" : "Bad food. Place is crawling with critters!"})
 ratings.insert_one({"username": "Shivaji", "establishment_name": "Vidhyarthi Bhavan", "city": "Delhi", "rating": 5, "review" : "Best food. Mera parivar ka favourite place in Delhi!"})
 
