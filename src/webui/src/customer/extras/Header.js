@@ -145,8 +145,10 @@ class Header extends React.Component {
   }
   renderTabs = () => {
     const { tabs, tabIndex, navigation } = this.props;
+
     const defaultTab = tabs && tabs[0] && tabs[0].id;
-    
+    console.log("actual tabs:",tabs,tabIndex,navigation)
+    console.log("actual props:",this.props)
     if (!tabs) return null;
 
     return (
