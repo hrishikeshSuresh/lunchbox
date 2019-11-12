@@ -29,6 +29,7 @@ def listmenuitems():
             item_list.append(menu_item)
     print("menu sent")
     print(len(item_list))
+    print(request.cookies)
     if count==0:
         return jsonify(str({})),204
     return jsonify(str(item_list)), 200

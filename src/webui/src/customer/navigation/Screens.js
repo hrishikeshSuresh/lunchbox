@@ -129,7 +129,8 @@ const HomeStack = createStackNavigator(
     Home: {
       screen: Home,
       navigationOptions: ({ navigation }) => ({
-        header: <Header tabs={tabs.categories}  search options title="HomeCustomer" navigation={navigation} />
+        // header: <Header tabs={tabs.categories}  search options title="HomeCustomer" navigation={navigation} />
+        header: <Header  options title="HomeCustomer" navigation={navigation} />
       })
     }
     ,

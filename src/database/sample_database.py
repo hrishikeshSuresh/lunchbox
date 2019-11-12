@@ -15,6 +15,8 @@ users = db['users']
 users.insert_one({"username": "Shah Rukh", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Vendor"})
 users.insert_one({"username": "Shivaji", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Vendor"})
 users.insert_one({"username": "Hrishikesh", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Customer"})
+users.insert_one({"username": "qw", "password": "006D2143154327A64D86A264AEA225F3", "account_type": "Customer"})
+users.insert_one({"username": "abc", "password": "202CB962AC59075B964B07152D234B70", "account_type": "Delivery"})
 
 
 ratings = db['ratings']

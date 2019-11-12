@@ -168,7 +168,7 @@ class Onboarding extends React.Component {
           if(response.status==200){
             if(withflask){
             obj.props.navigation.navigate(obj.state.loginas);}
-            response.json().then((res)=>console.warn(res));
+            // response.json().then((res)=>console.warn(res));
           }
           else{
             this.setState({error : "Oops! Something isn't right"})
@@ -210,7 +210,7 @@ class Onboarding extends React.Component {
                     <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                       <Input
                         borderless
-                        placeholder="Email"
+                        placeholder="Username"
                         onChangeText={(text)=>this.change(text,'user')} 
                         iconContent={
                           <Icon
@@ -253,6 +253,7 @@ class Onboarding extends React.Component {
                         <Picker.Item label="Institution" value="Institution"/>
                         <Picker.Item label="Customer" value="Customer" />
                         <Picker.Item label="Vendor" value="Vendor" />
+                        <Picker.Item label="Delivery" value="Delivery" />
                         <Picker.Item label="Caterer" value="Caterer" />
                       </Picker>
                     </Block>

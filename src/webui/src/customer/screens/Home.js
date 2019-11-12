@@ -1,9 +1,13 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView ,Picker} from 'react-native';
 import { Block, theme } from 'galio-framework';
 
 import { FoodCard } from '../extras';
 import articles from '../../constants/articles';
+import Input from '../../components/Input';
+import Icon from '../../components/Icon';
+import argonTheme from '../../constants/Theme';
+
 const { width } = Dimensions.get('screen');
 // var itemlist=[]
 class Home extends React.Component {
@@ -117,7 +121,7 @@ class Home extends React.Component {
   }
   constructor(props){
     super(props);
-    this.state={itemlist:[]}
+    this.state={itemlist:[],search:"Filter By"}
     this.helper()
   }
   
@@ -146,47 +150,42 @@ class Home extends React.Component {
     return blockfin
   }
   renderArticles = () => {
-    // console.warn("articles")
-    if(!withflask){
-      // console.warn("if")
-    return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.articles}>
-        <Block flex>
-          <Block flex row>
-            <FoodCard item={articles[0]} style={{ marginRight: theme.SIZES.BASE }} />
-            <FoodCard item={articles[1]} />
-          </Block>
-          <Block flex row>
-            <FoodCard item={articles[2]} style={{ marginRight: theme.SIZES.BASE }} />
-            <FoodCard item={articles[3]} />
-          </Block>
-          <Block flex row>
-            <FoodCard item={articles[4]} style={{ marginRight: theme.SIZES.BASE }} />
-            <FoodCard item={articles[5]} />
-          </Block>
-        </Block>
-      </ScrollView>
-    )
-    }
-    else{
-      // console.warn("else")
       return (
         <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.articles}>
+          <Block flex row>
+            <Input
+              right
+              color="black"
+              style={styles.search}
+              placeholder="What are you looking for?"
+              placeholderTextColor={'#8898AA'}
+              iconContent={<Icon size={16} color={theme.COLORS.MUTED} name="search-zoom-in" family="ArgonExtra" />}
+            />
+            <Picker style={{flexDirection:'row',justifyContent:'flex-end' }}
+              selectedValue={this.state.search}
+              style={{height: 50, width: 150}}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({search: itemValue})
+              }>
+              <Picker.Item label="Filter By" value="Filter By" />
+              <Picker.Item label="spicy" value="spicy" />
+            </Picker>
+        </Block>
         <Block flex>
         {this.renderhelper()}
         </Block>
       </ScrollView>
       )
-    }
+
   }
 
   render() {
     return (
       <Block flex center style={styles.home}>
+
+        
         {this.renderArticles()}
       </Block>
     );
@@ -200,6 +199,15 @@ const styles = StyleSheet.create({
   articles: {
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE,
+  },
+
+  search: {
+    height: 48,
+    width: width - 200,
+    marginHorizontal: 16,
+    borderWidth: 1,
+    borderRadius: 3,
+    borderColor: argonTheme.COLORS.BORDER
   },
 });
 
