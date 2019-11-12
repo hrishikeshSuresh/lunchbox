@@ -32,13 +32,13 @@ class Register extends React.Component {
                   <Button style={{ ...styles.socialButtons, marginRight: 30 }}>
                     <Block row>
                       <Icon
-                        name="logo-github"
+                        name="logo-buffer"
                         family="Ionicon"
                         size={14}
                         color={"black"}
-                        style={{ marginTop: 2, marginRight: 5 }}
+                        style={{ marginTop: 2, marginRight: 3 }}
                       />
-                      <Text style={styles.socialTextButtons}>GITHUB</Text>
+                      <Text style={styles.socialTextButtons}>UPLOAD</Text>
                     </Block>
                   </Button>
                   <Button style={styles.socialButtons}>
