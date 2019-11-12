@@ -8,3 +8,7 @@ adb I  5254  5254 main.cpp:78] Android Debug Bridge version 1.0.36
 adb I  5254  5254 main.cpp:78] Revision af05c7354fe1-android
 adb I  5254  5254 main.cpp:78] 
 adb server killed by remote request
+--- adb starting (pid 12726) ---
+adb I 12726 12726 main.cpp:78] Android Debug Bridge version 1.0.36
+adb I 12726 12726 main.cpp:78] Revision af05c7354fe1-android
+adb I 12726 12726 main.cpp:78] 

@@ -3,6 +3,7 @@ import ScreensCustomer from './customer/navigation/Screens'
 import ScreensVendor from './vendor/navigation/Screens'
 import ScreensInstitution from './institution/navigation/Screens'
 import ScreensCaterer from './caterer/navigation/Screens'
+import ScreensDelivery from './delivery/navigation/Screens'
 import Onboarding from './Onboarding'
 export default createAppContainer(createSwitchNavigator(
     {
@@ -10,7 +11,8 @@ export default createAppContainer(createSwitchNavigator(
       Customer: ScreensCustomer,
       Vendor: ScreensVendor,
       Institution: ScreensInstitution,
-      Caterer: ScreensCaterer
+      Caterer: ScreensCaterer,
+      Delivery: ScreensDelivery
     },
     {
         initialRouteName: 'Onboard',

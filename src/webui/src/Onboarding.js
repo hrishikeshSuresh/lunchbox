@@ -109,15 +109,28 @@ import {
   Picker
 } from "react-native";
 import { Block, Checkbox, Text, theme } from "galio-framework";
-
+import md5 from 'md5';
 import { Button, Icon, Input } from "./components";
 import { Images, argonTheme } from "./constants";
 const { width, height } = Dimensions.get("screen");
 
 class Onboarding extends React.Component {
+  
   constructor(props){
     super(props);
-    this.state={loginas:"Customer"}
+    this.state={
+      loginas:"Customer",
+      user:'',
+      password:'',
+      error:''
+    }
+  }
+  change(text,field){
+    if(field=='user')
+    this.setState({user : text,})
+    if(field=='password')
+    this.setState({password : text,})
+    // console.warn(this.state);
   }
   // Institution - 
   // <Block width={width * 0.8} style={{ marginBottom: 15 }}>
@@ -136,7 +149,38 @@ class Onboarding extends React.Component {
   //   />
   // </Block>
   nav(obj){
-    obj.props.navigation.navigate(obj.state.loginas);
+    // console.warn(obj.state);
+      const url = server_ip+'/api/v1/login';
+      const data = { username:obj.state.user,
+        password:md5(obj.state.password),
+        user_type:obj.state.loginas };
+
+      try{
+      response=fetch(url, {
+          method: 'POST', 
+          credentials: 'include',
+          body: JSON.stringify(data), 
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => {
+          if(response.status==200){
+            if(withflask){
+            obj.props.navigation.navigate(obj.state.loginas);}
+            // response.json().then((res)=>console.warn(res));
+          }
+          else{
+            this.setState({error : "Oops! Something isn't right"})
+          }
+          if(!withflask){obj.props.navigation.navigate(obj.state.loginas);}
+
+        })
+      } catch (error) {
+        console.warn('Error:', error);
+      }
+
+
   }
   render() {
     // const { navigation } = this.props;
@@ -166,7 +210,8 @@ class Onboarding extends React.Component {
                     <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                       <Input
                         borderless
-                        placeholder="Email"
+                        placeholder="Username"
+                        onChangeText={(text)=>this.change(text,'user')} 
                         iconContent={
                           <Icon
                             size={16}
@@ -183,6 +228,8 @@ class Onboarding extends React.Component {
                         password
                         borderless
                         placeholder="Password"
+                        onChangeText={(text)=>this.change(text,'password')} 
+
                         iconContent={
                           <Icon
                             size={16}
@@ -206,6 +253,7 @@ class Onboarding extends React.Component {
                         <Picker.Item label="Institution" value="Institution"/>
                         <Picker.Item label="Customer" value="Customer" />
                         <Picker.Item label="Vendor" value="Vendor" />
+                        <Picker.Item label="Delivery" value="Delivery" />
                         <Picker.Item label="Caterer" value="Caterer" />
                       </Picker>
                     </Block>
@@ -218,12 +266,16 @@ class Onboarding extends React.Component {
                       </Button>
                     </Block>
                     <Block middle>
+
                       <Button color="primary" style={styles.createButton}
                         onPress={() => this.nav(this)}>
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
                           SIGN UP
                         </Text>
                       </Button>
+
+                        <Text size={12}>{this.state.error}</Text>
+
                     </Block>
                   </KeyboardAvoidingView>
                 </Block>
