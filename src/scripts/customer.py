@@ -159,9 +159,9 @@ def change_password():
         
         request_data={}
         request_data["username"] = request.json.get("username")
-        request_data["password"] = request.json.get("password")
-        request_data["new_password"] = request.json.get("new_password")
-        request_data["confirm_password"] = request.json.get("confirm_password")
+        request_data["password"] = request.json.get("password").upper()
+        request_data["new_password"] = request.json.get("new_password").upper()
+        request_data["confirm_password"] = request.json.get("confirm_password").upper()
         #if not request.cookies.get('username'):
             #   return {},400
         db_user = db['users'].find_one({"username":request_data['username']})
