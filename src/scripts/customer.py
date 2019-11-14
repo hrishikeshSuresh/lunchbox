@@ -212,6 +212,12 @@ def get_rating():
         for query in db['ratings'].find({"item": item  }):
             rating = rating + query.json.get("rating")
             count+=1
-        rating = rating / count
-        return jsonify ( { "rating": rating }), 200
+        print("\n\n\n\n\n")
+        print(count)
+        print("\n\n\n\n\n") 
+        if count==0:
+            return jsonify({"rating": -1}),204
+        else:
+            rating = rating / count
+            return jsonify ( { "rating": rating }), 200
 
