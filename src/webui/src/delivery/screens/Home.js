@@ -7,10 +7,41 @@ import articles from '../../constants/articles';
 const { width } = Dimensions.get('screen');
 
 class Home extends React.Component {
-  /* render each article that has been
-   * rendered by the UI component
-   */
-  renderArticles = () => {
+    /* render each article that has been
+     * rendered by the UI component
+     */
+
+    /*
+     * render a set of blocks
+     * of previous orders
+     */
+    renderhelper = () => {
+        var blockfin = [];
+        let i = 0;
+        while (i < this.state.order_list.length) {
+            blockfin.push(
+                <Block style={styles.blockAttr} key={i}>
+                    <Text style={styles.normalText}>
+                        Order ID : {this.state.order_list[i].order_id}
+                    </Text>
+                    <Text style={styles.normalText}>
+                        Source : {this.state.order_list[i].src}
+                    </Text>
+                    <Text style={styles.normalText}>
+                        Destination : {this.state.order_list[i].dest}
+                    </Text>
+                    <Text style={styles.normalText}>
+                        Item Price : {this.state.order_list[i].item_price}
+                    </Text>
+                </Block>
+            );
+            i++;
+        }
+        console.warn("helper", blockfin);
+        return blockfin;
+    }
+
+    renderArticles = () => {
     // <Card item={articles[0]} horizontal  />
     // <Card item={articles[4]} full />
     /*<Rating
@@ -18,10 +49,13 @@ class Home extends React.Component {
         onFinishRating={this.ratingCompleted}
         style={{ paddingVertical: 10 }}
       />*/
-    return (
-     <Text>Delivery View</Text>
-    )
-  }
+        return (
+            <Block>
+                <Text style={styles.subTitle}> Previous Orders </Text>
+                {this.renderhelper()}
+            </Block>
+        )
+    }
     /* function to call end point
      * for retrieving list of all previous orders made
      * by a particular delivery guy
@@ -82,6 +116,13 @@ class Home extends React.Component {
                     src: "PES U",
                     dest: "MG ROAD",
                     item_price: "5424"
+                },
+                {
+                    name: "abc",
+                    order_id: "4524",
+                    src: "PES U",
+                    dest: "MG ROAD",
+                    item_price: "5424"
                 }
             ],
             search: "Filter By"
@@ -91,29 +132,50 @@ class Home extends React.Component {
         //this.viewPreviousOrders();
     }
 
-  /* This will be handling the UI component rendering
-   */
-  render() {
-    return (
-        <Block flex center style={styles.home}>
-            <View style={styles.container}>
-                <View style={styles.button} />
-                <View style={styles.button} />
-            </View>
-            {this.renderArticles()}
-        </Block>
-    );
-  }
+    /* This will be handling the UI component rendering
+     */
+    render() {
+        return (
+            <Block flex center style={styles.home}>
+                {this.renderArticles()}
+            </Block>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  home: {
-    width: width,    
-  },
-  articles: {
-    width: width - theme.SIZES.BASE * 2,
-    paddingVertical: theme.SIZES.BASE,
-  },
+    home: {
+        width: width,    
+    },
+    articles: {
+        width: width - theme.SIZES.BASE * 2,
+        paddingVertical: theme.SIZES.BASE,
+    },
+    normalText: {
+        padding: 20,
+        color: 'green',
+        fontWeight: 'bold',
+        fontSize: 30,
+    },
+    blockAttr: {
+        margin: 20,
+        width: 400,
+        padding: 20,
+        color: 'green',
+        backgroundColor: '#808080',
+        fontWeight: 'bold',
+        fontSize: 30,
+        borderRadius: 10,
+        borderColor: 'black',
+    },
+    subTitle: {
+        color: 'black',
+        backgroundColor: 'green',
+        fontWeight: 'bold',
+        padding: 5,
+        fontSize: 50,
+        borderColor: 'orange',
+    }
 });
 
 export default Home;
