@@ -180,7 +180,7 @@ const AppStack = createDrawerNavigator(
       screen: StatisticsStack,
       navigationOptions: navOpt => ({
         drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Statistics" title="Statistics" />
+          <DrawerItem focused={focused} screen="Statistics" title="My Orders" />
         )
       })
     },
