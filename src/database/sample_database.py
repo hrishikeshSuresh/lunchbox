@@ -1,5 +1,7 @@
-from db_connector import *
-
+from pymongo import MongoClient
+client = MongoClient('127.0.0.1', 27017)
+client.drop_database('lunchbox')
+db = client['lunchbox']
 
 canteens = db['canteens']
 canteens.insert_one({"establishment_name": "Food Point", "owner": "Shah Rukh", "location": "Banashankari", "city": "Bengaluru"})
