@@ -118,6 +118,18 @@ class Account extends React.Component {
                   {this.state.user}@gmail.com
               </Text>
             </Text>
+            <Text style={styles.pad}>
+              <Text bold size={18} style={styles.title}>
+                Account Balance :  &nbsp;
+              </Text>
+              <Text
+                  p
+                  style={{ marginBottom: theme.SIZES.BASE / 2 }}
+                  color={argonTheme.COLORS.DEFAULT}
+                >
+                  0
+              </Text>
+            </Text>
             <Block center>
               <Button
                   color="secondary"

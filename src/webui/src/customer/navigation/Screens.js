@@ -80,7 +80,7 @@ const ArticlesStack = createStackNavigator({
   Articles: {
     screen: Articles,
     navigationOptions: ({ navigation }) => ({
-      header: <Header title="Articles" navigation={navigation} />
+      header: <Header title="Recommendations" navigation={navigation} />
     })
   }
 },{
@@ -96,7 +96,7 @@ const StatisticsStack = createStackNavigator(
       screen: Statistics,
       navigationOptions: ({ navigation }) => ({
         header: (
-          <Header title="Statistics" navigation={navigation} />
+          <Header title="My Orders" navigation={navigation} />
         )
       })
     }
@@ -182,7 +182,7 @@ const AppStack = createDrawerNavigator(
       screen: AccountStack,
       navigationOptions: navOpt => ({
         drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Account" title="Account" />
+          <DrawerItem focused={focused} screen="Account" title="My Account" />
         )
       })
     },
@@ -198,7 +198,7 @@ const AppStack = createDrawerNavigator(
       screen: ArticlesStack,
       navigationOptions: navOpt => ({
         drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Articles" title="Articles" />
+          <DrawerItem focused={focused} screen="Articles" title="Recommendations" />
         )
       })
     }
