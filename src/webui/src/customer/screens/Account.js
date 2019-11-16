@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Dimensions,View, TouchableOpacity } from "react
 // Galio components
 import { Block, Text, Button as GaButton, theme } from "galio-framework";
 // Argon themed components
+
 import { argonTheme, tabs } from "../../constants/";
 import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 import Modal from "react-native-modal";
@@ -16,6 +17,7 @@ class Account extends React.Component {
     super(props);
     this.state = {
       isModalVisible: false,
+      isModalVisible2: false,
       p1:"",
       p2:"",
       p3:" ",
@@ -70,6 +72,21 @@ class Account extends React.Component {
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };  
+  toggleModal2 = () => {
+    this.setState({ isModalVisible2: !this.state.isModalVisible2 });
+  }; 
+  logout(obj){
+    // navigate to onboarding
+    obj.toggleModal2();
+    console.log("above")
+    try{
+    obj.props.navigation.navigate('Onboard');
+    }
+    catch(e){console.log(e)}
+    console.log("below")
+
+    // console.warn(result)
+  }
   render() {
     const { style } = this.props;
     return (
@@ -117,11 +134,11 @@ class Account extends React.Component {
             </Button>
           </Block> */}
             <Block center>
-              <Button color="warning" style={styles.button}>
+              <Button color="warning" style={styles.button}  onPress={() => this.toggleModal2()} >
                 Log Out
               </Button>
             </Block>
-            <Modal isVisible={this.state.isModalVisible}>
+            <Modal isVisible={this.state.isModalVisible} animationType="fade">
               <Block center>
               <Input
                         password
@@ -171,8 +188,15 @@ class Account extends React.Component {
                           />
                         }
                       />
-                <Button title="Hide modal" onPress={() => this.change_password(this)} color="success" >Change Password</Button>
-                <Button title="Hide modal2" onPress={this.toggleModal} color="default" >Close</Button>
+                <Button title="Hide modal" onPress={() => this.change_password(this)} color="success" style={styles.changepass}>Change Password</Button>
+                <Button title="Hide modal2" onPress={this.toggleModal} color="default">Close</Button>
+              </Block>
+            </Modal>
+            <Modal isVisible={this.state.isModalVisible2} animationType="fade">
+              <Block middle>
+              <Button title="Hide modal3" onPress={() => this.logout(this)} color="success" style={styles.changepass}>Confirm Log Out</Button>
+              <Button title="Hide modal4" onPress={this.toggleModal2} color="default">Close</Button>
+                
               </Block>
             </Modal>
             <Block middle>
@@ -249,6 +273,10 @@ const styles = StyleSheet.create({
     borderRadius: theme.SIZES.BASE * 1.75,
     justifyContent: "center"
   },
+  changepass:{
+    marginBottom:15,
+    marginTop:5
+  }
 });
 
 export default Account;

@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
 
   search: {
     height: 48,
-    width: width - 200,
+    width: width - 150,
     marginHorizontal: 16,
     borderWidth: 1,
     borderRadius: 3,

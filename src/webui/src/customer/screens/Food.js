@@ -14,7 +14,10 @@ const cardWidth = width - theme.SIZES.BASE * 2;
 class Food extends React.Component {
   constructor(props){
     super(props);
-    this.state={textValue:0,it:this.props.navigation.state.params.itempara}
+    this.state=
+      {
+        textValue:0,it:this.props.navigation.state.params.itempara
+      }
     this.init()
   }
   init=async()=>{

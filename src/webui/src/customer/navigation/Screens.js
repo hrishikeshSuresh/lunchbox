@@ -10,7 +10,7 @@ import { Block } from "galio-framework";
 
 // screens
 import Home from "../screens/Home";
-// import Onboarding from "../screens/Onboarding";
+import Onboarding from "../../Onboarding";
 import Food from "../screens/Food";
 import Cart from "../screens/Cart";
 import Statistics from "../screens/Statistics";
@@ -162,12 +162,6 @@ const HomeStack = createStackNavigator(
 // divideru se baga ca si cum ar fi un ecrna dar nu-i nimic duh
 const AppStack = createDrawerNavigator(
   {
-    // Onboarding: {
-    //   screen: Onboarding,
-    //   navigationOptions: {
-    //     drawerLabel: () => {}
-    //   }
-    // },
     Home: {
       screen: HomeStack,
       navigationOptions: navOpt => ({

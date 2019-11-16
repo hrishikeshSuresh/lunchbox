@@ -26,14 +26,21 @@ class Cart extends React.Component {
           await AsyncStorage.setItem('cart', JSON.stringify([]));
         }
         cart = JSON.parse(cart)
+        // console.log("cart : ",cart)
         var arr=[]
         var total=0
         for (i in cart){
-          if(cart[i]["qty"]!=0){
-          arr.push(cart[i])
-          // console.warn(cart[i]['cta'],cart[i].cta)
-          total=total+(cart[i]["cta"].split(' ')[1])*cart[i]["qty"]
-        }
+          if(cart[i]!==null)
+          {
+            if(cart[i]["qty"]!=0)
+            {
+              // console.warn(cart[i])
+              
+                arr.push(cart[i])
+                // console.warn(cart[i]['cta'],cart[i].cta)
+                total=total+(cart[i]["cta"].split(' ')[1])*cart[i]["qty"]
+            }
+          }
         }
         this.setState({items:arr,total:total})
         // console.warn(this.state)
