@@ -1,13 +1,19 @@
 import React from "react";
-import { ScrollView, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, Dimensions, TouchableOpacity, View } from "react-native";
 // Galio components
 import { Block, Text, Button as GaButton, theme } from "galio-framework";
 // Argon themed components
 import { argonTheme, tabs } from "../../constants/";
 import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 
-const { width } = Dimensions.get("screen");
+// MAPS 
+import MapView from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 
+const { width } = Dimensions.get("screen");
+const origin = { latitude: 37.3318456, longitude: -122.0296002 };
+const destination = { latitude: 37.771707, longitude: -122.4053769 };
+const GOOGLE_MAPS_APIKEY = "XXXXXXXX";
 /*
 class Elements extends React.Component {
     state = {
@@ -539,6 +545,22 @@ class Elements extends React.Component {
      * rendered by the UI component
      */
 
+    renderMap(src, dest) {
+        console.warn(src);
+        console.warn(dest);
+        return (
+            <View>
+                <MapView style={styles.map}>
+                    <MapViewDirections
+                        origin={origin}
+                        destination={destination}
+                        apikey={GOOGLE_MAPS_APIKEY}
+                    />
+                </MapView>
+            </View>
+        );
+    }
+
     /*
      * render a set of blocks
      * of previous orders
@@ -548,7 +570,8 @@ class Elements extends React.Component {
         let i = 0;
         while (i < this.state.order_list.length) {
             blockfin.push(
-                <Button style={styles.optionsButton} key={i}>
+                <TouchableOpacity style={styles.optionsButton}
+                    onPress={this.renderMap.bind(this, this.state.order_list[i].src, this.state.order_list[i].dest)} key={i}>
                     <Text style={styles.normalText}>
                         Order ID : {this.state.order_list[i].order_id}
                     </Text>
@@ -561,7 +584,7 @@ class Elements extends React.Component {
                     <Text style={styles.normalText}>
                         Item Price : {this.state.order_list[i].item_price}
                     </Text>
-                </Button>
+                </TouchableOpacity>
             );
             i++;
         }
@@ -660,14 +683,21 @@ class Elements extends React.Component {
         /* API will called here
          */
         //this.viewAvailableOrders();
+        this.renderMaps = this.renderMap.bind(this);
     }
 
     /* This will be handling the UI component rendering
      */
     render() {
+        const renderMap = this.renderMap("aa", "aa");
         return (
             <Block flex center style={styles.home}>
+                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
                 {this.renderArticles()}
+                <View>
+                    {renderMap}
+                    </View>
+                </ScrollView>
             </Block>
         );
     }
@@ -676,6 +706,9 @@ class Elements extends React.Component {
 const styles = StyleSheet.create({
     home: {
         width: width,
+    },
+    map: {
+        ...StyleSheet.absoluteFillObject,
     },
     articles: {
         width: width - theme.SIZES.BASE * 2,
