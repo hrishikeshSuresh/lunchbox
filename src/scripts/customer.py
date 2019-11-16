@@ -116,12 +116,14 @@ def addRatingReview():
     if request.method == 'POST':
         request_data = json.loads(request.get_data().decode())
         username = request_data['username']
+        item_name=request_data['item_name']
         establishment_name = request_data['establishment_name']
         rating = request_data['rating']
         review = request_data['review']
         date = str(datetime.now().time())
         payment_option = request_data['payment_option']
         mongo_cmd = { 'username': username,
+                        'item_name':item_name,
                       'establishment_name': establishment_name,
                       'rating': rating,
                       'review': review,
