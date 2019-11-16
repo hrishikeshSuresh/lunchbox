@@ -47,6 +47,21 @@ def readRatingsCollection():
     pp.pprint(ratings_data)
     return ratings_data
 
+def readRatingsForItem(item_name):
+    print("\n reading ratings for "+ item_name + "\n")
+    ratings_collection=db['ratings']
+    cursor=ratings_collection.find({"item_name":item_name})
+    count=0
+    rating_sum=0
+    for i in cursor:
+        rating_sum=rating_sum+i["rating"]
+        count=count+1
+    if count==0:
+        return -1
+    else:
+        avg_rating=rating_sum/count
+        return avg_rating
+
 def readMenuCollection():
     print("reading menu data...")
     menu_collection = db['menu']
@@ -57,3 +72,4 @@ def readMenuCollection():
     print("\nMENU DATA")
     pp.pprint(menu_data)
     return menu_data
+
