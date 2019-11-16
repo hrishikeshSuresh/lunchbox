@@ -25,7 +25,7 @@ def listmenuitems():
     for document in menu_data:
         if document['status']==1:
             count=count+1
-            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img']}
+            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img'], "rating":readRatingsForItem( document['item_name'])}
             item_list.append(menu_item)
     print("menu sent")
     print(len(item_list))
@@ -48,7 +48,7 @@ def filtermenuitems(tag):
     for document in menu_data:
         if document['status']==1 and (tag in document['tags']):
             count=count+1
-            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img']}
+            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img'], "rating":readRatingsForItem( document['item_name'])}
             item_list.append(menu_item)
     print("filter menu sent")
     if count==0:
@@ -71,7 +71,7 @@ def searchforfood(searchstr):
         
         if (item_flag!=-1 or est_pat!=-1) and document['status']==1:
             count=count+1
-            search_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img']}
+            search_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img'], "rating":readRatingsForItem( document['item_name'])}
             item_list.append(search_item)
             
     print("menu sent")
@@ -116,12 +116,14 @@ def addRatingReview():
     if request.method == 'POST':
         request_data = json.loads(request.get_data().decode())
         username = request_data['username']
+        item_name=request_data['item_name']
         establishment_name = request_data['establishment_name']
         rating = request_data['rating']
         review = request_data['review']
         date = str(datetime.now().time())
         payment_option = request_data['payment_option']
         mongo_cmd = { 'username': username,
+                        'item_name':item_name,
                       'establishment_name': establishment_name,
                       'rating': rating,
                       'review': review,
@@ -196,7 +198,6 @@ def place_order():
         payment_option = request.json.get('payment_option')
         db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
         return jsonify("Redirect to payment for approval"), 200
-
 
 
 
