@@ -10,7 +10,7 @@ import { Block } from "galio-framework";
 
 // screens
 import Home from "../screens/Home";
-// import Onboarding from "../screens/Onboarding";
+import Onboarding from "../../Onboarding";
 import Food from "../screens/Food";
 import Cart from "../screens/Cart";
 import Statistics from "../screens/Statistics";
@@ -80,7 +80,7 @@ const ArticlesStack = createStackNavigator({
   Articles: {
     screen: Articles,
     navigationOptions: ({ navigation }) => ({
-      header: <Header title="Articles" navigation={navigation} />
+      header: <Header title="Recommendations" navigation={navigation} />
     })
   }
 },{
@@ -96,7 +96,7 @@ const StatisticsStack = createStackNavigator(
       screen: Statistics,
       navigationOptions: ({ navigation }) => ({
         header: (
-          <Header title="Statistics" navigation={navigation} />
+          <Header title="My Orders" navigation={navigation} />
         )
       })
     }
@@ -162,12 +162,6 @@ const HomeStack = createStackNavigator(
 // divideru se baga ca si cum ar fi un ecrna dar nu-i nimic duh
 const AppStack = createDrawerNavigator(
   {
-    // Onboarding: {
-    //   screen: Onboarding,
-    //   navigationOptions: {
-    //     drawerLabel: () => {}
-    //   }
-    // },
     Home: {
       screen: HomeStack,
       navigationOptions: navOpt => ({
@@ -188,7 +182,7 @@ const AppStack = createDrawerNavigator(
       screen: AccountStack,
       navigationOptions: navOpt => ({
         drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Account" title="Account" />
+          <DrawerItem focused={focused} screen="Account" title="My Account" />
         )
       })
     },
@@ -204,7 +198,7 @@ const AppStack = createDrawerNavigator(
       screen: ArticlesStack,
       navigationOptions: navOpt => ({
         drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Articles" title="Articles" />
+          <DrawerItem focused={focused} screen="Articles" title="Recommendations" />
         )
       })
     }

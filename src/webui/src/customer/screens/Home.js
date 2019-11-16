@@ -33,12 +33,18 @@ class Home extends React.Component {
               var myObject = eval('(' + res + ')');
               for (let i=0;i <myObject.length;i++){
 
+                var rate=myObject[i]["rating"]
+                if(myObject[i]["rating"]==-1) 
+                {
+                  rate=0
+                }
+                
                 itemlist.push({
                   from: myObject[i]["establishment_name"],
                   title:myObject[i]["item_name"],
                   cta:myObject[i]["currency"]+" "+myObject[i]["item_price"],
                   image:"data:image/jpg;base64,"+myObject[i]["img"],
-                  rating:4,
+                  rating:rate,
                   id:i
                 })
               // console.warn(String(myObject[i]["_id"]))
@@ -81,13 +87,18 @@ class Home extends React.Component {
             response.json().then((res)=>{
               var myObject = eval('(' + res + ')');
               for (let i=0;i <myObject.length;i++){
-
+                console.log(myObject[i]["rating"])
+                var rate=myObject[i]["rating"]
+                if(myObject[i]["rating"]==-1) 
+                {
+                  rate=0
+                }
                 itemlist.push({
                   from: myObject[i]["establishment_name"],
                   title:myObject[i]["item_name"],
                   cta:myObject[i]["currency"]+" "+myObject[i]["item_price"],
                   image:"data:image/jpg;base64,"+myObject[i]["img"],
-                  rating:4,
+                  rating:rate,
                   id:i
                 })
               // console.warn(String(myObject[i]["_id"]))
@@ -134,12 +145,17 @@ class Home extends React.Component {
               var myObject = eval('(' + res + ')');
               for (let i=0;i <myObject.length;i++){
 
+                var rate=myObject[i]["rating"]
+                if(myObject[i]["rating"]==-1) 
+                {
+                  rate=0
+                }
                 itemlist.push({
                   from: myObject[i]["establishment_name"],
                   title:myObject[i]["item_name"],
                   cta:myObject[i]["currency"]+" "+myObject[i]["item_price"],
                   image:"data:image/jpg;base64,"+myObject[i]["img"],
-                  rating:4,
+                  rating:rate,
                   id:i
                 })
               // console.warn(String(myObject[i]["_id"]))
@@ -287,7 +303,7 @@ const styles = StyleSheet.create({
 
   search: {
     height: 48,
-    width: width - 200,
+    width: width - 150,
     marginHorizontal: 16,
     borderWidth: 1,
     borderRadius: 3,

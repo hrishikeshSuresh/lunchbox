@@ -1,22 +1,46 @@
 import React from "react";
-import { ScrollView, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, Dimensions, TouchableOpacity,PermissionsAndroid, Alert, Platform } from "react-native";
 // Galio components
 import { Block, Text, Button as GaButton, theme } from "galio-framework";
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+
 // Argon themed components
 import { articles,argonTheme, tabs } from "../../constants/";
 import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 import {CartCard } from '../extras';
 import {AsyncStorage} from 'react-native';
-
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
+export async function request_device_location_runtime_permission() {
+ 
+  const { status, permissions } = await Permissions.askAsync(Permissions.LOCATION);
+  if (status === 'granted') {
+    return Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+  } else {
+    throw new Error('Location permission not granted');
+  }
+}
 const { width } = Dimensions.get("screen");
-
+var radio_props = [
+  {label: 'Cash', value: 'cash' },
+  {label: 'Wallet', value: 'wallet' }
+];
 const thumbMeasure = (width - 48 - 32) / 3;
 const cardWidth = width - theme.SIZES.BASE * 2;
 class Cart extends React.Component {
   constructor(props){
     super(props);
-    this.state={textValue:0,total:0,items:[]}
+    this.state={
+      textValue:0,
+      total:0,
+      items:[],
+      pay_mode:'cash',
+      latitude : 0,
+      longitude : 0,
+      error:null
+    }
     this.get_values()
+    
   }
   get_values= async () => {
       try{
@@ -26,14 +50,21 @@ class Cart extends React.Component {
           await AsyncStorage.setItem('cart', JSON.stringify([]));
         }
         cart = JSON.parse(cart)
+        // console.log("cart : ",cart)
         var arr=[]
         var total=0
         for (i in cart){
-          if(cart[i]["qty"]!=0){
-          arr.push(cart[i])
-          // console.warn(cart[i]['cta'],cart[i].cta)
-          total=total+(cart[i]["cta"].split(' ')[1])*cart[i]["qty"]
-        }
+          if(cart[i]!==null)
+          {
+            if(cart[i]["qty"]!=0)
+            {
+              // console.warn(cart[i])
+              
+                arr.push(cart[i])
+                // console.warn(cart[i]['cta'],cart[i].cta)
+                total=total+(cart[i]["cta"].split(' ')[1])*cart[i]["qty"]
+            }
+          }
         }
         this.setState({items:arr,total:total})
         // console.warn(this.state)
@@ -56,6 +87,35 @@ class Cart extends React.Component {
     // console.warn("helper",block)
     return block
   }
+  place_order= async (obj)=>{
+    alert("Order Placed");
+    
+    obj.setState({items:[],total:0});
+    await AsyncStorage.setItem('cart', JSON.stringify([]));
+    if(Platform.OS === 'android')
+    {
+ 
+    await request_device_location_runtime_permission();
+ 
+    }
+ 
+    this.getLongLat = navigator.geolocation.watchPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 2000, maximumAge: 100, distanceFilter: 10 },
+    );
+  }
+  componentWillUnmount() {
+ 
+    navigator.geolocation.clearWatch(this.getLongLat);
+ 
+  }
   render() {
     // this.get_values()
     // const navigation=this.props
@@ -72,11 +132,27 @@ class Cart extends React.Component {
           </Text>
           </Block>
           <Block center>
-            <Button color="success" style={styles.button} onPress={async() => {alert("Order Placed");this.setState({items:[],total:0});await AsyncStorage.setItem('cart', JSON.stringify([]));
-}}>
+            <Block row>
+              <RadioForm
+              radio_props={radio_props}
+              formHorizontal={true}
+              initial={'cash'}
+              buttonColor={'#7ed4a2'}
+              animation={false}
+              onPress={(value) => {this.setState({pay_mode:value})}}
+            />
+            </Block>
+            <Button color="success" style={styles.button} onPress={() =>  this.place_order(this)}>
               PLACE ORDER
             </Button>
           </Block>
+          <Block center>
+ 
+        <Text style={styles.text}> Latitude = {this.state.latitude}</Text>
+ 
+        <Text style={styles.text}> Longitude = {this.state.longitude}</Text>
+ 
+      </Block>
       </ScrollView>
     );
   }
