@@ -201,7 +201,8 @@ def place_order():
 
 
 
-#Get average rating@app.route('/api/v1/get_rating', methods = ['GET'])
+#Get average rating
+@app.route('/api/v1/get_rating', methods = ['GET'])
 def get_rating():
     if request.method == 'GET':
         item = request.json.get('item')
