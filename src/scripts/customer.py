@@ -25,7 +25,7 @@ def listmenuitems():
     for document in menu_data:
         if document['status']==1:
             count=count+1
-            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img']}
+            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img'], "rating":readRatingsForItem( document['item_name'])}
             item_list.append(menu_item)
     print("menu sent")
     print(len(item_list))
@@ -48,7 +48,7 @@ def filtermenuitems(tag):
     for document in menu_data:
         if document['status']==1 and (tag in document['tags']):
             count=count+1
-            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img']}
+            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img'], "rating":readRatingsForItem( document['item_name'])}
             item_list.append(menu_item)
     print("filter menu sent")
     if count==0:
@@ -71,7 +71,7 @@ def searchforfood(searchstr):
         
         if (item_flag!=-1 or est_pat!=-1) and document['status']==1:
             count=count+1
-            search_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img']}
+            search_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img'], "rating":readRatingsForItem( document['item_name'])}
             item_list.append(search_item)
             
     print("menu sent")
@@ -201,9 +201,7 @@ def place_order():
 
 
 
-
-#Get average rating
-@app.route('/api/v1/get_rating', methods = ['GET'])
+#Get average rating@app.route('/api/v1/get_rating', methods = ['GET'])
 def get_rating():
     if request.method == 'GET':
         item = request.json.get('item')
