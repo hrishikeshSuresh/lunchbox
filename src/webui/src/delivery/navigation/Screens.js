@@ -65,7 +65,7 @@ const ElementsStack = createStackNavigator({
   Elements: {
     screen: Elements,
     navigationOptions: ({ navigation }) => ({
-      header: <Header title="Elements" navigation={navigation} />
+      header: <Header title="Search for Available Orders" navigation={navigation} />
     })
   }
 },{
@@ -169,7 +169,7 @@ const AppStack = createDrawerNavigator(
       screen: ElementsStack,
       navigationOptions: navOpt => ({
         drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Elements" title="Elements" />
+          <DrawerItem focused={focused} screen="Elements" title="Search for available orders" />
         )
       })
     },
