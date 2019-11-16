@@ -23,10 +23,10 @@ users.insert_one({"username": "abc", "password": "202CB962AC59075B964B07152D234B
 
 ratings = db['ratings']
 
-ratings.insert_one({"username": "Shah Rukh", "establishment_name": "Delhi Marathi Catering Services","item":"Idly Vada", "city": "Bengaluru", "rating": 4, "review" : "I loved the food they served in my wedding!"})
-ratings.insert_one({"username": "Shivaji", "establishment_name": "Delhi Marathi Catering Services","item":"Idly Vada", "city": "Bengaluru", "rating": 2, "review" : "Bad food. Bad management."})
-ratings.insert_one({"username": "Shah Rukh", "establishment_name": "Vidhyarthi Bhavan","item":"Idly Vada", "city": "Delhi", "rating": 1, "review" : "Bad food. Place is crawling with critters!"})
-ratings.insert_one({"username": "Shivaji", "establishment_name": "Vidhyarthi Bhavan","item":"Idly Vada", "city": "Delhi", "rating": 5, "review" : "Best food. Mera parivar ka favourite place in Delhi!"})
+ratings.insert_one({"username": "Shah Rukh","item_name":"Idly Vada", "establishment_name": "Delhi Marathi Catering Services","item":"Idly Vada", "city": "Bengaluru", "rating": 4, "review" : "I loved the food they served in my wedding!"})
+ratings.insert_one({"username": "Shivaji", "item_name":"Idly Vada","establishment_name": "Delhi Marathi Catering Services","item":"Idly Vada", "city": "Bengaluru", "rating": 2, "review" : "Bad food. Bad management."})
+ratings.insert_one({"username": "Shah Rukh","item_name":"Idly Vada", "establishment_name": "Vidhyarthi Bhavan","item":"Idly Vada", "city": "Delhi", "rating": 1, "review" : "Bad food. Place is crawling with critters!"})
+ratings.insert_one({"username": "Shivaji","item_name":"Idly Vada", "establishment_name": "Vidhyarthi Bhavan","item":"Idly Vada", "city": "Delhi", "rating": 5, "review" : "Best food. Mera parivar ka favourite place in Delhi!"})
 
 
 
