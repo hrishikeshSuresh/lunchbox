@@ -5,7 +5,7 @@
 from db_connector import *
 from flask_app import *
 from common import *
-
+import random
 
 #-----------------------------------------------------------------------------------------------------------
 #Customer API 1- View previous orders
@@ -83,39 +83,89 @@ def add_view_review(item_id):
 @app.route('/api/v1/place_order', methods = ['POST'])
 def place_order():
     if request.method == 'POST':
-        username = request.json.get('username') 
-        estdname = request.json.get('establishment_name') 
-        item = request.json.get('item') 
+        uid = request.cookies.get('uid') 
+        items = request.json.get('items')
         amount = request.json.get('amount')
-        city = request.json.get('city')
         currency = request.json.get('currency')
-        payment_option = request.json.get('payment_option')
-        db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
-        return jsonify("Redirect to payment for approval"), 200
+        payment = request.json.get('payment_option')
+        location = request.json.get('location')
+
+        
 
 #-----------------------------------------------------------------------------------------------------------
-
-#list all menu items
+#Get Menu
 @app.route('/api/v1/menu', methods=['GET'])
 def listmenuitems():
     if request.method != 'GET':
-        return jsonify(str({error: "Method not allowed"})),405
-    menu_data = readMenuCollection()
-    count=0
-    pp.pprint(menu_data)
+        return jsonify(str({"error": "Method not allowed"})),405
     
-    item_list = list()
-    for document in menu_data:
-        if document['status']==1:
-            count=count+1
-            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img'], "rating":readRatingsForItem( document['item_name'])}
-            item_list.append(menu_item)
-    print("menu sent")
-    print(len(item_list))
-    print(request.cookies)
-    if count==0:
-        return jsonify(str({})),204
-    return jsonify(str(item_list)), 200
+    iid = request.cookies.get('iid')
+    canteens=[]
+    caterers=[]
+    item_list=[]
+    temp_can = db.users.find({"iid":iid,"account_type":"Canteen"})
+    for can in temp_can:
+        x = db.canteens.find_one({"uid":can['uid']})
+        canteens.append(x['can_id'])
+    temp_cat = db.institutions.find_one({"iid":iid})
+    caterers = temp_cat['caterers']
+    for canteen in canteens:
+        temp_items = db.menu.find({"eid":canteen})
+        for temp_item in temp_items:
+            item_list.append(temp_item['item_id'])
+
+    for caterer in caterers:
+        temp_items = db.menu.find({"eid":caterer})
+        for temp_item in temp_items:
+            item_list.append(temp_item['item_id'])
+
+    random.shuffle(item_list)
+
+    if len(item_list) == 0:
+        return jsonify(str({"success": "No Content"})),204
+    else:
+        return jsonify(str(item_list)), 200
+
+
+#-----------------------------------------------------------------------------------------------------------
+#Get item by ID
+@app.route('/api/v1/item/<item_id>',methods=['GET'])
+def get_item_by_id(item_id):
+    temp_dict={}
+    item = db.menu.find_one({"item_id":item_id})
+
+    if not item:
+        return jsonify(str({"error": "Not found"})),404
+
+
+    if item['e_type'] == 'Canteen':
+        menu_temp = db.canteens.find_one({"can_id":item['eid']})
+    elif item['e_type'] == 'Caterer':
+        menu_temp = db.caterers.find_one({"cat_id":item['eid']})
+
+    temp_dict["item_id"]=item_id
+    temp_dict["item_name"]=item['item_name']
+    temp_dict["eid"]=item['eid']
+    temp_dict["e_type"]=item['e_type']
+    temp_dict["e_name"]=menu_temp['establishment_name']
+    temp_dict["item_price"]=item['item_price']
+    temp_dict["currency"]=item['currency']
+    temp_dict['status']=item['status']
+    temp_dict["avg_rating"]=item['avg_rating']
+    temp_dict["img"]=item['img']
+
+    if len(temp_dict) == 0:
+        return jsonify(str({"success": "No Content"})),204
+    else:
+        return jsonify(str(temp_dict)), 200
+
+
+
+
+
+
+
+#-----------------------------------------------------------------------------------------------------------
 
 #Filter items by tag
 
