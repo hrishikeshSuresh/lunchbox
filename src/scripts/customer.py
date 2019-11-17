@@ -64,16 +64,36 @@ def item_view_reviews():
     else:
         return jsonify(str(temp_list)), 200
 
+#-----------------------------------------------------------------------------------------------------------
+#Customer API 6: Add rating and review of food item
+@app.route('/api/v1/item/add_review/<item_id>', methods=['POST'])
+def add_view_review(item_id):
+    if (not request.json.get('rating')) or (not request.json.get('review')) or (not request.cookies.get('uid')):
+        return jsonify(str({"error":"Bad Request"})),400 
+    rating = request.json.get('rating')
+    review = request.json.get('review')
+    uid = request.cookies.get('uid')
 
+    reviews_db = db['reviews']
+    reviews_db.insert_one({"uid":uid,"item_id":item_id,"rating":rating,"review":review})
+    return jsonify(str({"success":"created"})), 201
 
+#-----------------------------------------------------------------------------------------------------------
+#Place an order
+@app.route('/api/v1/place_order', methods = ['POST'])
+def place_order():
+    if request.method == 'POST':
+        username = request.json.get('username') 
+        estdname = request.json.get('establishment_name') 
+        item = request.json.get('item') 
+        amount = request.json.get('amount')
+        city = request.json.get('city')
+        currency = request.json.get('currency')
+        payment_option = request.json.get('payment_option')
+        db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
+        return jsonify("Redirect to payment for approval"), 200
 
-
-
-
-
-
- #-----------------------------------------------------------------------------------------------------------
-
+#-----------------------------------------------------------------------------------------------------------
 
 #list all menu items
 @app.route('/api/v1/menu', methods=['GET'])
@@ -248,19 +268,7 @@ def change_password():
 
 
 
-#Place an order
-@app.route('/api/v1/place_order', methods = ['POST'])
-def place_order():
-    if request.method == 'POST':
-        username = request.json.get('username') 
-        estdname = request.json.get('establishment_name') 
-        item = request.json.get('item') 
-        amount = request.json.get('amount')
-        city = request.json.get('city')
-        currency = request.json.get('currency')
-        payment_option = request.json.get('payment_option')
-        db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
-        return jsonify("Redirect to payment for approval"), 200
+
 
 
 
