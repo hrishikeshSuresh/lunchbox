@@ -64,15 +64,21 @@ def item_view_reviews():
     else:
         return jsonify(str(temp_list)), 200
 
+#-----------------------------------------------------------------------------------------------------------
+#Customer API 6: Add rating and review of food item
+@app.route('/api/v1/item/add_review/<item_id>', methods=['POST'])
+def add_view_review(item_id):
+    if (not request.json.get('rating')) or (not request.json.get('review')) or (not request.cookies.get('uid')):
+        return jsonify(str({"error":"Bad Request"})),400 
+    rating = request.json.get('rating')
+    review = request.json.get('review')
+    uid = request.cookies.get('uid')
 
+    reviews_db = db['reviews']
+    reviews_db.insert_one({"uid":uid,"item_id":item_id,"rating":rating,"review":review})
+    return jsonify(str({"success":"created"})), 201
 
-
-
-
-
-
-
- #-----------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------
 
 
 #list all menu items
