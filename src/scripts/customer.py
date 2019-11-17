@@ -76,6 +76,7 @@ def add_view_review(item_id):
 
     reviews_db = db['reviews']
     reviews_db.insert_one({"uid":uid,"item_id":item_id,"rating":rating,"review":review})
+    update_avg_rating(item_id)
     return jsonify(str({"success":"created"})), 201
 
 #-----------------------------------------------------------------------------------------------------------
@@ -287,34 +288,32 @@ def getAllReviews(establishment_name):
         establishment_reviews.append(average_rating_json)
         return jsonify(str(establishment_reviews)), 200
 
-
+#-----------------------------------------------------------
+#Change Password
 @app.route('/api/v1/change_password', methods= ['POST'])
 def change_password():
     if request.method == 'POST':
         
         request_data={}
-        request_data["username"] = request.json.get("username")
         request_data["password"] = request.json.get("password").upper()
         request_data["new_password"] = request.json.get("new_password").upper()
         request_data["confirm_password"] = request.json.get("confirm_password").upper()
-        #if not request.cookies.get('username'):
-            #   return {},400
-        db_user = db['users'].find_one({"username":request_data['username']})
-        print("\n\n\n Fucked\n\n\n")
+        if not request.cookies.get('uid'):
+              return jsonify(str({"error":"Invalid inputs"})),400
+        db_user = db['users'].find_one({"uid":request.cookies.get('uid')})
+        
         print(db_user)
-        if (db_user['password'] == request_data['password'] and request_data['new_password'] == request_data['confirm_password']) and (request_data['password'] != request_data['new_password']) :
-            print("\n\n\n Fucked2\n\n\n")
-            db['users'].update_one({"username":request_data['username']},{"$set":{"password":request_data["new_password"]}})
-            print(' \n \n \n \n jadoskad \n')
+        if (db_user['password'].upper() == request_data['password'].upper() and request_data['new_password'] == request_data['confirm_password']) and (request_data['password'] != request_data['new_password']) :
+           
+            db['users'].update_one({"uid":request.cookies.get('uid')},{"$set":{"password":request_data["new_password"].upper()}})
             return jsonify(str({"success":"Password change successful"})), 201
         else:
-            return jsonify(str({"error":"Invalid credentials"}))
-
-
-
+            return jsonify(str({"error":"Invalid credentials"})), 400
 
     else:
         return jsonify({error:"Method not allowed"}), 405
+
+#-----------------------------------------------------------
 
 
 
@@ -328,18 +327,39 @@ def change_password():
 @app.route('/api/v1/get_rating', methods = ['GET'])
 def get_rating():
     if request.method == 'GET':
-        item = request.json.get('item')
-        rating = 0
-        count = 0 
-        for query in db['ratings'].find({"item": item  }):
-            rating = rating + query.json.get("rating")
-            count+=1
-        print("\n\n\n\n\n")
-        print(count)
-        print("\n\n\n\n\n") 
-        if count==0:
-            return jsonify({"rating": -1}),204
+        if not request.args.get('item'):
+            jsonify({"error":"Bad Request"}), 400
+
+        item_id = request.args.get('item')
+        item = db.menu.find_one({"item_id":item_id})
+
+        if not item:
+            return jsonify({"success":"No Content"}), 204
+
         else:
-            rating = rating / count
-            return jsonify ( { "rating": rating }), 200
+            return jsonify(str({"avg_rating":item['avg_rating']})), 200
+
+
+
+
+
+#----------------------
+#Helper functions
+#----------------------
+def update_avg_rating(item_id):
+    reviews = db.reviews.find({"item_id":item_id})
+    s = 0
+    count = 0
+    for review in reviews:
+        s=s+review['rating']
+        count=count+1
+
+    avg_rating = s/count
+    db.menu.update_one({"item_id":item_id},{"$set":{"avg_rating":avg_rating}})
+
+
+
+
+
+        
 
