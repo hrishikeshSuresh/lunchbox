@@ -11,6 +11,7 @@ import { Block } from "galio-framework";
 // screens
 import Home from "../screens/Home";
 import Onboarding from "../../Onboarding";
+import Order from "../screens/Order";
 import Food from "../screens/Food";
 import Cart from "../screens/Cart";
 import Statistics from "../screens/Statistics";
@@ -131,6 +132,15 @@ const HomeStack = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         // header: <Header tabs={tabs.categories}  search options title="HomeCustomer" navigation={navigation} />
         header: <Header  options title="HomeCustomer" navigation={navigation} />
+      })
+    }
+    ,
+    Order: {
+      screen: Order,
+      navigationOptions: ({ navigation }) => ({
+        header: (
+          <Header title="Order Details" navigation={navigation} />
+        )
       })
     }
     ,

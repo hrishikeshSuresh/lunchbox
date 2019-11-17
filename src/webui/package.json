@@ -27,6 +27,7 @@
     "react-native-ratings": "^6.5.0",
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-star-view": "^1.1.3",
+    "react-native-step-indicator": "0.0.11",
     "react-native-web": "^0.11.7",
     "react-navigation": "^3.11.0",
     "react-router-dom": "^5.1.2",

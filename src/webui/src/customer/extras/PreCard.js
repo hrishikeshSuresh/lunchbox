@@ -10,7 +10,7 @@ const star = require("../../assets/imgs/star.png");
 
 class PreCard extends React.Component {
   render() {
-    const { navigation, item, horizontal, full, style, ctaColor, imageStyle } = this.props;
+    const { navigation, item,id, horizontal, full, style, ctaColor, imageStyle } = this.props;
     
     const imageStyles = [
       full ? styles.fullImage : styles.horizontalImage,
@@ -21,24 +21,36 @@ class PreCard extends React.Component {
       horizontal ? styles.horizontalStyles : styles.verticalStyles,
       styles.shadow
     ];
-
+ // [
+    //   “Order ID1”: 
+    //   {
+    //      “uid”: <User ID>, 
+    //      "eid": <Establishment ID>,
+    //      “e_name”:”<Establishment name>”,
+    //      “e_type”: “Canteen” OR “Caterer”
+    //      “items”: [<Item ID1>,<Item ID2>,...], 
+    //      "amount": 5000,
+    //      "currency" : "INR",
+    //      "payment_option": "Cash" OR “Wallet”,
+    //      “location”:[<latitude>,<longitude>]
+    //      “status”:<1-5>
+    //    },
+    //  ] 
+    const status = (item.e_type=='Canteen' && item.status==4) || (item.e_type=='Caterer' && item.status==5)
     return (
       
       <Block row={horizontal} card flex style={cardContainer}>
         {/* <Text>Coming from blah</Text> */}
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
-          <Block flex style={imgContainer}>
-            <Image source={{uri: item.image}} style={imageStyles} />
-          </Block>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Order',{itempara:item,id:id})}>
           <Block flex space="between" style={styles.cardDescription}>
-            <Text size={14} style={styles.cardTitle}>{item.title}</Text>
-            <Text size={12}>{item.from}</Text>
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold style={{}}>{item.cta}</Text>
+            <Text size={14} style={styles.cardTitle}>Order Id : {id}</Text>
+            <Text size={12}>From : {item.e_name}</Text>
+            <Text size={12}>On : {item.date}</Text>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between',paddingTop:10}}>
+            <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold style={{}}> Amount Paid : {item.currency}&nbsp;{item.amount}</Text>
             
-            <Text size={12} muted={!ctaColor} color="grey" bold > Qty : {item.qty}</Text>
+            {status?(<Text size={12} muted={!ctaColor} color="green" bold > Order Status : Completed</Text>):
+          (<Text size={12} muted={!ctaColor} color="orange" bold > Order Status : Processing</Text>)}
             </View></Block>
         </TouchableWithoutFeedback>
       </Block>
