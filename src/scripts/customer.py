@@ -15,7 +15,7 @@ def view_previous_orders():
         return jsonify(str({"error":"Bad Request"})),400 
 
     user_type = request.cookies.get('user_type')
-    if user_type == 'customer' and (not (request.cookies.get('uid') or request.cookies.get('iid'))):
+    if user_type == 'Customer' and (not (request.cookies.get('uid') or request.cookies.get('iid'))):
         return jsonify(str({"error":"Bad Request"})),400 
     else:
         uid = request.cookies.get('uid')
@@ -26,12 +26,12 @@ def view_previous_orders():
         return jsonify(str({"success":"No Content"})),204 
     temp_dict = {}
     for order in orders:
-        if order['e_type'] == 'canteen':
+        if order['e_type'] == 'Canteen':
             e = db.canteens.find_one({"can_id":order['eid']})
             temp_e_name = e['establishment_name']
             token_or_did = "token"
             token_or_did_val = order['token']
-        elif order['e_type'] == 'caterer':
+        elif order['e_type'] == 'Caterer':
             e = db.caterers.find_one({"cat_id":order['eid']})
             temp_e_name = e['establishment_name']
             token_or_did = "did"
@@ -40,8 +40,60 @@ def view_previous_orders():
 
     return jsonify(str(temp_dict)),200
 #-----------------------------------------------------------------------------------------------------------
+#Customer API 5: View rating and reviews of food item
+@app.route('/api/v1/item/view_reviews', methods=['GET'])
+def item_view_reviews():
+    
+    if request.args.get('item'):
+        item_id = request.args.get('item')
+    else:
+        return jsonify(str({"error":"Bad Request"})),400 
 
+    reviews = db.reviews.find({"item_id":item_id})
+    temp_list=[]
+    for review in reviews:
+        u = db.users.find_one({"uid":review['uid']})
+        temp_dict={}
+        temp_dict['username'] = u['username']
+        temp_dict['rating'] = review['rating']
+        temp_dict['review'] = review['review']
+        temp_list.append(temp_dict)
 
+    if len(temp_list) == 0:
+        return jsonify(str({})), 204
+    else:
+        return jsonify(str(temp_list)), 200
+
+#-----------------------------------------------------------------------------------------------------------
+#Customer API 6: Add rating and review of food item
+@app.route('/api/v1/item/add_review/<item_id>', methods=['POST'])
+def add_view_review(item_id):
+    if (not request.json.get('rating')) or (not request.json.get('review')) or (not request.cookies.get('uid')):
+        return jsonify(str({"error":"Bad Request"})),400 
+    rating = request.json.get('rating')
+    review = request.json.get('review')
+    uid = request.cookies.get('uid')
+
+    reviews_db = db['reviews']
+    reviews_db.insert_one({"uid":uid,"item_id":item_id,"rating":rating,"review":review})
+    return jsonify(str({"success":"created"})), 201
+
+#-----------------------------------------------------------------------------------------------------------
+#Place an order
+@app.route('/api/v1/place_order', methods = ['POST'])
+def place_order():
+    if request.method == 'POST':
+        username = request.json.get('username') 
+        estdname = request.json.get('establishment_name') 
+        item = request.json.get('item') 
+        amount = request.json.get('amount')
+        city = request.json.get('city')
+        currency = request.json.get('currency')
+        payment_option = request.json.get('payment_option')
+        db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
+        return jsonify("Redirect to payment for approval"), 200
+
+#-----------------------------------------------------------------------------------------------------------
 
 #list all menu items
 @app.route('/api/v1/menu', methods=['GET'])
@@ -216,19 +268,7 @@ def change_password():
 
 
 
-#Place an order
-@app.route('/api/v1/place_order', methods = ['POST'])
-def place_order():
-    if request.method == 'POST':
-        username = request.json.get('username') 
-        estdname = request.json.get('establishment_name') 
-        item = request.json.get('item') 
-        amount = request.json.get('amount')
-        city = request.json.get('city')
-        currency = request.json.get('currency')
-        payment_option = request.json.get('payment_option')
-        db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
-        return jsonify("Redirect to payment for approval"), 200
+
 
 
 
@@ -252,4 +292,3 @@ def get_rating():
         else:
             rating = rating / count
             return jsonify ( { "rating": rating }), 200
-
