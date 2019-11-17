@@ -173,21 +173,36 @@ def get_item_by_id(item_id):
 @app.route('/api/v1/search_tag/<tag>', methods=['GET'])
 def filtermenuitems(tag):
     if request.method != 'GET':
-        return jsonify(str({error: "Method not allowed"})),405
-    menu_data = readMenuCollection()
-    count=0
-    pp.pprint(menu_data)
+        return jsonify(str({"error": "Method not allowed"})),405
     
-    item_list = list()
-    for document in menu_data:
-        if document['status']==1 and (tag in document['tags']):
-            count=count+1
-            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img'], "rating":readRatingsForItem( document['item_name'])}
-            item_list.append(menu_item)
-    print("filter menu sent")
-    if count==0:
-        return jsonify(str({})),204
-    return jsonify(str(item_list)), 200
+    iid = request.cookies.get('iid')
+    canteens=[]
+    caterers=[]
+    item_list=[]
+    temp_can = db.users.find({"iid":iid,"account_type":"Canteen"})
+    for can in temp_can:
+        x = db.canteens.find_one({"uid":can['uid']})
+        canteens.append(x['can_id'])
+    temp_cat = db.institutions.find_one({"iid":iid})
+    caterers = temp_cat['caterers']
+    for canteen in canteens:
+        temp_items = db.menu.find({"eid":canteen})
+        for temp_item in temp_items:
+            if tag in temp_item['tags']:
+                item_list.append(temp_item['item_id'])
+
+    for caterer in caterers:
+        temp_items = db.menu.find({"eid":caterer})
+        for temp_item in temp_items:
+            if tag in temp_item['tags']:
+                item_list.append(temp_item['item_id'])
+
+    random.shuffle(item_list)
+
+    if len(item_list) == 0:
+        return jsonify(str({"success": "No Content"})),204
+    else:
+        return jsonify(str(item_list)), 200
 #-----------------------------------------------------------------------------------------------------------
 #search for a specific item by name or by name of the establishment
 @app.route('/api/v1/search_food', methods=['GET'])
