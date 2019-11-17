@@ -538,22 +538,6 @@ class Elements extends React.Component {
      * rendered by the UI component
      */
 
-    renderMap(src, dest) {
-        console.warn(src);
-        console.warn(dest);
-        return (
-            <View>
-                <MapView style={styles.map}>
-                    <MapViewDirections
-                        origin={origin}
-                        destination={destination}
-                        apikey={GOOGLE_MAPS_APIKEY}
-                    />
-                </MapView>
-            </View>
-        );
-    }
-
     static navigationOptions = {
         title: 'AvailableOrders',
         headerStyle: {
@@ -703,7 +687,6 @@ class Elements extends React.Component {
         /* API will called here
          */
         //this.viewAvailableOrders();
-        this.renderMaps = this.renderMap.bind(this);
     }
 
     /* This will be handling the UI component rendering

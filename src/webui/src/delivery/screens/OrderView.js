@@ -6,8 +6,6 @@ import { Block, Text, Button as GaButton, theme } from "galio-framework";
 import { argonTheme, tabs } from "../../constants/";
 import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 
-import MapView from 'react-native-maps';
-import MapViewDirections from 'react-native-maps-directions';
 import { Linking } from 'expo';
 
 const { width } = Dimensions.get("screen");
@@ -29,24 +27,6 @@ class OrderView extends React.Component {
             fontWeight: 'bold',
         },
     };
-
-    renderMap(src, dest) {
-        console.warn(src);
-        console.warn(dest);
-        return (
-            <View key={'123'}>
-                <MapView style={styles.map}>
-                    <MapViewDirections
-                        origin={origin}
-                        destination={destination}
-                        apikey={GOOGLE_MAPS_APIKEY}
-                        strokeWidth={3}
-                        strokeColor="hotpink"
-                    />
-                </MapView>
-            </View>
-        );
-    }
     
     /* function to call end point
      * for retrieving list of all previous orders made
