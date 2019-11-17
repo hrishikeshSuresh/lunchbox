@@ -129,12 +129,12 @@ class Food extends React.Component {
         var cart = await AsyncStorage.getItem('cart');
         
         if (cart === null) {
-          await AsyncStorage.setItem('cart', JSON.stringify([]));
+          await AsyncStorage.setItem('cart', JSON.stringify({}));
         }
         cart = JSON.parse(cart)
-        if(this.state.it.id in cart){
+        if(this.state.it.item_id in cart){
           console.log("proper")
-          this.setState({textValue:cart[this.state.it.id].qty});
+          this.setState({textValue:cart[this.state.it.item_id].qty});
         }
 
       }
@@ -151,15 +151,23 @@ class Food extends React.Component {
       try{
         var cart = await AsyncStorage.getItem('cart');
         item=this.state.it
+        console.log("decrement",item)
         if (cart === null) {
-          await AsyncStorage.setItem('cart', JSON.stringify([]));
+          await AsyncStorage.setItem('cart', JSON.stringify({}));
         }
-        cart = JSON.parse(cart)
+        var cart_cart = JSON.parse(cart)
+        // flag=-1
+        // for (i in cart_cart){
+        //   if(i==item_id){
+        //     cart_cart[i]["qty"]=this.state.textValue
+        //     flag=1
+        //   }
+        // }
         var sav=item
         sav["qty"]=this.state.textValue
-        cart[item.id]=sav
-        console.log(cart)
-        await AsyncStorage.setItem('cart', JSON.stringify(cart));
+        // console.log("cart[item.item_id]=sav",item.item_id,"=",sav)
+        cart_cart[item.item_id]=sav
+        await AsyncStorage.setItem('cart', JSON.stringify(cart_cart));
 
       }
       catch(e){
@@ -168,23 +176,35 @@ class Food extends React.Component {
     }
   }
   increment= async () => {
+    await AsyncStorage.setItem('cart', JSON.stringify({}));
+    // console.warn(await AsyncStorage.getItem('cart'));
+
       let x=this.state.textValue+1;
       this.setState({
         textValue: x
       })
       try{
         var cart = await AsyncStorage.getItem('cart');
-        item=this.state.it
+        console.log("step 1",cart)
+        var item=this.state.it
+        console.log("item",item)
         if (cart === null) {
-          await AsyncStorage.setItem('cart', JSON.stringify([]));
+          await AsyncStorage.setItem('cart', JSON.stringify({}));
         }
-        cart = JSON.parse(cart)
+        var cart_cart = JSON.parse(cart)
+        // flag=-1
+        // for (i in cart_cart){
+        //   if(i==item_id){
+        //     cart_cart[i]["qty"]=this.state.textValue
+        //     flag=1
+        //   }
+        // }
         var sav=item
         sav["qty"]=this.state.textValue
-        cart[item.id]=sav
-        console.log(cart)
-        await AsyncStorage.setItem('cart', JSON.stringify(cart));
-
+        // console.log("cart[item.item_id]=sav",item.item_id,"=",sav)
+        cart_cart[item.item_id]=sav
+        await AsyncStorage.setItem('cart', JSON.stringify(cart_cart));
+        // console.warn(await AsyncStorage.getItem('cart'));
       }
       catch(e){
         console.warn(e)
@@ -240,7 +260,7 @@ class Food extends React.Component {
     return (
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
         <Block flex>
-          <FoodCard item={this.state.it} full/>
+          <FoodCard item={this.state.it} cardtype="food" qty={0} full/>
         </Block>
         
         <Block row style={{flexDirection:'row',justifyContent:'flex-end',marginRight:30}}>
@@ -269,6 +289,8 @@ class Food extends React.Component {
               <Block middle style={{backgroundColor:'white',paddingHorizontal:10,paddingVertical:10,borderRadius:2}}>
               <Rating
                   type='custom'
+                  minValue={1}
+                  defaultRating={5}
                   onFinishRating={(rating)=>this.ratingCompleted(this,rating)} 
                   style={{ paddingVertical: 10 }}
                 />

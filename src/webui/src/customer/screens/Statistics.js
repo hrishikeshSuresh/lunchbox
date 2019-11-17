@@ -19,12 +19,31 @@ class Statistics extends React.Component {
     this.get_values()
   }
   get_values= async () => {
+    await this.componentDidMount(); 
      //GET API
      var orderlist=[]
     var obj=this
-    if(withflask){
-    const url = server_ip+'/previous_orders';
-
+    const url = server_ip+'/api/v1/customer/previous_orders';
+    obj.setState({orderlist:
+       { "Order ID1": 
+        {
+           "uid": "<User ID>", 
+           "eid": "<Establishment ID>",
+           "e_name":"<Establishment name>",
+           "e_type": "Canteen",
+           "items": ["1","2"], 
+           "amount": 5000,
+           "currency" : "INR",
+           "payment_option": "Wallet",
+           "location":["<latitude>","<longitude>"],
+           "status":1,
+           "date":"date",
+           "review":"blah",
+           "rating":5,
+         }
+       }
+        })
+     
       try{
       response=fetch(url, {
           method: 'GET', 
@@ -35,22 +54,9 @@ class Statistics extends React.Component {
         })
         .then((response) => {
           if(response.status==200){
-            // console.warn(JSON.parse(response))
             response.json().then((res)=>{
               var myObject = eval('(' + res + ')');
-              for (let i=0;i <myObject.length;i++){                
-                // orderlist.push({
-                //   from: myObject[i]["establishment_name"],
-                //   title:myObject[i]["item_name"],
-                //   cta:myObject[i]["currency"]+" "+myObject[i]["item_price"],
-                //   image:"data:image/jpg;base64,"+myObject[i]["img"],
-                //   rating:rate,
-                //   id:i
-                // })
-              // console.warn(String(myObject[i]["_id"]))
-
-              }
-              obj.setState({orderlist:orderlist})
+              obj.setState({orderlist:myObject})
               return orderlist
 
             });
@@ -64,19 +70,17 @@ class Statistics extends React.Component {
       } catch (error) {
         // console.warn('Error:', error);
       }
-    }
     return orderlist
   }
   renderhelper=()=>{
     var block= []
-    let i=0
-    while(i<this.state.orderlist.length){
+    for(i in this.state.orderlist){
+      console.warn(this.state.orderlist[i],i)
       block.push(
-        <Block flex>
-          <Pre item={this.state.orderlist[i]} horizontal />
+        <Block flex key={i}>
+          <PreCard item={this.state.orderlist[i]} id={i} horizontal />
         </Block>
         )
-      i++
     }
     // console.warn("helper",block)
     return block

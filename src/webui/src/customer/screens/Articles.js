@@ -8,10 +8,9 @@ const { width } = Dimensions.get('screen');
 // var itemlist=[]
 class Articles extends React.Component {
   helper(){
-    var itemlist=[]
     var obj=this
+    var itemlist=[]
     if(withflask){
-    // const url = server_ip+'/recommendations';
     const url = server_ip+'/api/v1/menu';
 
       try{
@@ -28,29 +27,12 @@ class Articles extends React.Component {
             response.json().then((res)=>{
               var myObject = eval('(' + res + ')');
               for (let i=0;i <myObject.length;i++){
+                  console.log(obj.get_item(myObject[i]))
+                  itemlist.push(obj.get_item(myObject[i]))
 
-                var rate=myObject[i]["rating"]
-                if(myObject[i]["rating"]==-1) 
-                {
-                  rate=0
                 }
-                
-                itemlist.push({
-                  from: myObject[i]["establishment_name"],
-                  title:myObject[i]["item_name"],
-                  cta:myObject[i]["currency"]+" "+myObject[i]["item_price"],
-                  image:"data:image/jpg;base64,"+myObject[i]["img"],
-                  rating:rate,
-                  id:i+'r'
-                })
-              // console.warn(String(myObject[i]["_id"]))
-
-              }
-              obj.setState({itemlist:itemlist})
-              return itemlist
-
+                obj.setState({itemlist:itemlist})
             });
-            // console.warn(response)
           }
           else{
             // this.setState({error : "Oops! Something isn't right"})
@@ -61,9 +43,49 @@ class Articles extends React.Component {
         // console.warn('Error:', error);
       }
     }
-    return itemlist
   }
-  
+  get_item(item_id){
+    return {
+        "item_id": "Item ID",
+        "item_name":"<Item Name>",
+        "eid":"<Establishment ID>",
+        "e_name":"<Establishment Name>",
+        "e_type":"Canteen",
+        "item_price":10,
+        "currency":"INR",
+        "img":"img",
+        "rating":5
+        }
+    const url2 = server_ip+'/api/v1/item/'+item_id;
+    var item={}
+    try{
+      response2=fetch(url2, {
+          method: 'GET', 
+          credentials: 'include',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response2) => {
+          if(response2.status==200){
+            response2.json().then((res2)=>{
+              item = eval('(' + res2 + ')');
+              return item
+            });
+          }
+          else{
+            this.setState({error : "Oops! Something isn't right"})
+          }
+          })
+          
+
+        }
+        catch (error) {
+          // console.warn('Error:', error);
+        }
+    return item
+  }
   constructor(props){
     super(props);
     this.state={itemlist:[]}
@@ -76,16 +98,16 @@ class Articles extends React.Component {
     while(i<this.state.itemlist.length){
       var block=[]
       block.push(
-        <FoodCard item={this.state.itemlist[i]} key={i} style={{ marginRight: theme.SIZES.BASE }} />
+        <FoodCard item={this.state.itemlist[i]} cardtype="food" qty={0}  key={1} style={{ marginRight: theme.SIZES.BASE }} />
         )
       i++
       if(i<this.state.itemlist.length){
         block.push(
-        <FoodCard item={this.state.itemlist[i]}  key={i}/>
+        <FoodCard item={this.state.itemlist[i]}  cardtype="food" qty={0}  key={2}/>
         )
       }
       blockfin.push(
-        <Block  flex row>
+        <Block  flex row key={i}>
           {block}
         </Block>
       )
