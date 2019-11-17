@@ -49,7 +49,7 @@ class Food extends React.Component {
       {
         item:this.props.navigation.state.params.itempara,
         id:this.props.navigation.state.params.id,
-        id:this.props.navigation.state.params.itempara.status,
+        status:this.props.navigation.state.params.itempara.status,
           error:"",
           user:"",
           itemlist:[]
@@ -173,7 +173,7 @@ class Food extends React.Component {
     //    }
     const trackable = !((this.state.item.e_type=='Canteen' && this.state.status==4) || (this.state.item.e_type=='Caterer' && this.state.status==5))
     const type=(this.state.item.e_type=="Canteen")
-    console.warn(trackable,type)
+    // console.warn(trackable,type)
     return (
       
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
@@ -199,6 +199,7 @@ class Food extends React.Component {
           labels={labels_vendor}
           stepCount={4}
           />
+          
           <Text bold size={14} style={styles.title}>
           Token Number : {this.state.item.token}
           </Text>
@@ -213,7 +214,9 @@ class Food extends React.Component {
         }
         </>
         :
-        <></>
+        <><Text size={18}>
+          Order Status      : Completed
+        </Text></>
         }
         <Text bold size={14} style={styles.title}>
           Items Ordered : 

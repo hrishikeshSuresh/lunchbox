@@ -45,7 +45,7 @@ class PreCard extends React.Component {
           <Block flex space="between" style={styles.cardDescription}>
             <Text size={14} style={styles.cardTitle}>Order Id : {id}</Text>
             <Text size={12}>From : {item.e_name}</Text>
-            <Text size={12}>On : {item.date}</Text>
+            <Text size={12}>On : {item.timestamp}</Text>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between',paddingTop:10}}>
             <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold style={{}}> Amount Paid : {item.currency}&nbsp;{item.amount}</Text>
             

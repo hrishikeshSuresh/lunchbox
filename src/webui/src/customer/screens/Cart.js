@@ -50,7 +50,7 @@ class Cart extends React.Component {
         // console.warn("here")
         console.warn("cart : ",cart)
         if (cart === null) {
-          await AsyncStorage.setItem('cart', JSON.stringify({}));
+          var cart=await AsyncStorage.setItem('cart', JSON.stringify({}));
         }
         cart = JSON.parse(cart)
         // console.log("cart : ",cart)

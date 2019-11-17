@@ -76,7 +76,7 @@ class Statistics extends React.Component {
   renderhelper=()=>{
     var block= []
     for(i in this.state.orderlist){
-      console.warn(this.state.orderlist[i],i)
+      // console.warn(this.state.orderlist[i],i)
       block.push(
         <Block flex key={i}>
           <PreCard item={this.state.orderlist[i]} id={i} horizontal />

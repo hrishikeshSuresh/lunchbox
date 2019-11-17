@@ -81,7 +81,7 @@ class Account extends React.Component {
     const url = server_ip+'/api/v1/logout';
     try{
       response=fetch(url, {
-          method: 'GET', 
+          method: 'POST', 
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json'
