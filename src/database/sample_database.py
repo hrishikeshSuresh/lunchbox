@@ -27,7 +27,7 @@ users.insert_one({"uid":"u5","name":"name5","username": "customer5", "password":
 users.insert_one({"uid":"u6","username": "canteen1", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Canteen","iid":"i1"})
 users.insert_one({"uid":"u7","username": "canteen2", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Canteen","iid":"i1"})
 users.insert_one({"uid":"u8","username": "canteen3", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Canteen","iid":"i2"})
-users.insert_one({"uid":"u9","username": "canteen4", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Canteen","iid":"i2"})
+users.insert_one({"uid":"u9","username": "canteen4", "password": "5F4DCit.cxdcfC3B5AA7i65D61D8327DEB882CF99", "account_type": "Canteen","iid":"i2"})
 users.insert_one({"uid":"u10","username": "canteen5", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Canteen","iid":"i2"})
 
 users.insert_one({"uid":"u11","username": "caterer1", "password": "5F4DCC3B5AA765D61D8327DEB882CF99", "account_type": "Caterer"})
