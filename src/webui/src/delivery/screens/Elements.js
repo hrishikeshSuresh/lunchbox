@@ -567,7 +567,7 @@ class Elements extends React.Component {
 
     /*
      * render a set of blocks
-     * of previous orders
+     * of current orders
      */
     renderhelper = () => {
         var blockfin = [];
