@@ -572,17 +572,21 @@ class Elements extends React.Component {
     renderhelper = () => {
         var blockfin = [];
         let i = 0;
+        obj = this;
         const { navigate } = this.props.navigation;
         while (i < this.state.order_list.length) {
+            item = {
+                order_id: obj.state.order_list[i].order_id,
+                src: obj.state.order_list[i].src,
+                dest: obj.state.order_list[i].dest,
+                item_price: obj.state.order_list[i].item_price,
+                order_status: 1
+            }
             blockfin.push(
                 <TouchableOpacity style={styles.optionsButton}
                     onPress={() => 
                         navigate('OrderView', {
-                            order_id: this.state.order_list[i].order_id,
-                            src: this.state.order_list[i].src,
-                            dest: this.state.order_list[i].dest,
-                            item_price: this.state.order_list[i].item_price,
-                            order_status: 1
+                            item
                         })
                     }
                     title='Submit'

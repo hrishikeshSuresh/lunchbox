@@ -6,6 +6,9 @@ import { Block, Text, Button as GaButton, theme } from "galio-framework";
 import { argonTheme, tabs } from "../../constants/";
 import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 
+import MapView from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
+
 const { width } = Dimensions.get("screen");
 const origin = { latitude: 37.3318456, longitude: -122.0296002 };
 const destination = { latitude: 37.771707, longitude: -122.4053769 };
@@ -122,28 +125,32 @@ class OrderView extends React.Component {
     /* This will be handling the UI component rendering
      */
     render() {
-        const order_id = this.props.navigation.state.params.order_id;
-        const src = this.props.navigation.state.params.src;
-        const dest = this.props.navigation.state.params.dest;
-        const item_price = this.props.navigation.state.params.item_price;
+        const order_id = this.props.navigation.state.params.item.order_id;
+        const src = this.props.navigation.state.params.item.src;
+        const dest = this.props.navigation.state.params.item.dest;
+        const item_price = this.props.navigation.state.params.item.item_price;
         const order_status = 1;
         return (
             <Block flex center style={styles.home}>
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
-                    <Text style={styles.normalText}>
-                        Order ID : {order_id}
-                    </Text>
-                    <Text style={styles.normalText}>
-                        Source : {src}
-                    </Text>
-                    <Text style={styles.normalText}>
-                        Destination : {dest}
-                    </Text>
-                    <Text style={styles.normalText}>
-                        Item Price : {item_price}
-                    </Text>
+                    <View>
+                        <Text style={styles.normalText}>
+                            Order ID : {order_id}
+                        </Text>
+                        <Text style={styles.normalText}>
+                            Source : {src}
+                        </Text>
+                        <Text style={styles.normalText}>
+                            Destination : {dest}
+                        </Text>
+                        <Text style={styles.normalText}>
+                            Item Price : {item_price}
+                        </Text>
+                    </View>
                     <TouchableOpacity onPress={this.renderMap(src, dest)}>
-                        ACCEPT ORDER
+                        <Text>
+                            ACCEPT ORDER
+                        </Text>    
                     </TouchableOpacity>
                 </ScrollView>
             </Block>
