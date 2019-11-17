@@ -6,14 +6,7 @@ import { Block, Text, Button as GaButton, theme } from "galio-framework";
 import { argonTheme, tabs } from "../../constants/";
 import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 
-// MAPS 
-import MapView from 'react-native-maps';
-import MapViewDirections from 'react-native-maps-directions';
-
 const { width } = Dimensions.get("screen");
-const origin = { latitude: 37.3318456, longitude: -122.0296002 };
-const destination = { latitude: 37.771707, longitude: -122.4053769 };
-const GOOGLE_MAPS_APIKEY = "XXXXXXXX";
 /*
 class Elements extends React.Component {
     state = {
@@ -561,6 +554,17 @@ class Elements extends React.Component {
         );
     }
 
+    static navigationOptions = {
+        title: 'AvailableOrders',
+        headerStyle: {
+            backgroundColor: '#f4511e',
+        },
+        //headerTintColor: '#0ff',  
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },  
+    };
+
     /*
      * render a set of blocks
      * of previous orders
@@ -568,10 +572,22 @@ class Elements extends React.Component {
     renderhelper = () => {
         var blockfin = [];
         let i = 0;
+        const { navigate } = this.props.navigation;
         while (i < this.state.order_list.length) {
             blockfin.push(
                 <TouchableOpacity style={styles.optionsButton}
-                    onPress={this.renderMap.bind(this, this.state.order_list[i].src, this.state.order_list[i].dest)} key={i}>
+                    onPress={() => 
+                        navigate('OrderView', {
+                            order_id: this.state.order_list[i].order_id,
+                            src: this.state.order_list[i].src,
+                            dest: this.state.order_list[i].dest,
+                            item_price: this.state.order_list[i].item_price,
+                            order_status: 1
+                        })
+                    }
+                    title='Submit'
+                    key={i}
+                >
                     <Text style={styles.normalText}>
                         Order ID : {this.state.order_list[i].order_id}
                     </Text>
@@ -689,14 +705,11 @@ class Elements extends React.Component {
     /* This will be handling the UI component rendering
      */
     render() {
-        const renderMap = this.renderMap("aa", "aa");
+        const { navigate } = this.props.navigation;
         return (
             <Block flex center style={styles.home}>
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
                 {this.renderArticles()}
-                <View>
-                    {renderMap}
-                    </View>
                 </ScrollView>
             </Block>
         );

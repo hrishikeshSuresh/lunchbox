@@ -16,6 +16,7 @@ import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
+import OrderView from "../screens/OrderView";
 // drawer
 import Menu from "./Menu";
 import DrawerItem from "../../components/DrawerItem";
@@ -180,6 +181,9 @@ const AppStack = createDrawerNavigator(
           <DrawerItem focused={focused} screen="Articles" title="Articles" />
         )
       })
+    },
+    OrderView: {
+        screen: OrderView
     }
   },
   Menu
