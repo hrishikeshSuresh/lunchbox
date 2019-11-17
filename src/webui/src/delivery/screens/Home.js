@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, Text, View } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { Block, theme } from 'galio-framework';
 
 import { Card } from '../../components';
@@ -20,7 +20,7 @@ class Home extends React.Component {
         let i = 0;
         while (i < this.state.order_list.length) {
             blockfin.push(
-                <Block style={styles.blockAttr} key={i}>
+                <TouchableOpacity style={styles.blockAttr} key={i}>
                     <Text style={styles.normalText}>
                         Order ID : {this.state.order_list[i].order_id}
                     </Text>
@@ -33,7 +33,7 @@ class Home extends React.Component {
                     <Text style={styles.normalText}>
                         Item Price : {this.state.order_list[i].item_price}
                     </Text>
-                </Block>
+                </TouchableOpacity>
             );
             i++;
         }
@@ -137,7 +137,9 @@ class Home extends React.Component {
     render() {
         return (
             <Block flex center style={styles.home}>
-                {this.renderArticles()}
+                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
+                    {this.renderArticles()}
+                </ScrollView>
             </Block>
         );
     }
