@@ -8,7 +8,7 @@ from common import *
 
 
 #-----------------------------------------------------------------------------------------------------------
-#Customer API - View previous orders
+#Customer API 1- View previous orders
 @app.route('/api/v1/customer/previous_orders',methods=['GET'])
 def view_previous_orders():
     if not request.cookies.get('user_type'):
@@ -21,7 +21,7 @@ def view_previous_orders():
         uid = request.cookies.get('uid')
         iid = request.cookies.get('iid')
 
-    orders = db.orders.find({"uid":uid})
+    orders = db.orders.find({"uid":uid}).sort("timestamp",-1)
     if orders.count() == 0:
         return jsonify(str({"success":"No Content"})),204 
     temp_dict = {}
@@ -36,7 +36,7 @@ def view_previous_orders():
             temp_e_name = e['establishment_name']
             token_or_did = "did"
             token_or_did_val = order['did']
-        temp_dict[order["order_id"]] = {"uid":order['uid'],"eid":order['eid'],"e_name":temp_e_name,"e_type":order['e_type'],"items":order['items'],"amount":order['amount'],"currency":order['currency'],"payment_option":order['payment_option'],"location":order['location'],"status":order['status'],"timestamp":order['timestamp'],token_or_did:token_or_did_val}
+        temp_dict[order["order_id"]] = {"uid":order['uid'],"eid":order['eid'],"e_name":temp_e_name,"e_type":order['e_type'],"items":order['items'],"amount":order['amount'],"currency":order['currency'],"payment_option":order['payment_option'],"location":order['location'],"status":order['status'],"timestamp":time.ctime(order['timestamp']),token_or_did:token_or_did_val}
 
     return jsonify(str(temp_dict)),200
 #-----------------------------------------------------------------------------------------------------------
