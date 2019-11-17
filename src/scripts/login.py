@@ -82,4 +82,45 @@ def login():
         else:
             return jsonify ( { "Success":'Invalid credentials' }), 401
 
+
+
+@app.route('/api/v1/logout', methods = [ 'POST' ])
+def logout():
+    user_type = request.cookies.get('user_type')
+    if user_type == 'customer':
+        resp = make_response(jsonify({"Success": "Logout successful"}), 200)
+        resp.set_cookie("uid",'',expires=0)
+        resp.set_cookie("iid",'',expires=0)
+        resp.set_cookie("user_type",'',expires=0)
+        return resp
+    elif user_type == 'canteen':
+        resp = make_response(jsonify({"Success": "Logout successful"}), 200)
+        resp.set_cookie("uid",'',expires=0)
+        resp.set_cookie("can_id",'',expires=0)
+        resp.set_cookie("user_type",'',expires=0)
+        return resp
+    elif user_type == 'caterer':
+        resp = make_response(jsonify({"Success": "Logout successful"}), 200)
+        resp.set_cookie("uid",'',expires=0)
+        resp.set_cookie("cat_id",'',expires=0)
+        resp.set_cookie("user_type",'',expires=0)
+        return resp
+    elif user_type == 'institution':
+        resp = make_response(jsonify({"Success": "Logout successful"}), 200)
+        resp.set_cookie("uid",'',expires=0)
+        resp.set_cookie("iid",'',expires=0)
+        resp.set_cookie("user_type",'',expires=0)
+        return resp
+    elif user_type == 'delivery':
+        resp = make_response(jsonify({"Success": "Logout successful"}), 200)
+        resp.set_cookie("uid",'',expires=0)
+        resp.set_cookie("did",'',expires=0)
+        resp.set_cookie("user_type",'',expires=0)
+        return resp
+
+    else:
+        return jsonify(str({"error":"Bad Request"})), 400
+
+
+
        
