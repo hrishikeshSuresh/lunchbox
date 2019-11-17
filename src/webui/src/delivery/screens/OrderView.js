@@ -8,11 +8,11 @@ import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import { Linking } from 'expo';
 
 const { width } = Dimensions.get("screen");
-const origin = { latitude: 37.3318456, longitude: -122.0296002 };
-const destination = { latitude: 37.771707, longitude: -122.4053769 };
-const GOOGLE_MAPS_APIKEY = "XXXXXXXX";
+const sampleDest = { lat: 28.771707, lon: 77.4053769 };
+const GOOGLE_MAPS_APIKEY = "AIzaSyDp-y5B5CWDY4kgI43jDMQAfcMu7kvkT9Y";
 
 class OrderView extends React.Component {
     /* render each article that has been
@@ -34,12 +34,14 @@ class OrderView extends React.Component {
         console.warn(src);
         console.warn(dest);
         return (
-            <View>
+            <View key={'123'}>
                 <MapView style={styles.map}>
                     <MapViewDirections
                         origin={origin}
                         destination={destination}
                         apikey={GOOGLE_MAPS_APIKEY}
+                        strokeWidth={3}
+                        strokeColor="hotpink"
                     />
                 </MapView>
             </View>
@@ -122,6 +124,18 @@ class OrderView extends React.Component {
         //this.viewAvailableOrders();
     }
 
+    startNavigation(latitude, longitude) {
+        console.warn("Opening Google Maps");
+        var url = "https://www.google.com/maps/dir/?api=1&travelmode=driving&dir_action=navigate&destination=" + latitude + "," + longitude;
+        Linking.canOpenURL(url).then(supported => {
+            if (!supported) {
+                console.log('Can\'t handle url: ' + url);
+            } else {
+                return Linking.openURL(url);
+            }
+        }).catch(err => console.error('An error occurred', err));
+    }
+
     /* This will be handling the UI component rendering
      */
     render() {
@@ -147,10 +161,25 @@ class OrderView extends React.Component {
                             Item Price : {item_price}
                         </Text>
                     </View>
-                    <TouchableOpacity onPress={this.renderMap(src, dest)}>
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => console.warn("order assigned") }>
                         <Text>
-                            ACCEPT ORDER
-                        </Text>    
+                            Accept Order
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.startNavigation(sampleDest.lat, sampleDest.lon)}>
+                        <Text>
+                            Go to Source
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.startNavigation(sampleDest.lat, sampleDest.lon)}>
+                        <Text>
+                            Go to Destination
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => console.warn("order delivered") }>
+                        <Text>
+                            Order delivery confirmed
+                        </Text>
                     </TouchableOpacity>
                 </ScrollView>
             </Block>
