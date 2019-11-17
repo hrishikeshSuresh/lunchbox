@@ -7,8 +7,39 @@ from flask_app import *
 from common import *
 
 
+#-----------------------------------------------------------------------------------------------------------
+#Customer API - View previous orders
+@app.route('/api/v1/customer/previous_orders',methods=['GET'])
+def view_previous_orders():
+    if not request.cookies.get('user_type'):
+        return jsonify(str({"error":"Bad Request"})),400 
 
+    user_type = request.cookies.get('user_type')
+    if user_type == 'customer' and (not (request.cookies.get('uid') or request.cookies.get('iid'))):
+        return jsonify(str({"error":"Bad Request"})),400 
+    else:
+        uid = request.cookies.get('uid')
+        iid = request.cookies.get('iid')
 
+    orders = db.orders.find({"uid":uid})
+    if orders.count() == 0:
+        return jsonify(str({"success":"No Content"})),204 
+    temp_dict = {}
+    for order in orders:
+        if order['e_type'] == 'canteen':
+            e = db.canteens.find_one({"can_id":order['eid']})
+            temp_e_name = e['establishment_name']
+            token_or_did = "token"
+            token_or_did_val = order['token']
+        elif order['e_type'] == 'caterer':
+            e = db.caterers.find_one({"cat_id":order['eid']})
+            temp_e_name = e['establishment_name']
+            token_or_did = "did"
+            token_or_did_val = order['did']
+        temp_dict[order["order_id"]] = {"uid":order['uid'],"eid":order['eid'],"e_name":temp_e_name,"e_type":order['e_type'],"items":order['items'],"amount":order['amount'],"currency":order['currency'],"payment_option":order['payment_option'],"location":order['location'],"status":order['status'],"timestamp":order['timestamp'],token_or_did:token_or_did_val}
+
+    return jsonify(str(temp_dict)),200
+#-----------------------------------------------------------------------------------------------------------
 
 
 
