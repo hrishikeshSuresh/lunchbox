@@ -79,7 +79,21 @@ def add_view_review(item_id):
     return jsonify(str({"success":"created"})), 201
 
 #-----------------------------------------------------------------------------------------------------------
+#Place an order
+@app.route('/api/v1/place_order', methods = ['POST'])
+def place_order():
+    if request.method == 'POST':
+        username = request.json.get('username') 
+        estdname = request.json.get('establishment_name') 
+        item = request.json.get('item') 
+        amount = request.json.get('amount')
+        city = request.json.get('city')
+        currency = request.json.get('currency')
+        payment_option = request.json.get('payment_option')
+        db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
+        return jsonify("Redirect to payment for approval"), 200
 
+#-----------------------------------------------------------------------------------------------------------
 
 #list all menu items
 @app.route('/api/v1/menu', methods=['GET'])
@@ -254,19 +268,7 @@ def change_password():
 
 
 
-#Place an order
-@app.route('/api/v1/place_order', methods = ['POST'])
-def place_order():
-    if request.method == 'POST':
-        username = request.json.get('username') 
-        estdname = request.json.get('establishment_name') 
-        item = request.json.get('item') 
-        amount = request.json.get('amount')
-        city = request.json.get('city')
-        currency = request.json.get('currency')
-        payment_option = request.json.get('payment_option')
-        db['sales'].insert({"username": username, "establishment_name": estdname, "item":item,  "city": city, "amount": amount, "currency": currency, "payment_option": payment_option})   
-        return jsonify("Redirect to payment for approval"), 200
+
 
 
 
