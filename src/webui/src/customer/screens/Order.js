@@ -49,6 +49,7 @@ class Food extends React.Component {
       {
         item:this.props.navigation.state.params.itempara,
         id:this.props.navigation.state.params.id,
+        id:this.props.navigation.state.params.itempara.status,
           error:"",
           user:"",
           itemlist:[]
@@ -68,7 +69,38 @@ class Food extends React.Component {
   //   “currency”:”INR”,
   //   “img”:”<img base64>”
   //   }
-    
+  componentDidMount() {
+    this._interval = setInterval(() => {
+      const url = server_ip+'/api/v1/order/status';
+      try{
+        response=fetch(url, {
+            method: 'GET', 
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then((response) => {
+            if(response.status==200){
+              response.json().then((res)=>{
+                var myObject = eval('(' + res + ')');
+                this.setState({status:myObject["status"]})
+              })
+            }
+            else{
+              // this.setState({error : "Oops! Something isn't right"})
+            }
+
+          })
+        } catch (error) {
+          // console.warn('Error:', error);
+        }
+    }, 5000);
+  }
+  
+  componentWillUnmount() {
+    clearInterval(this._interval);
+  }
   render_items(items){
     var list=[]
     for (i in items){
@@ -139,7 +171,7 @@ class Food extends React.Component {
     //        "rating":5,
     //      }
     //    }
-    const trackable = !((this.state.item.e_type=='Canteen' && this.state.item.status==4) || (this.state.item.e_type=='Caterer' && this.state.item.status==5))
+    const trackable = !((this.state.item.e_type=='Canteen' && this.state.status==4) || (this.state.item.e_type=='Caterer' && this.state.status==5))
     const type=(this.state.item.e_type=="Canteen")
     console.warn(trackable,type)
     return (
@@ -149,7 +181,7 @@ class Food extends React.Component {
             <Block flex >
             <Text size={18} style={styles.cardTitle}>Order Id            : {this.state.id}</Text>
             <Text size={18}>From                 : {this.state.item.e_name}</Text>
-            <Text size={18}>On                     : {this.state.item.date}</Text>
+            <Text size={18}>On                     : {this.state.item.timestamp}</Text>
             <Text size={18}>Payment Mode : {this.state.item.payment_option}</Text>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between',paddingTop:10}}>
             <Text size={18}   color={argonTheme.COLORS.ACTIVE} bold style={{}}>Amount Paid    : {this.state.item.currency}&nbsp;{this.state.item.amount}</Text>
@@ -161,16 +193,20 @@ class Food extends React.Component {
           Order Status : 
           </Text>
         {type?
-          <StepIndicator
+          <><StepIndicator
           customStyles={customStyles}
-          currentPosition={this.state.item.status-1}
+          currentPosition={this.state.status-1}
           labels={labels_vendor}
           stepCount={4}
           />
+          <Text bold size={14} style={styles.title}>
+          Token Number : {this.state.item.token}
+          </Text>
+          </>
           :
           <StepIndicator
               customStyles={customStyles}
-              currentPosition={this.state.item.status-1}
+              currentPosition={this.state.status-1}
               labels={labels_caterer}
               stepCount={5}
           />

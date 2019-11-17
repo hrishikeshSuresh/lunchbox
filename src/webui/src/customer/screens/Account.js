@@ -77,13 +77,30 @@ class Account extends React.Component {
   }; 
   logout(obj){
     // navigate to onboarding
-    obj.toggleModal2();
-    console.log("above")
+    // /api/v1/logout
+    const url = server_ip+'/api/v1/logout';
     try{
-    obj.props.navigation.navigate('Onboard');
-    }
-    catch(e){console.log(e)}
-    console.log("below")
+      response=fetch(url, {
+          method: 'GET', 
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => {
+          if(response.status==200){
+            obj.toggleModal2();
+            obj.props.navigation.navigate('Onboard');
+          }
+          else{
+            // this.setState({error : "Oops! Something isn't right"})
+          }
+
+        })
+      } catch (error) {
+        // console.warn('Error:', error);
+      }
+    
 
     // console.warn(result)
   }
