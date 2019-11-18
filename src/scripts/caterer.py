@@ -153,6 +153,51 @@ def updateitem():
 	else:
 		return jsonify(str({"error":"Unauthorised"})),401
 
+@app.route('/api/v1/establishment/toggle_item', methods=['POST'])
+def toggleitem():
+	uid=request.cookies.get('uid')
+	user_type=request.cookies.get('user_type')
+	
+	if request.method!='POST':
+		return jsonify(str({"error":"Method not allowed"})),405
+	if((not user_type ) or (not uid)):
+		return jsonify(str({"error":"bad request"})),400
+
+	item_id=request.json.get("item_id")
+	item_name=request.json.get("item_name")
+	item_price=request.json.get("item_price")
+	currency=request.json.get("currency")
+	tags=request.json.get("tags")
+	img=request.json.get("img")
+
+	temp_doc=db['menu'].find_one({"item_id":item_id})
+	print("\n \n \n")
+	print(not temp_doc)
+	print("\n \n \n")
+	if not temp_doc:
+		return jsonify(str({"error":"item doesn't exist"})),404
+
+	eid=temp_doc['eid']
+	e_type=temp_doc['e_type']
+	
+	if e_type=="Canteen":
+		main_doc=db["canteens"].find_one({"can_id":eid})
+	elif e_type=="Caterer":
+		main_doc=db["caterers"].find_one({"cat_id":eid})
+	new_status=0
+	if uid==main_doc['uid'] and user_type==e_type:
+		temp_doc2=db['menu'].find_one({"item_id":item_id})
+		status_in_db=temp_doc2['status']
+
+		if status_in_db==1:
+			db['menu'].update_one({"item_id":item_id},{"$set":{"status":0}})
+			new_status=0
+		else:
+			db['menu'].update_one({"item_id":item_id},{"$set":{"status":1}})
+			new_status=1
+		return jsonify(str({"success":"item status toggled", "status":new_status})),201
+	else:
+		return jsonify(str({"error":"Unauthorised"})),401
 
 
 #----------------------------------------------------------------------------------------------------    
