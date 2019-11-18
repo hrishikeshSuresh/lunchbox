@@ -7,6 +7,11 @@ import { argonTheme, tabs } from "../../constants/";
 import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 
 const { width } = Dimensions.get("screen");
+
+/*
+    ELEMENTS IS ACTUALLY PAGE FOR VIEWING PENDING ORDERS
+ */
+
 /*
 class Elements extends React.Component {
     state = {
@@ -567,7 +572,7 @@ class Elements extends React.Component {
                 order_status: 1
             }
             blockfin.push(
-                <TouchableOpacity style={styles.optionsButton}
+                <TouchableOpacity style={styles.blockAttr}
                     onPress={() => 
                         navigate('OrderView', {
                             item
@@ -577,16 +582,19 @@ class Elements extends React.Component {
                     key={i}
                 >
                     <Text style={styles.normalText}>
-                        Order ID : {this.state.order_list[i].order_id}
+                        #{i+1}
                     </Text>
-                    <Text style={styles.normalText}>
-                        Source : {this.state.order_list[i].src}
+                    <Text style={styles.boldText}>
+                        Order ID: {this.state.order_list[i].order_id}
                     </Text>
-                    <Text style={styles.normalText}>
-                        Destination : {this.state.order_list[i].dest}
+                    <Text style={styles.boldText}>
+                        Source: {this.state.order_list[i].src}
                     </Text>
-                    <Text style={styles.normalText}>
-                        Item Price : {this.state.order_list[i].item_price}
+                    <Text style={styles.boldText}>
+                        Destination: {this.state.order_list[i].dest}
+                    </Text>
+                    <Text style={styles.boldText}>
+                        Item Price: {this.state.order_list[i].item_price}
                     </Text>
                 </TouchableOpacity>
             );
@@ -607,7 +615,7 @@ class Elements extends React.Component {
         return (
             <Block>
                 <Text style={styles.subTitle}>
-                    Select order from list
+                    SELECT ORDER FOR DELIVERY
                 </Text>
                 {this.renderhelper()}
             </Block>
@@ -714,29 +722,34 @@ const styles = StyleSheet.create({
         width: width - theme.SIZES.BASE * 2,
         paddingVertical: theme.SIZES.BASE,
     },
-    normalText: {
+    boldText: {
         padding: 20,
-        color: 'green',
+        color: '#143D59',
         fontWeight: 'bold',
         fontSize: 30,
+    },
+    normalText: {
+        color: '#143D59',
+        fontSize: 10,
     },
     blockAttr: {
         margin: 20,
-        width: 400,
+        width: 350,
         padding: 20,
-        color: 'green',
-        backgroundColor: '#808080',
+        color: 'white',
+        backgroundColor: '#E8E8E8',
         fontWeight: 'bold',
-        fontSize: 30,
-        borderRadius: 10,
+        fontSize: 20,
+        borderRadius: 5,
         borderColor: 'black',
     },
     subTitle: {
-        color: 'black',
-        backgroundColor: 'green',
+        color: 'orange',
+        backgroundColor: 'black',
         fontWeight: 'bold',
         padding: 5,
-        fontSize: 50,
+        fontSize: 25,
+        alignItems: 'center',
         borderColor: 'orange',
     },
     title: {
