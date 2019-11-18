@@ -383,6 +383,149 @@ def getallitems_for_establishment():
 		return jsonify(str("no content found")),204
 	else:
 		return jsonify(str(result)),200
+
+@app.route('/api/v1/establishment/pending_orders', methods=['GET'])
+def view_pending_orders():
+	if request.method!="GET":
+		return jsonify(str({"error":"method not allowed"})),405
+	uid=request.cookies.get('uid')
+	user_type=request.cookies.get('user_type')
+	print("\n \n \n")
+	print(user_type)
+	print("\n \n \n")
+	print(uid)
+	print("\n \n \n")
+	if (not uid) or (not user_type):
+		return jsonify(str({"error":"bad request"})),400
+
+	f=0
+	doc=db['canteens'].find_one({})
+	if user_type=="Canteen":
+		doc=db['canteens'].find_one({"uid":uid})
+		f=1
+		id=doc['can_id']
+		orders=db['orders'].find({"eid":id},{"$or":[{"$eq":["status",1]},{"$eq":["status",2]},{"$eq":["status",3]}]})
+	if user_type=="Caterer":
+		doc=db['caterers'].find_one({"uid":uid})
+		f=2
+		id=doc['cat_id']
+		orders=db['orders'].find({"eid":id},{"$or":[{"$eq":["status",1]},{"$eq":["status",2]},{"$eq":["status",3]},{"$eq":["status",4]}]})
+	else:
+		
+		
+		orders=db['orders'].find({"e_type":"Caterer"})
+	if orders.count() == 0:
+		return jsonify(str({"success":"No Content"})),204 	
+	print(orders)	
+	temp_dict={}
+	temp_e_name=""
+	token_or_did=""
+	token_or_did_val=""
+	for order in orders:
+		order=db['orders'].find_one(order)
+		print(order['e_type'])
+		if user_type=="Canteen" and order["e_type"]=='Canteen':
+			if (order['status']!=1 and order['status']!=2 and order['status']!=3 ):
+				continue
+			temp_e_name=doc['establishment_name']
+			print(temp_e_name)
+			token_or_did="token"
+			toekn_or_did_val=order['token']
+		elif user_type=="Caterer" and order['e_type']=='Caterer':
+			if (order['status']!=1 and order['status']!=2 and order['status']!=3 and order['status']!=4):
+				continue
+			temp_e_name=doc['establishment_name']
+			token_or_did="did"
+			token_or_did_val=order['did']
+		elif user_type=="Delivery":
+			if (order['status']!=2 and order['status']!=3 and order['status']!=4 ):
+				continue
+			doc = db.caterers.find_one({"cat_id":order['eid']})
+			temp_e_name=doc['establishment_name']
+			token_or_did="did"
+			token_or_did_val=order['did']
+
+		temp_dict[order["order_id"]]={"uid":order['uid'],"eid":order['eid'],"e_name":temp_e_name,"e_type":order['e_type'],"items":order['items'],"amount":order['amount'],"currency":order['currency'],"payment_option":order['payment_option'],"customer_location":order['location'],"status":order['status'],"timestamp":time.ctime(order['timestamp']),token_or_did:token_or_did_val}
+		if user_type=="Delivery" and order['e_type']=="Caterer":
+			(temp_dict[order["order_id"]])["e_location"]=doc["location"]
+
+	return jsonify(str(temp_dict)),200
+
+
+
+@app.route('/api/v1/establishment/complete_orders', methods=['GET'])
+def complete_order():
+	if request.method!="GET":
+		return jsonify(str({"error":"method not allowed"})),405
+	uid=request.cookies.get('uid')
+	user_type=request.cookies.get('user_type')
+	print("\n \n \n")
+	print(user_type)
+	print("\n \n \n")
+	print(uid)
+	print("\n \n \n")
+	if (not uid) or (not user_type):
+		return jsonify(str({"error":"bad request"})),400
+
+	f=0
+	doc=db['canteens'].find_one({})
+	if user_type=="Canteen":
+		doc=db['canteens'].find_one({"uid":uid})
+		f=1
+		id=doc['can_id']
+		orders=db['orders'].find({"eid":id},{"$or":[{"$eq":["status",1]},{"$eq":["status",2]},{"$eq":["status",3]}]})
+	if user_type=="Caterer":
+		doc=db['caterers'].find_one({"uid":uid})
+		f=2
+		id=doc['cat_id']
+		orders=db['orders'].find({"eid":id},{"$or":[{"$eq":["status",1]},{"$eq":["status",2]},{"$eq":["status",3]},{"$eq":["status",4]}]})
+	else:
+		
+		
+		orders=db['orders'].find({"e_type":"Caterer"})
+	if orders.count() == 0:
+		return jsonify(str({"success":"No Content"})),204 	
+	print(orders)	
+	temp_dict={}
+	temp_e_name=""
+	token_or_did=""
+	token_or_did_val=""
+	for order in orders:
+		order=db['orders'].find_one(order)
+		print(order['e_type'])
+		if user_type=="Canteen" and order["e_type"]=='Canteen':
+			if (order['status']==1 and order['status']==2 and order['status']==3 ):
+				continue
+			temp_e_name=doc['establishment_name']
+			print(temp_e_name)
+			token_or_did="token"
+			toekn_or_did_val=order['token']
+		elif user_type=="Caterer" and order['e_type']=='Caterer':
+			if (order['status']==1 and order['status']==2 and order['status']==3 and order['status']==4):
+				continue
+			temp_e_name=doc['establishment_name']
+			token_or_did="did"
+			token_or_did_val=order['did']
+		elif user_type=="Delivery":
+			
+			tdid=(db['delivery'].find_one({"uid":uid}))["did"]
+			print("\n \n \n")
+			print(tdid)
+			print("\n \n \n")
+			if (order['status']!=5 or tdid!=order['did'] ):
+				continue
+			print(order['status'])
+			doc = db.caterers.find_one({"cat_id":order['eid']})
+			temp_e_name=doc['establishment_name']
+			token_or_did="did"
+			token_or_did_val=order['did']
+
+		temp_dict[order["order_id"]]={"uid":order['uid'],"eid":order['eid'],"e_name":temp_e_name,"e_type":order['e_type'],"items":order['items'],"amount":order['amount'],"currency":order['currency'],"payment_option":order['payment_option'],"customer_location":order['location'],"status":order['status'],"timestamp":time.ctime(order['timestamp']),token_or_did:token_or_did_val}
+		if user_type=="Delivery" and order['e_type']=="Caterer":
+			(temp_dict[order["order_id"]])["e_location"]=doc["location"]
+
+	return jsonify(str(temp_dict)),200
+
 	
 #----------------------------------------------------------------------------------------------------    
     
