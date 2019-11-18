@@ -36,7 +36,8 @@ class Cart extends React.Component {
       latitude : 0,
       longitude : 0,
       error:null,
-      isModalVisible:false
+      isModalVisible:false,
+      account:{}
     }
     this.get_values()
     
@@ -47,13 +48,14 @@ class Cart extends React.Component {
   get_values= async () => {
       try{
         var cart = await AsyncStorage.getItem('cart');
-        // console.warn("here")
-        console.warn("cart : ",cart)
+        // // console.warn("here")
+        // console.warn("cart : ",cart)
         if (cart === null) {
-          var cart=await AsyncStorage.setItem('cart', JSON.stringify({}));
+          await AsyncStorage.setItem('cart', JSON.stringify({}));
+          var cart = await AsyncStorage.getItem('cart');
         }
         cart = JSON.parse(cart)
-        // console.log("cart : ",cart)
+        // // console.log("cart : ",cart)
         var arr=[]
         var total=0
         for (i in cart){
@@ -61,23 +63,63 @@ class Cart extends React.Component {
           {
             if(cart[i]["qty"]!=0)
             {
-              // console.warn(cart[i])
+              // // console.warn(cart[i])
               
                 arr.push(cart[i])
-                // console.warn(cart[i]['cta'],cart[i].cta)
+                // // console.warn(cart[i]['cta'],cart[i].cta)
                 total=total+(cart[i]["item_price"])*cart[i]["qty"]
             }
           }
         }
         this.setState({items:arr,total:total})
-        // console.warn(this.state)
+        // // console.warn(this.state)
       }
       catch(e){
-        console.log("blah",e)
+        // console.log("blah",e)
+      }
+      try{
+        var url= server_ip+'/api/v1/account_details';
+        response=fetch(url, {
+          method: 'GET', 
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => {
+          if(response.status==200){
+            // // console.warn(JSON.parse(response))
+            response.json().then((res)=>{
+              var myObject = eval('(' + res + ')');
+              // for (let i=0;i <myObject.length;i++){
+              //     // // console.log(obj.get_item(myObject[i]))
+              //     obj.get_item(obj,myObject[i])
+              //     // itemlist.push(obj.state.item)
+              //     // console.warn("outer",obj.state.item)
+              //     // itemlist.push(obj.get_item(obj,myObject[i]))
+
+              //   }
+              var m={
+                  "username":"blah",
+                  "name":"blah",
+                  "wallet":200
+                }
+                this.setState({account:m})
+                // console.warn("account",this.state.account)
+            });
+        }
+        else{
+
+        }
+      })
+    }
+    
+      catch(e){
+        // console.log("blah",e)
       }
   }
   renderhelper=()=>{
-    console.log("cartcard",this.state.items)
+    // console.log("cartcard",this.state.items)
     var block= []
     let i=0
     while(i<this.state.items.length){
@@ -88,33 +130,90 @@ class Cart extends React.Component {
         )
       i++
     }
-    // console.warn("helper",block)
+    // // console.warn("helper",block)
     return block
   }
   place_order= async (obj)=>{
     // alert("Order Placed");
-    
-    obj.setState({items:[],total:0});
-    
     if(Platform.OS === 'android')
     {
       await request_device_location_runtime_permission();
     }
  
-    this.getLongLat = navigator.geolocation.watchPosition(
+    obj.getLongLat = navigator.geolocation.watchPosition(
       (position) => {
-        this.setState({
+        // // console.warn("state:",obj.state)
+        obj.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           error: null,
         });
+        // console.warn("state after:",obj.state)
+        // // console.log("state",obj.state)
+        var request_data={}
+        request_data["location"]=[obj.state.latitude,obj.state.longitude]
+        request_data["payment_option"]=obj.state.pay_mode
+        request_data["currency"]="INR"
+        request_data["items"]={}
+        request_data["amount"]=obj.state.total
+        // // console.warn("request ",request_data)
+        var temp={}
+        var actual=obj.state.items
+        // console.log("cart:",actual)
+        for(it in actual){
+          // console.log("in")
+          if(actual[it].eid in temp){
+            // console.log("present")
+          }
+          else{
+            // console.log("not there")
+            temp[actual[it].eid]=[]
+          }
+          var element={}
+          element[actual[it].item_id]=actual[it].qty
+          temp[actual[it].eid].push(element)
+        }
+        request_data["items"]=temp
+        const url = server_ip+'/api/v1/place_order';
+      try{
+      response=fetch(url, {
+          method: 'POST', 
+          credentials: 'include',
+          body: JSON.stringify(request_data), 
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => {
+          if(response.status==200){
+            //if 200
+            // obj.setState({items:[],total:0});
+            // await AsyncStorage.setItem('cart', JSON.stringify({})); //IMPORTANT
+            // navigate to ??
+            obj.setState({items:[],total:0});
+            AsyncStorage.setItem('cart', JSON.stringify({})); //IMPORTANT
+            obj.toggleModal()
+            obj.props.navigation.navigate('Statistics')
+            // response.json().then((res)=>console.warn(res));
+          }
+          else{
+            obj.toggleModal()
+            console.warn("error")
+            this.setState({error : "Oops! Something isn't right"})
+          }
+          
+        })
+      } catch (error) {
+        console.warn('Error:', error);
+      }
+
+        // console.log("temp:",temp)
       },
-      (error) => this.setState({ error: error.message }),
+      (error) => obj.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 2000, maximumAge: 100, distanceFilter: 10 },
     );
-
-    await AsyncStorage.setItem('cart', JSON.stringify({})); //IMPORTANT
-    // navigate to ??
+    
+    
   }
   componentWillUnmount() {
  
@@ -148,13 +247,13 @@ class Cart extends React.Component {
               ]}
 
               formHorizontal={true}
-              initial={'cash'}
+              initial="cash"
               
               animation={false}
               onPress={(value) => {this.setState({pay_mode:value})}}
               style={{marginBottom:10}}
             />
-            <Text size={14} style={{paddingBottom:20}}>(Current Balance in your Wallet : {this.get_details()})</Text>
+            <Text size={14} style={{paddingBottom:20}}>(Current Balance in your Wallet : {this.state.account.wallet})</Text>
             <Button color="success" style={styles.button} onPress={this.toggleModal}>
               PLACE ORDER
             </Button>

@@ -135,8 +135,11 @@
 
 
 
-// global.server_ip="http://10.0.2.2:4000"
-global.server_ip="http://192.168.1.116:4000"
+global.server_ip="http://10.0.2.2:4000"
+// global.server_ip="http://192.168.43.217:4000"
+// global.server_ip="http://192.168.1.116:4000"
+// global.server_ip="http://10.20.207.253:4000"
+
 global.withflask=1
 import React from 'react';
 import { Image } from 'react-native';

@@ -15,11 +15,9 @@ class Home extends React.Component {
   helper= async ()=>{
     await this.componentDidMount(); 
     var obj=this
-    
-    if(withflask){
     const url = server_ip+'/api/v1/menu';
 
-      try{
+    try{
       response=fetch(url, {
           method: 'GET', 
           credentials: 'include',
@@ -32,8 +30,62 @@ class Home extends React.Component {
             // console.warn(JSON.parse(response))
             response.json().then((res)=>{
               var myObject = eval('(' + res + ')');
-              obj.get_item(obj,myObject)
-              
+              // for (let i=0;i <myObject.length;i++){
+              //     // console.log(obj.get_item(myObject[i]))
+              //     obj.get_item(obj,myObject[i])
+              //     // itemlist.push(obj.state.item)
+              //     console.warn("outer",obj.state.item)
+              //     // itemlist.push(obj.get_item(obj,myObject[i]))
+
+              //   }
+              var m=[{
+                "item_id": "Item ID",
+                "item_name":"<Item Name>1",
+                "eid":"<Establishment ID>",
+                "e_name":"<Establishment Name>",
+                "e_type":"Canteen",
+                "item_price":10,
+                "currency":"INR",
+                "img":"img",
+                "rating":5,
+                "status":1
+                },{
+                  "item_id": "Item ID2",
+                  "item_name":"<Item Name>2",
+                  "eid":"<Establishment ID>",
+                  "e_name":"<Establishment Name>",
+                  "e_type":"Canteen",
+                  "item_price":10,
+                  "currency":"INR",
+                  "img":"img",
+                  "rating":5,
+                  "status":1
+                  },
+                  {
+                    "item_id": "Item ID3",
+                    "item_name":"<Item Name>3",
+                    "eid":"<Establishment ID>2",
+                    "e_name":"<Establishment Name>",
+                    "e_type":"Canteen",
+                    "item_price":10,
+                    "currency":"INR",
+                    "img":"img",
+                    "rating":5,
+                    "status":1
+                    },{
+                      "item_id": "Item ID4",
+                      "item_name":"<Item Name>4",
+                      "eid":"<Establishment ID>2",
+                      "e_name":"<Establishment Name>",
+                      "e_type":"Canteen",
+                      "item_price":10,
+                      "currency":"INR",
+                      "img":"img",
+                      "rating":5,
+                      "status":1
+                      }]
+                obj.setState({itemlist:m})
+                // console.warn("list",obj.state.itemlist)
             });
           }
           else{
@@ -44,52 +96,52 @@ class Home extends React.Component {
       } catch (error) {
         // console.warn('Error:', error);
       }
-    }
+
   }
-  get_item(obj,item_ids){
-    var itemlist=[]
-    for (i in item_ids){
-      obj.setState({item:null})
-    const url2 = server_ip+'/api/v1/item/'+item_ids[i];
-    try{
-      response2=fetch(url2, {
-          method: 'GET', 
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        .then((response2) => {
-          if(response2.status==200){
-            response2.json().then((res2)=>{
-              item = eval('(' + res2 + ')');
-              obj.setState({item:item})
-            });
-            var it=obj.state.item
-            console.log(it)
-            if(it!=null){
-              itemlist.push(it)
-              console.warn(itemlist.length)
-            }
-          }
-          else{
-            this.setState({error : "Oops! Something isn't right"})
-          }
-          })
-          obj.setState({itemlist:itemlist})
-          console.warn(obj.state.itemlist)
-        }
-        catch (error) {
-          console.warn('Error:', error);
-        }
-      }
-      // console.log("this ",obj.state.itemlist)
-      // for (i in obj.state.itemlist){
-      //   print(obj.state.itemlist[i])
-      // }
+  // get_item(obj,item_ids){
+  //   var itemlist=[]
+  //   for (i in item_ids){
+  //     obj.setState({item:null})
+  //   const url2 = server_ip+'/api/v1/item/'+item_ids[i];
+  //   try{
+  //     response2=fetch(url2, {
+  //         method: 'GET', 
+  //         credentials: 'include',
+  //         headers: {
+  //           'Content-Type': 'application/json'
+  //         }
+  //       })
+  //       .then((response2) => {
+  //         if(response2.status==200){
+  //           response2.json().then((res2)=>{
+  //             item = eval('(' + res2 + ')');
+  //             obj.setState({item:item})
+  //           });
+  //           var it=obj.state.item
+  //           console.log(it)
+  //           if(it!=null){
+  //             itemlist.push(it)
+  //             console.warn(itemlist.length)
+  //           }
+  //         }
+  //         else{
+  //           this.setState({error : "Oops! Something isn't right"})
+  //         }
+  //         })
+  //         obj.setState({itemlist:itemlist})
+  //         console.warn(obj.state.itemlist)
+  //       }
+  //       catch (error) {
+  //         console.warn('Error:', error);
+  //       }
+  //     }
+  //     // console.log("this ",obj.state.itemlist)
+  //     // for (i in obj.state.itemlist){
+  //     //   print(obj.state.itemlist[i])
+  //     // }
       
-    return itemlist
-  }
+  //   return itemlist
+  // }
   search_helper(){
     var itemlist=[]
     var obj=this
@@ -107,12 +159,28 @@ class Home extends React.Component {
             // console.warn(JSON.parse(response))
             response.json().then((res)=>{
               var myObject = eval('(' + res + ')');
-              for (let i=0;i <myObject.length;i++){
-                  console.log(obj.get_item(obj,myObject[i]))
-                  itemlist.push(obj.get_item(obj,myObject[i]))
+              // for (let i=0;i <myObject.length;i++){
+              //     // console.log(obj.get_item(myObject[i]))
+              //     obj.get_item(obj,myObject[i])
+              //     // itemlist.push(obj.state.item)
+              //     console.warn("outer",obj.state.item)
+              //     // itemlist.push(obj.get_item(obj,myObject[i]))
 
-                }
-                obj.setState({itemlist:itemlist})
+              //   }
+              var m=[{
+                "item_id": "Item ID",
+                "item_name":"<Item Name>",
+                "eid":"<Establishment ID>",
+                "e_name":"<Establishment Name>",
+                "e_type":"Canteen",
+                "item_price":10,
+                "currency":"INR",
+                "img":"img",
+                "rating":5,
+                "status":1
+                }]
+                obj.setState({itemlist:m})
+                console.warn("list",obj.state.itemlist)
             });
           }
           else{
@@ -123,6 +191,7 @@ class Home extends React.Component {
       } catch (error) {
         // console.warn('Error:', error);
       }
+
 }
 
   filter_helper(filter){
@@ -130,6 +199,8 @@ class Home extends React.Component {
     var obj=this
     // console.warn("in filter");
     if(filter!="No Filter"){
+      const url = server_ip+'/api/v1/search_tag/'+filter;
+
       try{
         response=fetch(url, {
             method: 'GET', 
@@ -143,12 +214,28 @@ class Home extends React.Component {
               // console.warn(JSON.parse(response))
               response.json().then((res)=>{
                 var myObject = eval('(' + res + ')');
-                for (let i=0;i <myObject.length;i++){
-                    console.log(obj.get_item(obj,myObject[i]))
-                    itemlist.push(obj.get_item(obj,myObject[i]))
+                // for (let i=0;i <myObject.length;i++){
+                //     // console.log(obj.get_item(myObject[i]))
+                //     obj.get_item(obj,myObject[i])
+                //     // itemlist.push(obj.state.item)
+                //     console.warn("outer",obj.state.item)
+                //     // itemlist.push(obj.get_item(obj,myObject[i]))
   
-                  }
-                  obj.setState({itemlist:itemlist})
+                //   }
+                var m=[{
+                  "item_id": "Item ID",
+                  "item_name":"<Item Name>",
+                  "eid":"<Establishment ID>",
+                  "e_name":"<Establishment Name>",
+                  "e_type":"Canteen",
+                  "item_price":10,
+                  "currency":"INR",
+                  "img":"img",
+                  "rating":5,
+                  "status":1
+                  }]
+                  obj.setState({itemlist:m})
+                  console.warn("list",obj.state.itemlist)
               });
             }
             else{
@@ -159,6 +246,7 @@ class Home extends React.Component {
         } catch (error) {
           // console.warn('Error:', error);
         }
+  
     }
     else{
       this.helper()
@@ -178,7 +266,7 @@ class Home extends React.Component {
   constructor(props){
     super(props);
     this.state={itemlist:[],search:"",filter:"No Filter",item:null}
-    // this.helper()
+    this.helper()
   }
   
   renderhelper=()=>{
@@ -263,7 +351,7 @@ class Home extends React.Component {
             {this.renderpicker()}
         </Block>
         <Block flex>
-        {/* {this.renderhelper()} */}
+        {this.renderhelper()}
         </Block>
       </ScrollView>
       )

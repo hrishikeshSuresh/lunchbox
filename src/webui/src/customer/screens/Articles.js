@@ -10,7 +10,6 @@ class Articles extends React.Component {
   helper(){
     var obj=this
     var itemlist=[]
-    if(withflask){
     const url = server_ip+'/api/v1/menu';
 
       try{
@@ -26,15 +25,27 @@ class Articles extends React.Component {
             // console.warn(JSON.parse(response))
             response.json().then((res)=>{
               var myObject = eval('(' + res + ')');
-              for (let i=0;i <myObject.length;i++){
-                  // console.log(obj.get_item(myObject[i]))
-                  obj.get_item(obj,myObject[i])
-                  // itemlist.push(obj.state.item)
-                  console.warn("outer",obj.state.item)
-                  // itemlist.push(obj.get_item(obj,myObject[i]))
+              // for (let i=0;i <myObject.length;i++){
+              //     // console.log(obj.get_item(myObject[i]))
+              //     obj.get_item(obj,myObject[i])
+              //     // itemlist.push(obj.state.item)
+              //     console.warn("outer",obj.state.item)
+              //     // itemlist.push(obj.get_item(obj,myObject[i]))
 
-                }
-                obj.setState({itemlist:itemlist})
+              //   }
+              var m=[{
+                "item_id": "Item ID",
+                "item_name":"<Item Name>",
+                "eid":"<Establishment ID>",
+                "e_name":"<Establishment Name>",
+                "e_type":"Canteen",
+                "item_price":10,
+                "currency":"INR",
+                "img":"img",
+                "rating":5,
+                "status":1
+                }]
+                obj.setState({itemlist:m})
                 console.warn("list",obj.state.itemlist)
             });
           }
@@ -46,51 +57,9 @@ class Articles extends React.Component {
       } catch (error) {
         // console.warn('Error:', error);
       }
-    }
+    
   }
-  get_item(obj,item_id){
-    // return {
-    //     "item_id": "Item ID",
-    //     "item_name":"<Item Name>",
-    //     "eid":"<Establishment ID>",
-    //     "e_name":"<Establishment Name>",
-    //     "e_type":"Canteen",
-    //     "item_price":10,
-    //     "currency":"INR",
-    //     "img":"img",
-    //     "rating":5,
-    //     "status":1
-    //     }
-    const url = server_ip+'/api/v1/item/'+item_id;
-
-    try{
-      response=fetch(url, {
-          method: 'GET', 
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        .then((response) => {
-          if(response.status==200){
-            // console.warn(JSON.parse(response))
-            response.json().then((res)=>{
-              var myObject = eval('(' + res + ')');
-                // console.warn("obj",myObject)
-                obj.setState({item:myObject})
-                console.warn("inner",obj.state.item)
-            });
-          }
-          else{
-            // this.setState({error : "Oops! Something isn't right"})
-          }
-
-        })
-      } catch (error) {
-        // console.warn('Error:', error);
-      }
-    // return item
-  }
+ 
   constructor(props){
     super(props);
     this.state={itemlist:[],item:{}}

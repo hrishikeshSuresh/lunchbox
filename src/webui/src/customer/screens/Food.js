@@ -49,7 +49,7 @@ class Food extends React.Component {
         })
         .then((response) => {
           if(response.status==200){
-            // console.warn(JSON.parse(response))
+            // // console.warn(JSON.parse(response))
             response.json().then((res)=>{
               var myObject = eval('(' + res + ')');
               console.log(myObject)
@@ -60,14 +60,14 @@ class Food extends React.Component {
                   user:myObject[i]["username"],
                   review:myObject[i]["review"]
                 })
-              // console.warn(String(myObject[i]["_id"]))
+              // // console.warn(String(myObject[i]["_id"]))
 
               }
               obj.setState({reviewlist:reviewlist})
               return reviewlist
 
             });
-            // console.warn(response)
+            // // console.warn(response)
           }
           else{
             this.setState({error : "Oops! Something isn't right"})
@@ -75,14 +75,14 @@ class Food extends React.Component {
 
         })
       } catch (error) {
-        // console.warn('Error:', error);
+        // // console.warn('Error:', error);
       }
     }
     return reviewlist
   }
   submit_review(obj){
     console.log("submit review")
-    // console.warn(obj.state);
+    // // console.warn(obj.state);
    const url = server_ip+'/api/v1/item/add_review/'+obj.state.it.item_id;
 
     const data = {
@@ -99,7 +99,7 @@ class Food extends React.Component {
         }
       })
       .then((response) => {
-        if(response.status==200){
+        if(response.status==201){
           // var rl=obj.state.reviewlist
           // rl.push({
           //   rating:obj.state.rating,
@@ -107,9 +107,9 @@ class Food extends React.Component {
           //   review:obj.state.review
           // })
           // obj.setState({reviewlist:rl});
-          obj.helper(obj.state.it)
+            obj.helper(obj.state.it)
             console.log("it was a success")
-          // response.json().then((res)=>console.warn(res));
+          // response.json().then((res)=>// console.warn(res));
         }
         else{
           this.setState({error : "Oops! Something isn't right"})
@@ -117,7 +117,7 @@ class Food extends React.Component {
 
       })
     } catch (error) {
-      console.warn('Error:', error);
+      // console.warn('Error:', error);
     }
     obj.toggleModal()
   }
@@ -126,7 +126,8 @@ class Food extends React.Component {
         var cart = await AsyncStorage.getItem('cart');
         
         if (cart === null) {
-          var cart=await AsyncStorage.setItem('cart', JSON.stringify({}));
+          await AsyncStorage.setItem('cart', JSON.stringify({}));
+          var cart = await AsyncStorage.getItem('cart');
         }
         cart = JSON.parse(cart)
         if(this.state.it.item_id in cart){
@@ -136,7 +137,7 @@ class Food extends React.Component {
 
       }
       catch(e){
-        console.warn(e)
+        // console.warn(e)
       }
   }
   decrement= async () => {
@@ -150,7 +151,8 @@ class Food extends React.Component {
         item=this.state.it
         console.log("decrement",item)
         if (cart === null) {
-          var cart=await AsyncStorage.setItem('cart', JSON.stringify({}));
+          await AsyncStorage.setItem('cart', JSON.stringify({}));
+          var cart = await AsyncStorage.getItem('cart');
         }
         var cart_cart = JSON.parse(cart)
         // flag=-1
@@ -168,13 +170,13 @@ class Food extends React.Component {
 
       }
       catch(e){
-        console.warn(e)
+        // console.warn(e)
       }
     }
   }
   increment= async () => {
-    await AsyncStorage.setItem('cart', JSON.stringify({}));
-    // console.warn(await AsyncStorage.getItem('cart'));
+    // await AsyncStorage.setItem('cart', JSON.stringify({}));
+    // // console.warn(await AsyncStorage.getItem('cart'));
 
       let x=this.state.textValue+1;
       this.setState({
@@ -186,7 +188,8 @@ class Food extends React.Component {
         var item=this.state.it
         console.log("item",item)
         if (cart === null) {
-          var cart=await AsyncStorage.setItem('cart', JSON.stringify({}));
+          await AsyncStorage.setItem('cart', JSON.stringify({}));
+          var cart = await AsyncStorage.getItem('cart');
         }
         var cart_cart = JSON.parse(cart)
         // flag=-1
@@ -199,14 +202,17 @@ class Food extends React.Component {
         var sav=item
         sav["qty"]=this.state.textValue
         // console.log("cart[item.item_id]=sav",item.item_id,"=",sav)
+        console.log("cart_cart before",cart_cart)
         cart_cart[item.item_id]=sav
+        console.log("cart_cart after",cart_cart)
+
         await AsyncStorage.setItem('cart', JSON.stringify(cart_cart));
-        // console.warn(await AsyncStorage.getItem('cart'));
+        // console.warn("cart in increment:",JSON.parse(await AsyncStorage.getItem('cart')));
       }
       catch(e){
-        console.warn(e)
+        // console.warn(e)
       }
-    // console.warn(this.state.textValue);
+    // // console.warn(this.state.textValue);
 
   }
   toggleModal = () => {
@@ -233,10 +239,10 @@ class Food extends React.Component {
     return list
   }
   render() {
-    // console.warn("width ",width);
-    // console.warn("theme.SIZES.BASE",theme.SIZES.BASE);
-    // console.warn("cardWidth",cardWidth);
-    // console.warn(this.props.navigation.state.params.itempara)
+    // // console.warn("width ",width);
+    // // console.warn("theme.SIZES.BASE",theme.SIZES.BASE);
+    // // console.warn("cardWidth",cardWidth);
+    // // console.warn(this.props.navigation.state.params.itempara)
 
     // const it=articles[0]
     const rev=[{
