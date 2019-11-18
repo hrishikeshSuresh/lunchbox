@@ -169,7 +169,16 @@ class Onboarding extends React.Component {
                       </Button>
                     </Block>
                     <Block middle>
+
+                      <Button color="primary" style={styles.createButton}
+                        onPress={() => this.nav(this)}>
+                        <Text bold size={14} color={argonTheme.COLORS.WHITE}>
+                          SIGN UP
+                        </Text>
+                      </Button>
+
                         <Text size={12}>{this.state.error}</Text>
+
                     </Block>
                   </KeyboardAvoidingView>
                 </Block>
