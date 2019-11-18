@@ -45,13 +45,18 @@ def addItemToMenu(establishment_name):
 @app.route('/api/v1/establishment/add_item', methods=['POST'])
 def additem():
 	user_type=request.cookies.get('user_type')
+	uid=request.cookies.get('uid')
+
 	if request.method!='POST' :
 		return jsonify(str({"error":"Method not allowed"})),405
+	if((not user_type ) or (not uid)):
+		return jsonify(str({"error":"bad request"})),400
+
 	if user_type=="Canteen" or user_type=="Caterer":
 		metadata_doc=db['metadata'].find_one({}) 
 		last_item_id=metadata_doc['last_item_id']
 		item_id="it"+ str(last_item_id+1)
-		uid=request.cookies.get('uid')
+		
 	
 		if user_type=="Caterer":
 			temp_doc=db['caterers'].find_one({"uid":uid})
@@ -75,14 +80,14 @@ def additem():
 
 @app.route('/api/v1/establishment/remove_item', methods=['DELETE'])
 def removeitem():
-	if request.method!='DELETE':
-		return jsonify(str({"error":"Method not allowed"})),405
 	uid=request.cookies.get('uid')
 	user_type=request.cookies.get('user_type')
-	print("\n \n \n ")
-	print(user_type=="Canteen")
-	print("\n \n \n ")
-	print(user_type=="Caterer")
+	if request.method!='DELETE':
+		return jsonify(str({"error":"Method not allowed"})),405
+	if((not user_type ) or (not uid)):
+		return jsonify(str({"error":"bad request"})),400
+
+	
 	item_id=request.json.get("item_id")
 	
 	temp_doc=db['menu'].find_one({"item_id":item_id})
@@ -99,6 +104,54 @@ def removeitem():
 		return jsonify(str({"success":"deleted"})),200
 	else:
 		return jsonify(str({"error":"Unauthorised to delete"})),401
+
+@app.route('/api/v1/establishment/update_item', methods=['POST'])
+def updateitem():
+	uid=request.cookies.get('uid')
+	user_type=request.cookies.get('user_type')
+	
+	if request.method!='POST':
+		return jsonify(str({"error":"Method not allowed"})),405
+	if((not user_type ) or (not uid)):
+		return jsonify(str({"error":"bad request"})),400
+
+	item_id=request.json.get("item_id")
+	item_name=request.json.get("item_name")
+	item_price=request.json.get("item_price")
+	currency=request.json.get("currency")
+	tags=request.json.get("tags")
+	img=request.json.get("img")
+
+	temp_doc=db['menu'].find_one({"item_id":item_id})
+	print("\n \n \n")
+	print(not temp_doc)
+	print("\n \n \n")
+	if not temp_doc:
+		return jsonify(str({"error":"item doesn't exist"})),404
+
+	eid=temp_doc['eid']
+	e_type=temp_doc['e_type']
+	
+	if e_type=="Canteen":
+		main_doc=db["canteens"].find_one({"can_id":eid})
+	elif e_type=="Caterer":
+		main_doc=db["caterers"].find_one({"cat_id":eid})
+
+	if uid==main_doc['uid'] and user_type==e_type:
+		if(item_name):
+			db['menu'].update_one({"item_id":item_id},{"$set":{"item_name":item_name}})
+		if(item_price):
+			db['menu'].update_one({"item_id":item_id},{"$set":{"item_price":item_price}})
+		if(currency):
+			db['menu'].update_one({"item_id":item_id},{"$set":{"currency":currency}})
+		if(tags):
+			db['menu'].update_one({"item_id":item_id},{"$set":{"tags":tags}})
+		if(img):
+			db['menu'].update_one({"item_id":item_id},{"$set":{"img":img}})
+		
+		return jsonify(str({"success":"updated"})),201
+	else:
+		return jsonify(str({"error":"Unauthorised"})),401
 
 
 
