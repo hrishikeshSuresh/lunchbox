@@ -17,7 +17,7 @@ class Home extends React.Component {
         style={{ paddingVertical: 10 }}
       />*/
     return (
-      <Text>Caterer View</Text>
+      <Text>View</Text>
     )
   }
 

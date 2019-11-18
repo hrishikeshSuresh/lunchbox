@@ -1,253 +1,156 @@
-import React from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Image,
-  TouchableWithoutFeedback,
-  ImageBackground,
-  Dimensions
-} from "react-native";
-//galio
-import { Block, Text, theme } from "galio-framework";
-//argon
-import { articles, Images, argonTheme } from "../../constants/";
-import { Card } from "../../components/";
+import React from 'react';
+import { StyleSheet, Dimensions, ScrollView ,TouchableOpacity} from 'react-native';
+import { Block, theme } from 'galio-framework';
 
-const { width } = Dimensions.get("screen");
+import { FoodCard } from '../extras';
 
-const thumbMeasure = (width - 48 - 32) / 3;
-const cardWidth = width - theme.SIZES.BASE * 2;
-const categories = [
-  {
-    title: "Music Album",
-    description:
-      "Rock music is a genre of popular music. It developed during and after the 1960s in the United Kingdom.",
-    image:
-      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=840&q=80",
-    price: "$125"
-  },
-  {
-    title: "Events",
-    description:
-      "Rock music is a genre of popular music. It developed during and after the 1960s in the United Kingdom.",
-    image:
-      "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=840&q=80",
-    price: "$35"
-  }
-];
-
+const { width } = Dimensions.get('screen');
+// var itemlist=[]
 class Articles extends React.Component {
-  renderProduct = (item, index) => {
-    const { navigation } = this.props;
+  helper(){
+    var obj=this
+    var itemlist=[]
+    if(withflask){
+    const url = server_ip+'/api/v1/menu';
 
-    return (
-      <TouchableWithoutFeedback
-        style={{ zIndex: 3 }}
-        key={`product-${item.title}`}
-        onPress={() => navigation.navigate("Pro", { product: item })}
-      >
-        <Block center style={styles.productItem}>
-          <Image
-            resizeMode="cover"
-            style={styles.productImage}
-            source={{ uri: item.image }}
-          />
-          <Block center style={{ paddingHorizontal: theme.SIZES.BASE }}>
-            <Text
-              center
-              size={16}
-              color={theme.COLORS.MUTED}
-              style={styles.productPrice}
-            >
-              {item.price}
-            </Text>
-            <Text center size={34}>
-              {item.title}
-            </Text>
-            <Text
-              center
-              size={16}
-              color={theme.COLORS.MUTED}
-              style={styles.productDescription}
-            >
-              {item.description}
-            </Text>
-          </Block>
+      try{
+      response=fetch(url, {
+          method: 'GET', 
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => {
+          if(response.status==200){
+            // console.warn(JSON.parse(response))
+            response.json().then((res)=>{
+              var myObject = eval('(' + res + ')');
+              for (let i=0;i <myObject.length;i++){
+                  console.log(obj.get_item(myObject[i]))
+                  itemlist.push(obj.get_item(myObject[i]))
+
+                }
+                obj.setState({itemlist:itemlist})
+            });
+          }
+          else{
+            // this.setState({error : "Oops! Something isn't right"})
+          }
+
+        })
+      } catch (error) {
+        // console.warn('Error:', error);
+      }
+    }
+  }
+  get_item(item_id){
+    return {
+        "item_id": "Item ID",
+        "item_name":"<Item Name>",
+        "eid":"<Establishment ID>",
+        "e_name":"<Establishment Name>",
+        "e_type":"Canteen",
+        "item_price":10,
+        "currency":"INR",
+        "img":"img",
+        "rating":5
+        }
+    const url2 = server_ip+'/api/v1/item/'+item_id;
+    var item={}
+    try{
+      response2=fetch(url2, {
+          method: 'GET', 
+          credentials: 'include',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response2) => {
+          if(response2.status==200){
+            response2.json().then((res2)=>{
+              item = eval('(' + res2 + ')');
+              return item
+            });
+          }
+          else{
+            this.setState({error : "Oops! Something isn't right"})
+          }
+          })
+          
+
+        }
+        catch (error) {
+          // console.warn('Error:', error);
+        }
+    return item
+  }
+  constructor(props){
+    super(props);
+    this.state={itemlist:[]}
+    this.helper()
+  }
+  
+  renderhelper=()=>{
+    var blockfin= []
+    let i=0
+    while(i<this.state.itemlist.length){
+      var block=[]
+      block.push(
+        <FoodCard item={this.state.itemlist[i]} cardtype="food" qty={0}  key={1} style={{ marginRight: theme.SIZES.BASE }} />
+        )
+      i++
+      if(i<this.state.itemlist.length){
+        block.push(
+        <FoodCard item={this.state.itemlist[i]}  cardtype="food" qty={0}  key={2}/>
+        )
+      }
+      blockfin.push(
+        <Block  flex row key={i}>
+          {block}
         </Block>
-      </TouchableWithoutFeedback>
-    );
-  };
-
-  renderCards = () => {
-    return (
-      <Block flex style={styles.group}>
-        <Text bold size={16} style={styles.title}>
-          Cards
-        </Text>
+      )
+      i++
+    }
+    // console.warn("helper",block)
+    return blockfin
+  }
+  
+  renderArticles = () => {
+      return (
+        <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.articles}>
         <Block flex>
-          <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-            <Card item={articles[0]} horizontal />
-            <Block flex row>
-              <Card
-                item={articles[1]}
-                style={{ marginRight: theme.SIZES.BASE }}
-              />
-              <Card item={articles[2]} />
-            </Block>
-            <Card item={articles[4]} full />
-            <Block flex card shadow style={styles.category}>
-              <ImageBackground
-                source={{ uri: Images.Products["View article"] }}
-                style={[
-                  styles.imageBlock,
-                  { width: width - theme.SIZES.BASE * 2, height: 252 }
-                ]}
-                imageStyle={{
-                  width: width - theme.SIZES.BASE * 2,
-                  height: 252
-                }}
-              >
-                <Block style={styles.categoryTitle}>
-                  <Text size={18} bold color={theme.COLORS.WHITE}>
-                    View article
-                  </Text>
-                </Block>
-              </ImageBackground>
-            </Block>
-          </Block>
-          <Block flex style={{ marginTop: theme.SIZES.BASE / 2 }}>
-            <ScrollView
-              horizontal={true}
-              pagingEnabled={true}
-              decelerationRate={0}
-              scrollEventThrottle={16}
-              snapToAlignment="center"
-              showsHorizontalScrollIndicator={false}
-              snapToInterval={cardWidth + theme.SIZES.BASE * 0.375}
-              contentContainerStyle={{
-                paddingHorizontal: theme.SIZES.BASE / 2
-              }}
-            >
-              {categories &&
-                categories.map((item, index) =>
-                  this.renderProduct(item, index)
-                )}
-            </ScrollView>
-          </Block>
+        {this.renderhelper()}
         </Block>
-      </Block>
-    );
-  };
+      </ScrollView>
+      )
 
-  renderAlbum = () => {
-    const { navigation } = this.props;
-
-    return (
-      <Block
-        flex
-        style={[styles.group, { paddingBottom: theme.SIZES.BASE * 5 }]}
-      >
-        <Text bold size={16} style={styles.title}>
-          Album
-        </Text>
-        <Block style={{ marginHorizontal: theme.SIZES.BASE * 2 }}>
-          <Block flex right>
-            <Text
-              size={12}
-              color={theme.COLORS.PRIMARY}
-              onPress={() => navigation.navigate("Home")}
-            >
-              View All
-            </Text>
-          </Block>
-          <Block
-            row
-            space="between"
-            style={{ marginTop: theme.SIZES.BASE, flexWrap: "wrap" }}
-          >
-            {Images.Viewed.map((img, index) => (
-              <Block key={`viewed-${img}`} style={styles.shadow}>
-                <Image
-                  resizeMode="cover"
-                  source={{ uri: img }}
-                  style={styles.albumThumb}
-                />
-              </Block>
-            ))}
-          </Block>
-        </Block>
-      </Block>
-    );
-  };
+  }
 
   render() {
     return (
-      <Block flex center>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-        >
-          {this.renderCards()}
-          {this.renderAlbum()}
-        </ScrollView>
+      <Block flex center style={styles.home}>
+
+        
+        {this.renderArticles()}
       </Block>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  title: {
-    paddingBottom: theme.SIZES.BASE,
-    paddingHorizontal: theme.SIZES.BASE * 2,
-    marginTop: 22,
-    color: argonTheme.COLORS.HEADER
+  home: {
+    width: width,    
   },
-  group: {
-    paddingTop: theme.SIZES.BASE
+  articles: {
+    width: width - theme.SIZES.BASE * 2,
+    paddingVertical: theme.SIZES.BASE,
   },
-  albumThumb: {
-    borderRadius: 4,
-    marginVertical: 4,
-    alignSelf: "center",
-    width: thumbMeasure,
-    height: thumbMeasure
-  },
-  category: {
-    backgroundColor: theme.COLORS.WHITE,
-    marginVertical: theme.SIZES.BASE / 2,
-    borderWidth: 0
-  },
-  categoryTitle: {
-    height: "100%",
-    paddingHorizontal: theme.SIZES.BASE,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  imageBlock: {
-    overflow: "hidden",
-    borderRadius: 4
-  },
-  productItem: {
-    width: cardWidth - theme.SIZES.BASE * 2,
-    marginHorizontal: theme.SIZES.BASE,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 7 },
-    shadowRadius: 10,
-    shadowOpacity: 0.2
-  },
-  productImage: {
-    width: cardWidth - theme.SIZES.BASE,
-    height: cardWidth - theme.SIZES.BASE,
-    borderRadius: 3
-  },
-  productPrice: {
-    paddingTop: theme.SIZES.BASE,
-    paddingBottom: theme.SIZES.BASE / 2
-  },
-  productDescription: {
-    paddingTop: theme.SIZES.BASE
-    // paddingBottom: theme.SIZES.BASE * 2,
-  }
+
+ 
 });
 
 export default Articles;
