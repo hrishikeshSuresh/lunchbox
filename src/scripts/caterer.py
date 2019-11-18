@@ -42,7 +42,32 @@ def addItemToMenu(establishment_name):
         print("item added to the menu")
         return jsonify("Added " + item_name + " priced at " + item_price), 200
 
-    
+@app.route('/api/v1/establishment/add_item', methods=['POST'])
+def additem():
+	user_type=request.cookies.get('user_type')
+	if request.method!='POST' :
+		return jsonify(str({"error":"Method not allowed"})),405
+	if user_type=="Canteen" or user_type=="Caterer":
+		item_id="it"+ str(db['menu'].find().count()+1)
+		uid=request.cookies.get('uid')
+	
+		if user_type=="Caterer":
+			temp_doc=db['caterers'].find_one({"uid":uid})
+			eid=temp_doc['cat_id']
+		if user_type=="Canteen":
+			temp_doc=db['canteens'].find_one({"uid":uid})
+			eid=temp_doc['can_id']
+		item_name=request.json.get("item_name")
+		item_price=request.json.get("item_price")
+		currency=request.json.get("currencyu")
+		tags=request.json.get("tags")
+		img=request.json.get("img")
+		result={"item_id":item_id,"eid":eid,"e_type":user_type,"item_name": item_name, "item_price": item_price, "currency": currency,"status":1,"tags":tags,"avg_rating":0,"img":img}
+		db['menu'].insert_one(result)
+		return jsonify(str({"success":"created","item_id":item_id})),201
+	else:
+		return jsonify(str({"error":"Method not allowed"})),405
+
     
     
     
