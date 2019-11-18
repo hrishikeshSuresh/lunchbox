@@ -93,7 +93,7 @@ class Food extends React.Component {
   }
   componentDidMount() {
     this._interval = setInterval(() => {
-      const url = server_ip+'/api/v1/order/status';
+      const url = server_ip+'/api/v1/order/status?order_id='+this.state.id;
       try{
         response=fetch(url, {
             method: 'GET', 

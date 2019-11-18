@@ -8,7 +8,7 @@ import caterer
 import customer
 import institution
 import login
-import delivery
+# import delivery
 
 def main():
     print("Lunchbox starting...")

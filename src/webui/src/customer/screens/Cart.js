@@ -156,7 +156,6 @@ class Cart extends React.Component {
         request_data["currency"]="INR"
         request_data["items"]={}
         request_data["amount"]=obj.state.total
-        // // console.warn("request ",request_data)
         var temp={}
         var actual=obj.state.items
         // console.log("cart:",actual)
@@ -167,13 +166,14 @@ class Cart extends React.Component {
           }
           else{
             // console.log("not there")
-            temp[actual[it].eid]=[]
+            temp[actual[it].eid]={}
           }
-          var element={}
-          element[actual[it].item_id]=actual[it].qty
-          temp[actual[it].eid].push(element)
+          var element=actual[it].item_id
+          temp[actual[it].eid][element]=actual[it].qty
         }
         request_data["items"]=temp
+        console.warn("request ",JSON.stringify(request_data))
+
         const url = server_ip+'/api/v1/place_order';
       try{
       response=fetch(url, {
@@ -199,6 +199,8 @@ class Cart extends React.Component {
           else{
             obj.toggleModal()
             console.warn("error")
+            obj.setState({items:[],total:0});
+            AsyncStorage.setItem('cart', JSON.stringify({}));
             this.setState({error : "Oops! Something isn't right"})
           }
           
