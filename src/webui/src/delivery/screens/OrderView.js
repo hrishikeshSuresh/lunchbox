@@ -31,22 +31,7 @@ class OrderView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            order_list: [
-                {
-                    name: "abc",
-                    order_id: "4524",
-                    src: "PES U",
-                    dest: "MG ROAD",
-                    item_price: "5424"
-                },
-                {
-                    name: "abc",
-                    order_id: "4524",
-                    src: "PES U",
-                    dest: "MG ROAD",
-                    item_price: "5424"
-                }
-            ],
+            order_list: [],
             search: "Filter By"
         };
         /* API will called here
@@ -167,7 +152,7 @@ class OrderView extends React.Component {
         const order_id = this.props.navigation.state.params.item.order_id;
         const src = this.props.navigation.state.params.item.src;
         const dest = this.props.navigation.state.params.item.dest;
-        const item_price = this.props.navigation.state.params.item.item_price;
+        const amount = this.props.navigation.state.params.item.amount;
         const order_status = 1;
         return (
             <Block flex center style={styles.home}>
@@ -183,7 +168,7 @@ class OrderView extends React.Component {
                             Destination : {dest}
                         </Text>
                         <Text style={styles.boldText}>
-                            Item Price : {item_price}
+                            Item Price : {amount}
                         </Text>
                     </View>
                     <TouchableOpacity style={styles.optionsButton} onPress={() => console.warn("order accepted") }>
@@ -191,12 +176,12 @@ class OrderView extends React.Component {
                             ACCEPT ORDER
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.startNavigation(src.lat, src.lon)}>
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.startNavigation(src[0], src[1])}>
                         <Text style={styles.normalText}>
                             GO TO SOURCE
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.startNavigation(dest.lat, dest.lon)}>
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.startNavigation(dest[0], dest[1])}>
                         <Text style={styles.normalText}>
                             GO TO DESTINATION
                         </Text>

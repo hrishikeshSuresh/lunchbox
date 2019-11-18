@@ -40,7 +40,6 @@ class Home extends React.Component {
             );
             i++;
         }
-        console.warn("helper", blockfin);
         return blockfin;
     }
 
@@ -68,7 +67,7 @@ class Home extends React.Component {
         var name = "hrishi";
         var obj = this;
         if (withflask) {
-            const url = server_ip + '/api/v1/' + name + '/previous_deliveries';
+            const url = server_ip + '/api/v1/establishment/complete_orders';
 
             try {
                 response = fetch(url, {
@@ -80,9 +79,9 @@ class Home extends React.Component {
                 })
                 .then((response) => {
                     if (response.status == 200) {
-                        console.warn(JSON.parse(response));
                         response.json().then((res) => {
                             var myObject = eval('(' + res + ')');
+                            console.log(myObject);
                             for (let i = 0; i < myObject.length; i++) {
                                 order_list.push({
                                     name: myObject[i]["name"],
@@ -91,7 +90,6 @@ class Home extends React.Component {
                                     dest: myObject[i]["destination"],
                                     item_price: myObject[i]["item_price"]
                                 });
-                                console.warn(String(myObject[i]["_id"]));
                             }
                         })
                         obj.setState({ order_list: order_list });
@@ -103,36 +101,20 @@ class Home extends React.Component {
                 });
             }
             catch (error) {
-                console.warn('Error:', error);
+                console.log('Error:' + error.message);
             }
         }
-    return itemlist
+        return order_list;
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            order_list: [
-                {
-                    name: "abc",
-                    order_id: "4524",
-                    src: "PES U",
-                    dest: "MG ROAD",
-                    item_price: "5424"
-                },
-                {
-                    name: "abc",
-                    order_id: "4524",
-                    src: "PES U",
-                    dest: "MG ROAD",
-                    item_price: "5424"
-                }
-            ],
+            order_list: [],
             search: "Filter By"
         };
-        /* API will called here
-         */
-        //this.viewPreviousOrders();
+        
+        this.viewPreviousOrders();
     }
 
     /* This will be handling the UI component rendering
