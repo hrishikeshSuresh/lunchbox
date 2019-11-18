@@ -201,11 +201,7 @@ def toggleitem():
 		return jsonify(str({"error":"bad request"})),400
 
 	item_id=request.json.get("item_id")
-	item_name=request.json.get("item_name")
-	item_price=request.json.get("item_price")
-	currency=request.json.get("currency")
-	tags=request.json.get("tags")
-	img=request.json.get("img")
+	
 
 	temp_doc=db['menu'].find_one({"item_id":item_id})
 	print("\n \n \n")
@@ -236,6 +232,25 @@ def toggleitem():
 	else:
 		return jsonify(str({"error":"Unauthorised"})),401
 
+@app.route('/api/v1/order/status', methods=['GET'])
+def vieworderstatus():
+	uid=request.cookies.get('uid')
+	user_type=request.cookies.get('user_type')
+	order_id=request.args.get("order_id")
+	if request.method!='GET':
+		return jsonify(str({"error":"Method not allowed"})),405
+	if((not user_type ) or (not uid)):
+		return jsonify(str({"error":"bad request"})),400
+
+	
+	temp_doc=db['orders'].find_one({"order_id":order_id})
+	print("\n \n \n")
+	print(not temp_doc)
+	print("\n \n \n")
+	if not temp_doc:
+		return jsonify(str({"error":"order doesn't exist"})),404
+
+	return jsonify(str({"status":temp_doc['status']})),200
 
 #----------------------------------------------------------------------------------------------------    
     
