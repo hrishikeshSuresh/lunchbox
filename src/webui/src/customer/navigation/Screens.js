@@ -101,15 +101,15 @@ const StatisticsStack = createStackNavigator(
         )
       })
     },
-     Order: {
-      screen: Order,
-      navigationOptions: ({ navigation }) => ({
-        header: (
-          <Header title="Order Details" navigation={navigation} />
-        )
-      })
-    }
-    
+     // Order: {
+    //   screen: Order,
+    //   navigationOptions: ({ navigation }) => ({
+    //     header: (
+    //       <Header title="Order Details" navigation={navigation} />
+    //     )
+    //   })
+    // }
+    // ,
   },
   {
     cardStyle: { backgroundColor: "#FFFFFF" },
@@ -144,15 +144,15 @@ const HomeStack = createStackNavigator(
       })
     }
     ,
-    // Order: {
-    //   screen: Order,
-    //   navigationOptions: ({ navigation }) => ({
-    //     header: (
-    //       <Header title="Order Details" navigation={navigation} />
-    //     )
-    //   })
-    // }
-    // ,
+    Order: {
+      screen: Order,
+      navigationOptions: ({ navigation }) => ({
+        header: (
+          <Header title="Order Details" navigation={navigation} />
+        )
+      })
+    }
+    ,
     Food: {
       screen: Food,
       navigationOptions: ({ navigation }) => ({
