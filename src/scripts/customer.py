@@ -104,6 +104,7 @@ def listmenuitems():
     canteens=[]
     caterers=[]
     item_list=[]
+    temp_dict={}
     temp_can = db.users.find({"iid":iid,"account_type":"Canteen"})
     for can in temp_can:
         x = db.canteens.find_one({"uid":can['uid']})
@@ -113,12 +114,35 @@ def listmenuitems():
     for canteen in canteens:
         temp_items = db.menu.find({"eid":canteen})
         for temp_item in temp_items:
-            item_list.append(temp_item['item_id'])
+            temp_dict={}
+            temp_dict["item_id"] = temp_item["item_id"]
+            temp_dict["item_name"] = temp_item["item_name"]
+            temp_dict["eid"] = temp_item["eid"]
+            temp_dict["e_type"] = temp_item["e_type"]
+            temp_dict["e_name"] = get_est_name_from_item_id(temp_item["item_id"])
+            temp_dict["item_price"] = temp_item["item_price"]
+            temp_dict["currency"] = temp_item["currency"]
+            temp_dict["status"] = temp_item["status"]
+            temp_dict["avg_rating"] = temp_item["avg_rating"]
+            temp_dict["img"] = temp_item["img"]
+
+            item_list.append(temp_dict)
 
     for caterer in caterers:
         temp_items = db.menu.find({"eid":caterer})
         for temp_item in temp_items:
-            item_list.append(temp_item['item_id'])
+            temp_dict={}
+            temp_dict["item_id"] = temp_item["item_id"]
+            temp_dict["item_name"] = temp_item["item_name"]
+            temp_dict["eid"] = temp_item["eid"]
+            temp_dict["e_type"] = temp_item["e_type"]
+            temp_dict["e_name"] = get_est_name_from_item_id(temp_item["item_id"])
+            temp_dict["item_price"] = temp_item["item_price"]
+            temp_dict["currency"] = temp_item["currency"]
+            temp_dict["status"] = temp_item["status"]
+            temp_dict["avg_rating"] = temp_item["avg_rating"]
+            temp_dict["img"] = temp_item["img"]
+            item_list.append(temp_dict)
 
     random.shuffle(item_list)
 
@@ -179,6 +203,7 @@ def filtermenuitems(tag):
     canteens=[]
     caterers=[]
     item_list=[]
+    temp_dict={}
     temp_can = db.users.find({"iid":iid,"account_type":"Canteen"})
     for can in temp_can:
         x = db.canteens.find_one({"uid":can['uid']})
@@ -189,13 +214,37 @@ def filtermenuitems(tag):
         temp_items = db.menu.find({"eid":canteen})
         for temp_item in temp_items:
             if tag in temp_item['tags']:
-                item_list.append(temp_item['item_id'])
+                temp_dict={}
+                temp_dict["item_id"] = temp_item["item_id"]
+                temp_dict["item_name"] = temp_item["item_name"]
+                temp_dict["eid"] = temp_item["eid"]
+                temp_dict["e_type"] = temp_item["e_type"]
+                temp_dict["e_name"] = get_est_name_from_item_id(temp_item["item_id"])
+                temp_dict["item_price"] = temp_item["item_price"]
+                temp_dict["currency"] = temp_item["currency"]
+                temp_dict["status"] = temp_item["status"]
+                temp_dict["avg_rating"] = temp_item["avg_rating"]
+                temp_dict["img"] = temp_item["img"]
+
+                item_list.append(temp_dict)
 
     for caterer in caterers:
         temp_items = db.menu.find({"eid":caterer})
         for temp_item in temp_items:
             if tag in temp_item['tags']:
-                item_list.append(temp_item['item_id'])
+                temp_dict={}
+                temp_dict["item_id"] = temp_item["item_id"]
+                temp_dict["item_name"] = temp_item["item_name"]
+                temp_dict["eid"] = temp_item["eid"]
+                temp_dict["e_type"] = temp_item["e_type"]
+                temp_dict["e_name"] = get_est_name_from_item_id(temp_item["item_id"])
+                temp_dict["item_price"] = temp_item["item_price"]
+                temp_dict["currency"] = temp_item["currency"]
+                temp_dict["status"] = temp_item["status"]
+                temp_dict["avg_rating"] = temp_item["avg_rating"]
+                temp_dict["img"] = temp_item["img"]
+
+                item_list.append(temp_dict)
 
     random.shuffle(item_list)
 
@@ -229,14 +278,38 @@ def searchforfood():
         for temp_item in temp_items:
             est_name = get_est_name_from_item_id(temp_item['item_id'])
             if temp_item['item_name'].lower().find(search.lower()) != -1 or est_name.lower().find(search.lower()) != -1:
-                item_list.append(temp_item['item_id'])
+                temp_dict={}
+                temp_dict["item_id"] = temp_item["item_id"]
+                temp_dict["item_name"] = temp_item["item_name"]
+                temp_dict["eid"] = temp_item["eid"]
+                temp_dict["e_type"] = temp_item["e_type"]
+                temp_dict["e_name"] = get_est_name_from_item_id(temp_item["item_id"])
+                temp_dict["item_price"] = temp_item["item_price"]
+                temp_dict["currency"] = temp_item["currency"]
+                temp_dict["status"] = temp_item["status"]
+                temp_dict["avg_rating"] = temp_item["avg_rating"]
+                temp_dict["img"] = temp_item["img"]
+
+                item_list.append(temp_dict)
 
     for caterer in caterers:
         temp_items = db.menu.find({"eid":caterer})
         for temp_item in temp_items:
             est_name = get_est_name_from_item_id(temp_item['item_id'])
             if temp_item['item_name'].lower().find(search.lower()) != -1 or est_name.lower().find(search.lower()) != -1:
-                item_list.append(temp_item['item_id'])
+                temp_dict={}
+                temp_dict["item_id"] = temp_item["item_id"]
+                temp_dict["item_name"] = temp_item["item_name"]
+                temp_dict["eid"] = temp_item["eid"]
+                temp_dict["e_type"] = temp_item["e_type"]
+                temp_dict["e_name"] = get_est_name_from_item_id(temp_item["item_id"])
+                temp_dict["item_price"] = temp_item["item_price"]
+                temp_dict["currency"] = temp_item["currency"]
+                temp_dict["status"] = temp_item["status"]
+                temp_dict["avg_rating"] = temp_item["avg_rating"]
+                temp_dict["img"] = temp_item["img"]
+
+                item_list.append(temp_dict)
 
     random.shuffle(item_list)
 
