@@ -60,7 +60,7 @@ def customer_place_order():
             temp_order["token"] = random.randint(100000,999999)
         elif temp_order["e_type"] == 'Caterer':
             temp_order["did"] = ''
-        print("\n\n\n\n",temp_order,"\n\n\n\n")
+        
         db.orders.insert_one(temp_order)
         
         #Update metadata
