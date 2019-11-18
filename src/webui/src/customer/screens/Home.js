@@ -85,6 +85,7 @@ class Home extends React.Component {
               //         "status":1
               //         }]
               // obj.setState({itemlist:m})
+              // console.log(myObject)
               obj.setState({itemlist:myObject})
 
                 // console.warn("list",obj.state.itemlist)
@@ -147,7 +148,7 @@ class Home extends React.Component {
   search_helper(){
     var itemlist=[]
     var obj=this
-    const url = server_ip+'/api/v1/search_food?item_name='+obj.state.search;
+    const url = server_ip+'/api/v1/search_food?search='+obj.state.search;
     try{
       response=fetch(url, {
           method: 'GET', 
@@ -169,20 +170,20 @@ class Home extends React.Component {
               //     // itemlist.push(obj.get_item(obj,myObject[i]))
 
               //   }
-              var m=[{
-                "item_id": "Item ID",
-                "item_name":"<Item Name>",
-                "eid":"<Establishment ID>",
-                "e_name":"<Establishment Name>",
-                "e_type":"Canteen",
-                "item_price":10,
-                "currency":"INR",
-                "img":"img",
-                "rating":5,
-                "status":1
-                }]
-                obj.setState({itemlist:m})
-                console.warn("list",obj.state.itemlist)
+              // var m=[{
+              //   "item_id": "Item ID",
+              //   "item_name":"<Item Name>",
+              //   "eid":"<Establishment ID>",
+              //   "e_name":"<Establishment Name>",
+              //   "e_type":"Canteen",
+              //   "item_price":10,
+              //   "currency":"INR",
+              //   "img":"img",
+              //   "rating":5,
+              //   "status":1
+              //   }]
+              obj.setState({itemlist:myObject})
+                // console.warn("list",obj.state.itemlist)
             });
           }
           else{
@@ -224,20 +225,21 @@ class Home extends React.Component {
                 //     // itemlist.push(obj.get_item(obj,myObject[i]))
   
                 //   }
-                var m=[{
-                  "item_id": "Item ID",
-                  "item_name":"<Item Name>",
-                  "eid":"<Establishment ID>",
-                  "e_name":"<Establishment Name>",
-                  "e_type":"Canteen",
-                  "item_price":10,
-                  "currency":"INR",
-                  "img":"img",
-                  "rating":5,
-                  "status":1
-                  }]
-                  obj.setState({itemlist:m})
-                  console.warn("list",obj.state.itemlist)
+                // var m=[{
+                //   "item_id": "Item ID",
+                //   "item_name":"<Item Name>",
+                //   "eid":"<Establishment ID>",
+                //   "e_name":"<Establishment Name>",
+                //   "e_type":"Canteen",
+                //   "item_price":10,
+                //   "currency":"INR",
+                //   "img":"img",
+                //   "rating":5,
+                //   "status":1
+                //   }]
+                obj.setState({itemlist:myObject})
+                  
+                  // console.warn("list",obj.state.itemlist)
               });
             }
             else{

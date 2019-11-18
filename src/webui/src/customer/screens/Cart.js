@@ -247,7 +247,7 @@ class Cart extends React.Component {
               ]}
 
               formHorizontal={true}
-              initial="cash"
+              initial={this.state.pay_mode}
               
               animation={false}
               onPress={(value) => {this.setState({pay_mode:value})}}

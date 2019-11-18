@@ -31,7 +31,7 @@ class Food extends React.Component {
         this.setState({"user": value});
     })
     this.init()
-    // this.helper(this.props.navigation.state.params.itempara)
+    this.helper(this.props.navigation.state.params.itempara)
   }
   helper(item){
     console.log(item)
@@ -234,7 +234,7 @@ class Food extends React.Component {
     var a=this.state.reviewlist
     console.log(a)
     for( i in a){
-      list.push(<ReviewCard data={a[i]}></ReviewCard>)
+      list.push(<ReviewCard data={a[i]} key={i}></ReviewCard>)
     }
     return list
   }
