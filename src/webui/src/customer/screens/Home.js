@@ -38,53 +38,55 @@ class Home extends React.Component {
               //     // itemlist.push(obj.get_item(obj,myObject[i]))
 
               //   }
-              var m=[{
-                "item_id": "Item ID",
-                "item_name":"<Item Name>1",
-                "eid":"<Establishment ID>",
-                "e_name":"<Establishment Name>",
-                "e_type":"Canteen",
-                "item_price":10,
-                "currency":"INR",
-                "img":"img",
-                "rating":5,
-                "status":1
-                },{
-                  "item_id": "Item ID2",
-                  "item_name":"<Item Name>2",
-                  "eid":"<Establishment ID>",
-                  "e_name":"<Establishment Name>",
-                  "e_type":"Canteen",
-                  "item_price":10,
-                  "currency":"INR",
-                  "img":"img",
-                  "rating":5,
-                  "status":1
-                  },
-                  {
-                    "item_id": "Item ID3",
-                    "item_name":"<Item Name>3",
-                    "eid":"<Establishment ID>2",
-                    "e_name":"<Establishment Name>",
-                    "e_type":"Canteen",
-                    "item_price":10,
-                    "currency":"INR",
-                    "img":"img",
-                    "rating":5,
-                    "status":1
-                    },{
-                      "item_id": "Item ID4",
-                      "item_name":"<Item Name>4",
-                      "eid":"<Establishment ID>2",
-                      "e_name":"<Establishment Name>",
-                      "e_type":"Canteen",
-                      "item_price":10,
-                      "currency":"INR",
-                      "img":"img",
-                      "rating":5,
-                      "status":1
-                      }]
-                obj.setState({itemlist:m})
+              // var m=[{
+              //   "item_id": "Item ID",
+              //   "item_name":"<Item Name>1",
+              //   "eid":"<Establishment ID>",
+              //   "e_name":"<Establishment Name>",
+              //   "e_type":"Canteen",
+              //   "item_price":10,
+              //   "currency":"INR",
+              //   "img":"img",
+              //   "rating":5,
+              //   "status":1
+              //   },{
+              //     "item_id": "Item ID2",
+              //     "item_name":"<Item Name>2",
+              //     "eid":"<Establishment ID>",
+              //     "e_name":"<Establishment Name>",
+              //     "e_type":"Canteen",
+              //     "item_price":10,
+              //     "currency":"INR",
+              //     "img":"img",
+              //     "rating":5,
+              //     "status":1
+              //     },
+              //     {
+              //       "item_id": "Item ID3",
+              //       "item_name":"<Item Name>3",
+              //       "eid":"<Establishment ID>2",
+              //       "e_name":"<Establishment Name>",
+              //       "e_type":"Canteen",
+              //       "item_price":10,
+              //       "currency":"INR",
+              //       "img":"img",
+              //       "rating":5,
+              //       "status":1
+              //       },{
+              //         "item_id": "Item ID4",
+              //         "item_name":"<Item Name>4",
+              //         "eid":"<Establishment ID>2",
+              //         "e_name":"<Establishment Name>",
+              //         "e_type":"Canteen",
+              //         "item_price":10,
+              //         "currency":"INR",
+              //         "img":"img",
+              //         "rating":5,
+              //         "status":1
+              //         }]
+              // obj.setState({itemlist:m})
+              obj.setState({itemlist:myObject})
+
                 // console.warn("list",obj.state.itemlist)
             });
           }

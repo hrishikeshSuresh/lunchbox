@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 9476,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "packagerPid": 3331,
+  "expoServerNgrokUrl": "https://zx-rjm.satya2710.webui.exp.direct",
+  "packagerNgrokUrl": "https://packager.zx-rjm.satya2710.webui.exp.direct",
+  "ngrokPid": 3356,
   "webpackServerPort": null
 }
