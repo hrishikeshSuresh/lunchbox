@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d9467ae7-c2db-4211-8d34-084505c2ae3a" name="Default Changelist" comment="Adding login details for Caterer view &#10;kunal&#10;password">
+      <change afterPath="$PROJECT_DIR$/src/scripts/delivery.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/04/b9c648e5a62b5b69ef8ec900cc5aeb066ce2d8c08917af01152e6840668816f0399cc4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/04/b9c648e5a62b5b69ef8ec900cc5aeb4e4b37e36e664770ae6d28afc70cb5144f711e46" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/04/b9c648e5a62b5b69ef8ec900cc5aeba556ec30a93ee4d0500f0531738f538df9984adb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/04/b9c648e5a62b5b69ef8ec900cc5aebc6ad02c5a848cab93c3c929e53ab3541597dd140" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/12/bfe7eaa7c432b39316642a9845e2f84cbbeb0476e05112962cfa616f4d7d5fa8fcdc85" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/13/2cdc2637b502b76f235f6eca61f1da2117d7a1d09fe930ae0530ce1ef9a3cf9e80f410" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/13/2cdc2637b502b76f235f6eca61f1da39c787281b654f36d759b31f20eb7e9fe4790a55" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/13/2cdc2637b502b76f235f6eca61f1da45330cd13fc5460c082734c62a75de88f6ee1e2f" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/13/2cdc2637b502b76f235f6eca61f1daa7f1db55f9a5bc0ed04f435048640a89bca89c79" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/1c/c2a25fd810f33ec31f26fdce714082e816665807a927402002f43a6da3efa8d32d5e06" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/38/4ae28bca50db733845415c79c7d90325d6469b7e828da55e8fa4f4e01086eb602c0159" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/38/4ae28bca50db733845415c79c7d90366526c2ed681ecf3cbc0eb6a95257c71085c0c65" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/59/e710f88394e6ca433fd82ee2641b1a79ee8e1c2de0e1a3b37dcb5b44e87f75206239ec" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/59/e710f88394e6ca433fd82ee2641b1ac7ff9dff631ef30edb3e6e8022523493af42fb30" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/5c/57238785edb4253e7e54eeeda822c429ee8eb852b1592056f62a98598e0f2cd460f0a1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/be/f810bb4ece7dd28190425d84771e9261a1e1c8d38b3835b332578a11d067ae91a99b52" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/be/f810bb4ece7dd28190425d84771e92d7f12af69d896aeb2a4aeb0ef0ba90dd2ea6a723" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/c5/2f2770737d80669240b3c9aef4b3e7a40f5148fe59a3d21bf4e2290bbc9901ea1d52a8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/c5/2f2770737d80669240b3c9aef4b3e7ee63532adf823c769871b799da0e32cdb505152b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/da/69321a344f3b7add3d5c4ad418a3aefaf4ab341ed058e6c7af812032a1b0758a72a5b8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/ea/89b68f6e9df03bfa18fda190ecffbfc5311ea4a78a70cebe298046b8ee621b5ccb2e6f" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/metro-cache/fa/86672724ecf3dff908a18173ba44c92f20b816aa057d74fa3d88967f253f6cc8e2f559" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.editorconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.eslintignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.eslintrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.idea/markdown-navigator/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.idea/react-native-cookie.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/.npmignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/android/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/android/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/android/src/main/java/im/shimo/react/cookie/CookieManagerModule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/android/src/main/java/im/shimo/react/cookie/CookieManagerPackage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/cookie.android.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/cookie.ios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/ios/RNCookieManager.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/ios/RNCookieManager.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/ios/RNCookieManager.xcodeproj/project.pbxproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/node_modules/cookie/HISTORY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/node_modules/cookie/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/node_modules/cookie/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/node_modules/cookie/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/node_modules/cookie/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webui/node_modules/react-native-cookie/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/sample_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/sample_database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/caterer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/caterer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/customer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/customer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/institution.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/institution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webui/haste-map-metro-4-63fa9e737bc480b56effb98a2a2d5443-b578f3394333a87fbea5e57651a75a9d" beforeDir="false" afterPath="$PROJECT_DIR$/src/webui/haste-map-metro-4-63fa9e737bc480b56effb98a2a2d5443-b578f3394333a87fbea5e57651a75a9d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/webui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webui/src/Onboarding.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/webui/src/Onboarding.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webui/src/caterer/screens/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/webui/src/caterer/screens/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webui/src/customer/screens/Account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/webui/src/customer/screens/Account.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webui/src/customer/screens/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/webui/src/customer/screens/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webui/src/customer/screens/Order.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/webui/src/customer/screens/Order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webui/src/customer/screens/Statistics.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/webui/src/customer/screens/Statistics.js" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webui/src/customer/screens/Home.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-640">
+              <caret line="33" column="14" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webui/src/App.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="13">
+              <caret line="138" column="38" selection-start-line="138" selection-start-column="18" selection-end-line="138" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webui/src/customer/screens/Cart.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="440">
+              <caret line="92" column="3" selection-start-line="78" selection-start-column="2" selection-end-line="92" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webui/src/Onboarding.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1561">
+              <caret line="51" column="31" selection-start-line="51" selection-start-column="31" selection-end-line="51" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webui/src/customer/screens/Order.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="373">
+              <caret line="215" column="13" selection-start-line="215" selection-start-column="13" selection-end-line="215" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/screens/Home.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="247">
+              <caret line="91" column="36" lean-forward="true" selection-start-line="91" selection-start-column="36" selection-end-line="91" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/screens/Articles.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1019">
+              <caret line="85" column="7" selection-start-line="85" selection-start-column="7" selection-end-line="85" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/navigation/Screens.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webui/src/institution/screens/Home.js">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>profile</find>
+      <find>register</find>
+      <find>Customer</find>
+      <find>account</find>
+      <find>createsta</find>
+      <find>act</find>
+      <find>git</find>
+      <find>goog</find>
+      <find>connect</find>
+      <find>DrawerItems</find>
+      <find>nav</find>
+      <find>navigate</find>
+      <find>oncl</find>
+      <find>arti</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/webui/App.js" />
+        <option value="$PROJECT_DIR$/src/webui/src/institution/navigation/Screens.js" />
+        <option value="$PROJECT_DIR$/src/webui/src/institution/screens/Profile.js" />
+        <option value="$PROJECT_DIR$/src/webui/src/institution/screens/Register.js" />
+        <option value="$PROJECT_DIR$/src/database/sample_database.py" />
+        <option value="$PROJECT_DIR$/src/webui/src/caterer/screens/Processed.js" />
+        <option value="$PROJECT_DIR$/src/webui/src/caterer/screens/Analytics.js" />
+        <option value="$PROJECT_DIR$/src/webui/src/caterer/screens/Orders.js" />
+        <option value="$PROJECT_DIR$/src/webui/src/caterer/navigation/Screens.js" />
+        <option value="$PROJECT_DIR$/src/webui/src/caterer/screens/Articles.js" />
+        <option value="$PROJECT_DIR$/src/webui/src/App.js" />
+        <option value="$PROJECT_DIR$/src/webui/src/Onboarding.js" />
+        <option value="$PROJECT_DIR$/src/webui/src/caterer/screens/Home.js" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/lunchbox.iml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/.idea/codeStyles/Project.xml" />
+        <option value="$PROJECT_DIR$/.idea/lunchbox.iml" />
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1088" />
+    <option name="height" value="808" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="lunchbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="~/StudioProjects/lunchbox" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="~/StudioProjects/lunchbox" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="~/StudioProjects/lunchbox" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="webui" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="~/StudioProjects/lunchbox" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="webui" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="~/StudioProjects/lunchbox" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="webui" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="institution" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="~/StudioProjects/lunchbox" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="webui" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="institution" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="navigation" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="~/StudioProjects/lunchbox" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="webui" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="institution" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="screens" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="lunchbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lunchbox" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lunchbox" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lunchbox" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="webui" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lunchbox" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="webui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lunchbox" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="webui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="caterer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lunchbox" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="webui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="caterer" type="462c0819:PsiDirectoryNode" />
+              <item name="navigation" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lunchbox" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="webui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="caterer" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lunchbox" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="webui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lunchbox" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="webui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="constants" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lunchbox" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="webui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="customer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lunchbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lunchbox" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="webui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="customer" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d9467ae7-c2db-4211-8d34-084505c2ae3a" name="Default Changelist" comment="" />
+      <created>1573290622391</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1573290622391</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1088" height="808" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Captures" order="0" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.24367385" />
+      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Designer" order="4" />
+      <window_info id="Resources Explorer" order="5" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Favorites" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="0" weight="0.9504132" />
+      <window_info anchor="bottom" id="TODO" order="1" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="2" sideWeight="0.49586016" visible="true" weight="0.3282123" />
+      <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.50413984" side_tool="true" weight="0.38128492" />
+      <window_info anchor="bottom" id="Messages" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="0" />
+      <window_info anchor="right" id="Theme Preview" order="1" />
+      <window_info anchor="right" id="Palette&#9;" order="2" />
+    </layout>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Adding login details for Caterer view &#10;kunal&#10;password" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding login details for Caterer view &#10;kunal&#10;password" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/webui/adb.0.log">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/components/index.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/components/DrawerItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="12" lean-forward="true" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/institution/screens/Profile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="49" column="73" selection-start-line="49" selection-start-column="73" selection-end-line="49" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/institution/navigation/Screens.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="102" column="16" selection-start-line="102" selection-start-column="16" selection-end-line="102" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/institution/navigation/Menu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="38" selection-start-line="1" selection-start-column="35" selection-end-line="1" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/customer.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/login.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/customer/screens/Food.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1441" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/sample_database.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scripts/caterer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="12" column="35" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/customer/screens/Statistics.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="21" column="36" lean-forward="true" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/customer/screens/Elements.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/screens/Register.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="8" lean-forward="true" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/MainNavigation.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/screens/Orders.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="4" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="34" lean-forward="true" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/screens/Profile.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/screens/Processed.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/screens/Pro.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/vendor/screens/Articles.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3353" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/sample_database.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="33" column="129" lean-forward="true" selection-start-line="33" selection-start-column="129" selection-end-line="33" selection-end-column="129" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/screens/Analytics.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="8" column="22" lean-forward="true" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/screens/Elements.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-453" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/components/Tabs.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/components/Button.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/customer/extras/FoodCard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1216" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/components/Card.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitattributes">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/constants/articles.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/customer/screens/Articles.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1898" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13">
+          <caret line="138" column="38" selection-start-line="138" selection-start-column="18" selection-end-line="138" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/institution/screens/Articles.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/institution/screens/Register.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="38" column="61" selection-start-line="38" selection-start-column="61" selection-end-line="38" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/institution/screens/Pro.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-304" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/institution/screens/Home.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/customer/screens/Order.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="215" column="13" selection-start-line="215" selection-start-column="13" selection-end-line="215" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/customer/screens/Cart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="92" column="3" selection-start-line="78" selection-start-column="2" selection-end-line="92" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/screens/Articles.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1019">
+          <caret line="85" column="7" selection-start-line="85" selection-start-column="7" selection-end-line="85" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/navigation/Screens.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/Onboarding.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1561">
+          <caret line="51" column="31" selection-start-line="51" selection-start-column="31" selection-end-line="51" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/customer/screens/Home.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-640">
+          <caret line="33" column="14" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webui/src/caterer/screens/Home.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="91" column="36" lean-forward="true" selection-start-line="91" selection-start-column="36" selection-end-line="91" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
