@@ -3,6 +3,43 @@ from db_connector import *
 from flask_app import *
 from common import *
 
+
+
+
+#Signup
+@app.route('/api/v1/caterer/signup', methods = [ 'POST' ]   )
+def signup_caterer():
+    if request.method == 'POST':
+        cat_name = request.json.get('cat_name')
+        username = request.json.get('username')
+        password = request.json.get('password').upper()
+        owner = request.json.get('owner')
+        location = request.json.get('location')
+
+        #print(json.loads(dumps(db['metadata'].find())))
+        metadata = db['metadata'].find_one()
+        last_cat_id = metadata['last_cat_id']
+        last_uid = metadata['last_uid']
+        cat_id = last_cat_id + 1
+        uid = last_uid + 1
+        db['metadata'].update( { 'last_cat_id': last_cat_id, 'last_uid':last_uid}, { "$set": { 'last_cat_id':cat_id, 'last_uid':uid }} )
+        cat_id = 'cat' + str(cat_id)
+        uid = 'u' + str(uid)
+        #print(password)
+        cat_collection = db['caterers']
+        u_collection = db['users']
+        cat_collection.insert_one({ "cat_id": cat_id, "uid": uid, "establishment_name": cat_name, "owner": owner, "location": location })
+        u_collection.insert_one({ "uid": uid, "username": username, "password": password, "account_type": "Caterer" })
+        resp = make_response(jsonify({"success": "created"}), 201)
+        resp.set_cookie('uid',value=uid, max_age=60*60*24*365*2)  
+        resp.set_cookie('cat_id',value=cat_id, max_age=60*60*24*365*2)  
+        resp.set_cookie('user_type',value="Caterer",max_age=60*60*24*365*2)
+        return resp
+
+
+
+
+
 # list menu for a given establishment
 @app.route('/<establishment_name>/menu', methods = ['GET'])
 def getMenu(establishment_name):
