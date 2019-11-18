@@ -26,7 +26,7 @@ def signup():
         u_collection = db['users']
         i_collection.insert_one({ "iid": iid, "uid": uid, "i_name": i_name, "caterers": {} })
         u_collection.insert_one({ "uid": uid, "username": username, "password": password, "account_type": "Institution" , "iid":iid, "name" :i_name })
-        resp = make_response(jsonify({"Success": "Sign in successful"}), 200)
+        resp = make_response(jsonify({"success": "created"}), 201)
         resp.set_cookie('uid',value=uid, max_age=60*60*24*365*2)  
         resp.set_cookie('iid',value=iid, max_age=60*60*24*365*2)  
         resp.set_cookie('user_type',value="Institution",max_age=60*60*24*365*2)

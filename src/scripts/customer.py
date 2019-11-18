@@ -11,6 +11,68 @@ import collections
 import operator
 
 
+
+#-----------------------------------------------------------------------------------------------------------
+#Customer View API - Place Order
+@app.route('/api/v1/place_order',methods=['POST'])
+def customer_place_order():
+    if (not request.cookies.get('uid')) or (not request.cookies.get('iid')) or ( not request.cookies.get('user_type')):
+        return jsonify(str({"error":"You need to login."})), 400
+
+    uid = request.cookies.get('uid')
+    iid = request.cookies.get('iid')
+    user_type = request.cookies.get('user_type')
+    r = request.json
+    
+    temp_order = {}
+    #update wallet
+    if r["payment_option"] == "wallet":
+        u_db = db.users.find_one({"uid":uid})
+        if r["amount"] > u_db["wallet"]:
+            return jsonify(str({"error":"Payment unsuccessful"})), 402
+        else:
+            db.users.update({"uid":uid},{"$set":{"wallet":u_db["wallet"]-r["amount"]}})
+    for eid in r['items']:
+        meta = db.metadata.find_one({})
+        temp_order={}
+        last_order_id = meta['last_order_id']
+        new_order_id = last_order_id+1
+        temp_order["order_id"] = 'o'+str(new_order_id)
+        temp_order["uid"] = uid
+        temp_order["eid"] = eid
+        if eid[2] == 'n':
+            temp_order["e_type"] = "Canteen"
+        elif eid[2] == 't':
+            temp_order["e_type"] = "Caterer"
+
+        temp_order["items"] = r["items"][eid]
+        temp_amount = 0
+        for item_id in r["items"][eid]:
+            i_db = db.menu.find_one({"item_id":item_id})
+            temp_amount = temp_amount + (i_db["item_price"] * r["items"][eid][item_id])
+        temp_order["amount"] = temp_amount
+        temp_order["currency"] = r["currency"]
+        temp_order["payment_option"] = r["payment_option"]
+        temp_order["location"] = r["location"]
+        temp_order["status"] = 1
+        temp_order["timestamp"] = time.time()
+        if temp_order["e_type"] == 'Canteen':
+            temp_order["token"] = random.randint(100000,999999)
+        elif temp_order["e_type"] == 'Caterer':
+            temp_order["did"] = ''
+
+        db.orders.insert_one(temp_order)
+        #Update metadata
+        db.metadata.update_one({},{"$set":{"last_order_id":new_order_id}})
+    return jsonify(str({"success":"created"})), 201
+
+
+
+
+
+
+    
+
 #-----------------------------------------------------------------------------------------------------------
 #Customer view API - Common - View User details
 @app.route('/api/v1/account_details',methods=['GET'])
