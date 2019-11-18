@@ -18,7 +18,7 @@ def login():
 
         if user_type == 'Canteen':
             temp = db['canteens']
-        elif user_type == 'Caterers':
+        elif user_type == 'Caterer':
             temp = db['caterers']
         elif user_type == 'Institution':
             temp = db['institutions']
