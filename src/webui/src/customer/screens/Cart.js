@@ -172,7 +172,7 @@ class Cart extends React.Component {
           temp[actual[it].eid][element]=actual[it].qty
         }
         request_data["items"]=temp
-        console.warn("request ",JSON.stringify(request_data))
+        // console.warn("request ",JSON.stringify(request_data))
 
         const url = server_ip+'/api/v1/place_order';
       try{
@@ -185,7 +185,7 @@ class Cart extends React.Component {
           }
         })
         .then((response) => {
-          if(response.status==200){
+          if(response.status==201){
             //if 200
             // obj.setState({items:[],total:0});
             // await AsyncStorage.setItem('cart', JSON.stringify({})); //IMPORTANT
@@ -196,12 +196,16 @@ class Cart extends React.Component {
             obj.props.navigation.navigate('Statistics')
             // response.json().then((res)=>console.warn(res));
           }
+          else if(response.status==402){
+            obj.toggleModal()
+            obj.setState({error : "Insufficient Balance"})
+          }
           else{
             obj.toggleModal()
-            console.warn("error")
-            obj.setState({items:[],total:0});
-            AsyncStorage.setItem('cart', JSON.stringify({}));
-            this.setState({error : "Oops! Something isn't right"})
+            // console.warn("error")
+            // obj.setState({items:[],total:0});
+            // AsyncStorage.setItem('cart', JSON.stringify({}));
+            obj.setState({error : "Oops! Something isn't right"})
           }
           
         })
@@ -260,13 +264,11 @@ class Cart extends React.Component {
               PLACE ORDER
             </Button>
           </Block>
-          {/* <Block center>
+          <Block center>
  
-        <Text style={styles.text}> Latitude = {this.state.latitude}</Text>
+        <Text style={styles.text}> {this.state.error}</Text>
  
-        <Text style={styles.text}> Longitude = {this.state.longitude}</Text>
- 
-      </Block> */}
+      </Block>
       <Modal isVisible={this.state.isModalVisible} animationType="fade">
                 <Button title="Hide modal" onPress={() => this.place_order(this)} color="success" style={styles.changepass}>Confirm Order</Button>
                 <Button title="Hide modal2" onPress={this.toggleModal} color="default">Go Back</Button>
