@@ -76,6 +76,7 @@ def add_view_review(item_id):
 
     reviews_db = db['reviews']
     reviews_db.insert_one({"uid":uid,"item_id":item_id,"rating":rating,"review":review})
+    update_avg_rating(item_id)
     return jsonify(str({"success":"created"})), 201
 
 #-----------------------------------------------------------------------------------------------------------
@@ -172,55 +173,87 @@ def get_item_by_id(item_id):
 @app.route('/api/v1/search_tag/<tag>', methods=['GET'])
 def filtermenuitems(tag):
     if request.method != 'GET':
-        return jsonify(str({error: "Method not allowed"})),405
-    menu_data = readMenuCollection()
-    count=0
-    pp.pprint(menu_data)
+        return jsonify(str({"error": "Method not allowed"})),405
     
-    item_list = list()
-    for document in menu_data:
-        if document['status']==1 and (tag in document['tags']):
-            count=count+1
-            menu_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img'], "rating":readRatingsForItem( document['item_name'])}
-            item_list.append(menu_item)
-    print("filter menu sent")
-    if count==0:
-        return jsonify(str({})),204
-    return jsonify(str(item_list)), 200
+    iid = request.cookies.get('iid')
+    canteens=[]
+    caterers=[]
+    item_list=[]
+    temp_can = db.users.find({"iid":iid,"account_type":"Canteen"})
+    for can in temp_can:
+        x = db.canteens.find_one({"uid":can['uid']})
+        canteens.append(x['can_id'])
+    temp_cat = db.institutions.find_one({"iid":iid})
+    caterers = temp_cat['caterers']
+    for canteen in canteens:
+        temp_items = db.menu.find({"eid":canteen})
+        for temp_item in temp_items:
+            if tag in temp_item['tags']:
+                item_list.append(temp_item['item_id'])
 
+    for caterer in caterers:
+        temp_items = db.menu.find({"eid":caterer})
+        for temp_item in temp_items:
+            if tag in temp_item['tags']:
+                item_list.append(temp_item['item_id'])
+
+    random.shuffle(item_list)
+
+    if len(item_list) == 0:
+        return jsonify(str({"success": "No Content"})),204
+    else:
+        return jsonify(str(item_list)), 200
+#-----------------------------------------------------------------------------------------------------------
 #search for a specific item by name or by name of the establishment
-@app.route('/api/v1/<searchstr>/search_food', methods=['GET'])
-def searchforfood(searchstr):
+@app.route('/api/v1/search_food', methods=['GET'])
+def searchforfood():
     if request.method != 'GET':
-        return jsonify(str({error: "Method not allowed"})),405
-    menu_data = readMenuCollection()
-    count=0
-    pp.pprint(menu_data)
-    searchstr=searchstr.lower()
-    item_list = list()
-    for document in menu_data:
-        item_flag=(document['item_name'].lower()).find(searchstr)
-        est_pat=(document['establishment_name'].lower()).find(searchstr)
-        
-        if (item_flag!=-1 or est_pat!=-1) and document['status']==1:
-            count=count+1
-            search_item = {"establishment_name":document['establishment_name'],"item_name": document['item_name'], "item_price": document['item_price'], "currency": document['currency'], "img": document['img'], "rating":readRatingsForItem( document['item_name'])}
-            item_list.append(search_item)
-            
-    print("menu sent")
-    if count==0:
-        return jsonify(str({})),204
-    return jsonify(str(item_list)), 200
+        return jsonify(str({"error": "Method not allowed"})),405
+    
+    if not request.args.get('search'):
+        return jsonify(str({"error": "Bad Request"})),400
+
+    search = request.args.get('search')
+    iid = request.cookies.get('iid')
+    canteens=[]
+    caterers=[]
+    item_list=[]
+    temp_can = db.users.find({"iid":iid,"account_type":"Canteen"})
+    for can in temp_can:
+        x = db.canteens.find_one({"uid":can['uid']})
+        canteens.append(x['can_id'])
+    temp_cat = db.institutions.find_one({"iid":iid})
+    caterers = temp_cat['caterers']
+    for canteen in canteens:
+        temp_items = db.menu.find({"eid":canteen})
+        for temp_item in temp_items:
+            est_name = get_est_name_from_item_id(temp_item['item_id'])
+            if temp_item['item_name'].lower().find(search.lower()) != -1 or est_name.lower().find(search.lower()) != -1:
+                item_list.append(temp_item['item_id'])
+
+    for caterer in caterers:
+        temp_items = db.menu.find({"eid":caterer})
+        for temp_item in temp_items:
+            est_name = get_est_name_from_item_id(temp_item['item_id'])
+            if temp_item['item_name'].lower().find(search.lower()) != -1 or est_name.lower().find(search.lower()) != -1:
+                item_list.append(temp_item['item_id'])
+
+    random.shuffle(item_list)
+
+    if len(item_list) == 0:
+        return jsonify(str({"success": "No Content"})),204
+    else:
+        return jsonify(str(item_list)), 200
+
+
+#-----------------------------------------------------------------------------------------------------------
 
 
 
 
 
 
-
-
-
-
+'''
 
 
 # list all available caterers
@@ -286,35 +319,33 @@ def getAllReviews(establishment_name):
         average_rating_json = { 'average_rating': average_rating }
         establishment_reviews.append(average_rating_json)
         return jsonify(str(establishment_reviews)), 200
-
-
+'''
+#-----------------------------------------------------------
+#Change Password
 @app.route('/api/v1/change_password', methods= ['POST'])
 def change_password():
     if request.method == 'POST':
         
         request_data={}
-        request_data["username"] = request.json.get("username")
         request_data["password"] = request.json.get("password").upper()
         request_data["new_password"] = request.json.get("new_password").upper()
         request_data["confirm_password"] = request.json.get("confirm_password").upper()
-        #if not request.cookies.get('username'):
-            #   return {},400
-        db_user = db['users'].find_one({"username":request_data['username']})
-        print("\n\n\n Fucked\n\n\n")
+        if not request.cookies.get('uid'):
+              return jsonify(str({"error":"Invalid inputs"})),400
+        db_user = db['users'].find_one({"uid":request.cookies.get('uid')})
+        
         print(db_user)
-        if (db_user['password'] == request_data['password'] and request_data['new_password'] == request_data['confirm_password']) and (request_data['password'] != request_data['new_password']) :
-            print("\n\n\n Fucked2\n\n\n")
-            db['users'].update_one({"username":request_data['username']},{"$set":{"password":request_data["new_password"]}})
-            print(' \n \n \n \n jadoskad \n')
+        if (db_user['password'].upper() == request_data['password'].upper() and request_data['new_password'] == request_data['confirm_password']) and (request_data['password'] != request_data['new_password']) :
+           
+            db['users'].update_one({"uid":request.cookies.get('uid')},{"$set":{"password":request_data["new_password"].upper()}})
             return jsonify(str({"success":"Password change successful"})), 201
         else:
-            return jsonify(str({"error":"Invalid credentials"}))
-
-
-
+            return jsonify(str({"error":"Invalid credentials"})), 400
 
     else:
         return jsonify({error:"Method not allowed"}), 405
+
+#-----------------------------------------------------------
 
 
 
@@ -328,17 +359,49 @@ def change_password():
 @app.route('/api/v1/get_rating', methods = ['GET'])
 def get_rating():
     if request.method == 'GET':
-        item = request.json.get('item')
-        rating = 0
-        count = 0 
-        for query in db['ratings'].find({"item": item  }):
-            rating = rating + query.json.get("rating")
-            count+=1
-        print("\n\n\n\n\n")
-        print(count)
-        print("\n\n\n\n\n") 
-        if count==0:
-            return jsonify({"rating": -1}),204
+        if not request.args.get('item'):
+            jsonify({"error":"Bad Request"}), 400
+
+        item_id = request.args.get('item')
+        item = db.menu.find_one({"item_id":item_id})
+
+        if not item:
+            return jsonify({"success":"No Content"}), 204
+
         else:
-            rating = rating / count
-            return jsonify ( { "rating": rating }), 200
+            return jsonify(str({"avg_rating":item['avg_rating']})), 200
+
+
+
+
+
+#----------------------
+#Helper functions
+#----------------------
+def update_avg_rating(item_id):
+    reviews = db.reviews.find({"item_id":item_id})
+    s = 0
+    count = 0
+    for review in reviews:
+        s=s+review['rating']
+        count=count+1
+
+    avg_rating = s/count
+    db.menu.update_one({"item_id":item_id},{"$set":{"avg_rating":avg_rating}})
+
+def get_est_name_from_item_id(item_id):
+    item = db.menu.find_one({"item_id":item_id})
+    if item['e_type'] == 'Canteen':
+        est = db.canteens.find_one({"can_id":item['eid']})
+    elif item['e_type'] == 'Caterer':
+        est = db.caterers.find_one({"cat_id":item['eid']})
+
+    return est['establishment_name']
+
+
+
+
+
+        
+
+
