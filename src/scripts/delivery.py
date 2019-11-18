@@ -30,3 +30,28 @@ def signup_delivery():
         resp.set_cookie('did',value=did, max_age=60*60*24*365*2)  
         resp.set_cookie('user_type',value="Delivery",max_age=60*60*24*365*2)
         return resp
+
+
+#Select order
+@app.route('/api/v1/delivery/select_order',methods=['POST'])
+def delivery_select_order():
+    if ( not request.cookies.get('uid')) or (not request.cookies.get('did')) or (not request.cookies.get('user_type')):
+        return jsonify(str({"error":"Unauthorized"})), 401
+    if not request.json.get('order_id'):
+        return jsonify(str({"error":"Bad Request"})), 400
+
+    order_id = request.json.get('order_id')
+    did = request.cookies.get('did')
+    order = db.orders.find_one({"order_id":order_id})
+    if order:
+        if order['did'] == '':
+            db.orders.update({"order_id":order_id},{"$set":{"did":did}})
+            return jsonify(str({"success":"selected"})), 200
+        else:
+            return jsonify(str({"error":"Bad Request"})), 400
+
+    else:
+        return jsonify(str({"error":"Order not found"})), 404
+
+
+
