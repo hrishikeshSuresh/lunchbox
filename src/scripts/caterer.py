@@ -279,7 +279,46 @@ def getordercountitem():
 
 	return jsonify(str({"count":count})),200
 
+@app.route('/api/v1/establishment/all_items', methods=['GET'])
+def getallitems_for_establishment():
+	uid=request.cookies.get('uid')
+	user_type=request.cookies.get('user_type')
 
+	if request.method!='GET':
+		return jsonify(str({"error":"Method not allowed"})),405
+	if((not user_type ) or (not uid)):
+		return jsonify(str({"error":"bad request"})),400
+
+	
+	if user_type=="Canteen":
+		main_doc=db["canteens"].find_one({"uid":uid})
+		eid=main_doc["can_id"]
+	elif user_type=="Caterer":
+		main_doc=db["caterers"].find_one({"uid":uid})
+		eid=main_doc["cat_id"]
+	print("\n \n \n")
+	print(eid)
+	print("\n \n \n")
+	menu_doc=db['menu'].find({"eid":eid})
+	result=list()
+	for i in menu_doc:
+		temp_dict={}
+		temp_dict["item_id"] = i["item_id"]
+		temp_dict["item_name"] = i["item_name"]
+		temp_dict["eid"] = i["eid"]
+		temp_dict["e_type"] = i["e_type"]
+		temp_dict["e_name"] = get_est_name_from_item_id(i["item_id"])
+		temp_dict["item_price"] = i["item_price"]
+		temp_dict["currency"] = i["currency"]
+		temp_dict["status"] = i["status"]
+		temp_dict["avg_rating"] = i["avg_rating"]
+		temp_dict["img"] = i["img"]
+		result.append(temp_dict)
+	if len(result)==0:
+		return jsonify(str("no content found")),204
+	else:
+		return jsonify(str(result)),200
+	
 #----------------------------------------------------------------------------------------------------    
     
     
@@ -313,3 +352,11 @@ def deleteItemFromMenu(establishment_name, item_name):
         db['menu'].delete_one(mongo_delete)
         print("item removed from the menu")
         return jsonify("Removed " + item_name + " from " + establishment_name + "'s menu"), 200
+def get_est_name_from_item_id(item_id):
+    item = db.menu.find_one({"item_id":item_id})
+    if item['e_type'] == 'Canteen':
+        est = db.canteens.find_one({"can_id":item['eid']})
+    elif item['e_type'] == 'Caterer':
+        est = db.caterers.find_one({"cat_id":item['eid']})
+
+    return est['establishment_name']
