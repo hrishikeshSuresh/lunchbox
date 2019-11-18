@@ -7,6 +7,99 @@ from flask_app import *
 from common import *
 import random
 
+
+#-----------------------------------------------------------------------------------------------------------
+#Customer view API - Common - View User details
+@app.route('/api/v1/account_details',methods=['GET'])
+def view_account_details():
+    temp_dict = {}
+    if not request.cookies.get('user_type'):
+        return jsonify(str({"error":"Bad Request"})),400 
+    user_type = request.cookies.get('user_type')
+    if user_type == 'Customer':
+        if (not request.cookies.get('uid')) or (not request.cookies.get('iid')):
+            return jsonify(str({"error":"Bad Request"})),400 
+        else:
+            uid = request.cookies.get('uid')
+            iid = request.cookies.get('iid')
+            user_info = db.users.find_one({"uid":uid})
+            i_info = db.institutions.find_one({"iid":iid})
+            temp_dict["uid"] = uid
+            temp_dict["name"] = user_info["name"]
+            temp_dict["username"] = user_info["username"]
+            temp_dict["user_type"] = user_info["account_type"]
+            temp_dict["wallet"] = user_info["wallet"]
+            temp_dict["i_name"] = i_info["i_name"]
+
+    elif user_type == 'Canteen':
+        if (not request.cookies.get('uid')) or (not request.cookies.get('can_id')):
+            return jsonify(str({"error":"Bad Request"})),400 
+        else:
+            uid = request.cookies.get('uid')
+            can_id = request.cookies.get('can_id')
+            user_info = db.users.find_one({"uid":uid})
+            can_info = db.canteens.find_one({"can_id":can_id})
+            i_info = db.institutions.find_one({"iid":user_info["iid"]})
+            temp_dict["uid"] = uid
+            temp_dict["username"] = user_info["username"]
+            temp_dict["user_type"] = user_info["account_type"]
+            temp_dict["i_name"] = i_info["i_name"]
+            temp_dict["can_id"] = can_info["can_id"]
+            temp_dict["establishment_name"] = can_info["establishment_name"]
+            temp_dict["owner"] = can_info["owner"]
+
+
+    elif user_type == 'Caterer':
+        if (not request.cookies.get('uid')) or (not request.cookies.get('cat_id')):
+            return jsonify(str({"error":"Bad Request"})),400 
+        else:
+            uid = request.cookies.get('uid')
+            cat_id = request.cookies.get('cat_id')
+            user_info = db.users.find_one({"uid":uid})
+            cat_info = db.caterers.find_one({"cat_id":cat_id})
+            temp_dict["uid"] = uid
+            temp_dict["username"] = user_info["username"]
+            temp_dict["user_type"] = user_info["account_type"]
+            temp_dict["cat_id"] = cat_info["cat_id"]
+            temp_dict["establishment_name"] = cat_info["establishment_name"]
+            temp_dict["owner"] = cat_info["owner"]
+            temp_dict["location"] = cat_info["location"]
+
+            
+    elif user_type == 'Institution':
+        if (not request.cookies.get('uid')) or (not request.cookies.get('iid')):
+            return jsonify(str({"error":"Bad Request"})),400 
+        else:
+            uid = request.cookies.get('uid')
+            iid = request.cookies.get('iid')
+            user_info = db.users.find_one({"uid":uid})
+            i_info = db.institutions.find_one({"iid":iid})
+            temp_dict["uid"] = uid
+            temp_dict["username"] = user_info["username"]
+            temp_dict["user_type"] = user_info["account_type"]
+            temp_dict["iid"] = i_info["iid"]
+            temp_dict["i_name"] = i_info["i_name"]
+    elif user_type == 'Delivery':
+        if (not request.cookies.get('uid')) or (not request.cookies.get('did')):
+            return jsonify(str({"error":"Bad Request"})),400 
+        else:
+            uid = request.cookies.get('uid')
+            did = request.cookies.get('did')
+            user_info = db.users.find_one({"uid":uid})
+            d_info = db.delivery.find_one({"did":did})
+            temp_dict["uid"] = uid
+            temp_dict["username"] = user_info["username"]
+            temp_dict["user_type"] = user_info["account_type"]
+            temp_dict["did"] = did
+            temp_dict["d_name"] = d_info["d_name"]
+
+    if len(temp_dict) == 0:
+        return jsonify(str({})), 204
+    else:
+        print("\n\n\n",type(temp_dict),"\n\n\n")
+        print("\n\n\n",temp_dict,"\n\n\n")
+        return jsonify(str(temp_dict)), 200
+
 #-----------------------------------------------------------------------------------------------------------
 #Customer API 1- View previous orders
 @app.route('/api/v1/customer/previous_orders',methods=['GET'])
