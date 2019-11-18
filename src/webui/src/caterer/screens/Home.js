@@ -89,7 +89,7 @@ renderhelper=()=>{
     let i=0
     while(i<this.state.itemlist.length){
       block.push(
-        <Block flex key={i}>
+        <Block flex key={i} style={{}}>
           <CartCard item={this.state.itemlist[i]} horizontal />
         </Block>
         )

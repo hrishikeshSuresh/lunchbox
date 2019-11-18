@@ -81,6 +81,7 @@ class Onboarding extends React.Component {
       } catch (error) {
         console.warn('Error:', error);
       }
+      obj.props.navigation.navigate(obj.state.loginas);
 
 
   }

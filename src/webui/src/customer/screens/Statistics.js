@@ -24,25 +24,26 @@ class Statistics extends React.Component {
      var orderlist=[]
     var obj=this
     const url = server_ip+'/api/v1/customer/previous_orders';
-    obj.setState({orderlist:
-       { "Order ID1": 
-        {
-           "uid": "<User ID>", 
-           "eid": "<Establishment ID>",
-           "e_name":"<Establishment name>",
-           "e_type": "Canteen",
-           "items": ["1","2"], 
-           "amount": 5000,
-           "currency" : "INR",
-           "payment_option": "Wallet",
-           "location":["<latitude>","<longitude>"],
-           "status":1,
-           "date":"date",
-           "review":"blah",
-           "rating":5,
-         }
-       }
-        })
+    // obj.setState({orderlist:
+    //    { "Order ID1": 
+    //     {
+    //        "uid": "<User ID>", 
+    //        "eid": "<Establishment ID>",
+    //        "e_name":"<Establishment name>",
+    //        "e_type": "Canteen",
+    //        "items": ["1","2"], 
+    //        "amount": 5000,
+    //        "currency" : "INR",
+    //        "payment_option": "Wallet",
+    //        "location":["<latitude>","<longitude>"],
+    //        "status":1,
+    //        "date":"date",
+    //        "review":"blah",
+    //        "rating":5,
+    //        "token":100
+    //      }
+    //    }
+    //     })
      
       try{
       response=fetch(url, {
