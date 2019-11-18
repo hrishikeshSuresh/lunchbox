@@ -48,6 +48,7 @@ class Food extends React.Component {
     this.state=
       {
         item:this.props.navigation.state.params.itempara,
+        final_item_list:{},
         id:this.props.navigation.state.params.id,
         status:this.props.navigation.state.params.itempara.status,
           error:"",
@@ -57,18 +58,39 @@ class Food extends React.Component {
       AsyncStorage.getItem("user").then((value) => {
         this.setState({"user": value});
     })
-    // this.helper(this.props.navigation.state.params.itempara)
+    this.helper(this.state.item.items)
   }
-  // {
-  //   “item_id”: “<Item ID>”,
-  //   “item_name”:”<Item Name>”,
-  //   “eid”:”<Establishment ID>”,
-  //   “e_name”:”<Establishment Name>”,
-  //   “e_type”:”Canteen” OR “Caterer”,
-  //   “item_price”:<item price>,
-  //   “currency”:”INR”,
-  //   “img”:”<img base64>”
-  //   }
+  helper(items){
+    var obj=this
+    var item_list=[]
+    for (i in items){
+      item_list.push(i)
+    }
+    const url = server_ip+'/api/v1/items_list';
+      const data = { "items":item_list };
+      try{
+      response=fetch(url, {
+          method: 'POST', 
+          credentials: 'include',
+          body: JSON.stringify(data), 
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => {
+          if(response.status==200){
+            response.json().then((res)=>{
+              var myObject = eval('(' + res + ')');
+                obj.setState({final_item_list:myObject})
+            });
+          }
+
+        })
+      } catch (error) {
+        // console.warn('Error:', error);
+      }
+
+  }
   componentDidMount() {
     this._interval = setInterval(() => {
       const url = server_ip+'/api/v1/order/status';
@@ -101,11 +123,13 @@ class Food extends React.Component {
   componentWillUnmount() {
     clearInterval(this._interval);
   }
-  render_items(items){
+  render_items(){
     var list=[]
+    items=this.state.final_item_list
+    qt_list=this.state.item.items
     for (i in items){
       list.push(
-        <FoodCard item={ this.get_item(i)} qty={items[i]} key={i} cardtype="prev" style={{ marginRight: theme.SIZES.BASE }} />
+        <FoodCard item={ items[i]} qty={qt_list[i]} key={i} cardtype="prev" style={{ marginRight: theme.SIZES.BASE }} />
         )
     }
     return list
@@ -221,7 +245,7 @@ class Food extends React.Component {
         <Text bold size={14} style={styles.title}>
           Items Ordered : 
           </Text>
-            {this.render_items(this.state.item.items)}
+            {this.render_items()}
         </Block>
         
       </ScrollView>

@@ -99,12 +99,12 @@ class Cart extends React.Component {
               //     // itemlist.push(obj.get_item(obj,myObject[i]))
 
               //   }
-              var m={
-                  "username":"blah",
-                  "name":"blah",
-                  "wallet":200
-                }
-                this.setState({account:m})
+              // var m={
+              //     "username":"blah",
+              //     "name":"blah",
+              //     "wallet":200
+              //   }
+                this.setState({account:myObject})
                 // console.warn("account",this.state.account)
             });
         }

@@ -22,11 +22,41 @@ class Account extends React.Component {
       p2:"",
       p3:" ",
       error:'',
-      user:""
+      user:"",
+      account:{}
     };
-    AsyncStorage.getItem("user").then((value) => {
-      this.setState({"user": value});
-  })
+  //   AsyncStorage.getItem("user").then((value) => {
+  //     this.setState({"user": value});
+  // })
+  this.init();
+  }
+  init(){
+    try{
+      var url= server_ip+'/api/v1/account_details';
+      response=fetch(url, {
+        method: 'GET', 
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((response) => {
+        if(response.status==200){
+          // // console.warn(JSON.parse(response))
+          response.json().then((res)=>{
+            var myObject = eval('(' + res + ')');
+              this.setState({account:myObject})
+          });
+      }
+      else{
+
+      }
+    })
+  }
+  
+    catch(e){
+      // console.log("blah",e)
+    }
   }
   change_password(obj){
     // console.warn(obj.state);
@@ -35,7 +65,7 @@ class Account extends React.Component {
         password:md5(obj.state.p1),
         new_password:md5(obj.state.p2),
         confirm_password:md5(obj.state.p3) };
-        console.warn(data)
+        // console.warn(data)
       try{
       response=fetch(url, {
           method: 'POST', 
@@ -55,7 +85,7 @@ class Account extends React.Component {
 
         })
       } catch (error) {
-        console.warn('Error:', error);
+        // console.warn('Error:', error);
       }
       obj.toggleModal()
   }
@@ -113,28 +143,29 @@ class Account extends React.Component {
           <Block style={styles.start}>
             <Text style={styles.pad}>
               <Text bold size={18} style={styles.title}>
-                Name : &nbsp;
+                User Name : &nbsp;
               </Text>
               <Text
                   p
                   style={{ marginBottom: theme.SIZES.BASE / 2 }}
                   color={argonTheme.COLORS.DEFAULT}
                 >
-                  {this.state.user}
+                  {this.state.account.username}
               </Text>
             </Text>
             <Text style={styles.pad}>
               <Text bold size={18} style={styles.title}>
-                E-mail :  &nbsp;
+                Institution : &nbsp;
               </Text>
               <Text
                   p
                   style={{ marginBottom: theme.SIZES.BASE / 2 }}
                   color={argonTheme.COLORS.DEFAULT}
                 >
-                  {this.state.user}@gmail.com
+                  {this.state.account.i_name}
               </Text>
             </Text>
+            
             <Text style={styles.pad}>
               <Text bold size={18} style={styles.title}>
                 Account Balance :  &nbsp;
@@ -144,7 +175,7 @@ class Account extends React.Component {
                   style={{ marginBottom: theme.SIZES.BASE / 2 }}
                   color={argonTheme.COLORS.DEFAULT}
                 >
-                  0
+                  {this.state.account.wallet}
               </Text>
             </Text>
             <Block center>

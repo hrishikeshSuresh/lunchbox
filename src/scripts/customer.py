@@ -283,6 +283,41 @@ def get_item_by_id(item_id):
     else:
         return jsonify(str(temp_dict)), 200
 
+#list of items given list of ids
+@app.route('/api/v1/items_list',methods=['POST'])
+def get_items_given_ids():
+    if request.method != 'POST':
+        return jsonify(str({"error": "Method not allowed"})),405
+    items=request.json.get("items")
+    item_list={}
+    for item_id in items:
+        temp_dict={}
+        item = db.menu.find_one({"item_id":item_id})
+
+        if not item:
+            print("ignoring",item_id)
+        else:
+            if item['e_type'] == 'Canteen':
+                menu_temp = db.canteens.find_one({"can_id":item['eid']})
+            elif item['e_type'] == 'Caterer':
+                menu_temp = db.caterers.find_one({"cat_id":item['eid']})
+
+            temp_dict["item_id"]=item_id
+            temp_dict["item_name"]=item['item_name']
+            temp_dict["eid"]=item['eid']
+            temp_dict["e_type"]=item['e_type']
+            temp_dict["e_name"]=menu_temp['establishment_name']
+            temp_dict["item_price"]=item['item_price']
+            temp_dict["currency"]=item['currency']
+            temp_dict['status']=item['status']
+            temp_dict["avg_rating"]=item['avg_rating']
+            temp_dict["img"]=item['img']
+            item_list[item_id]=temp_dict
+
+    if len(item_list) == 0:
+        return jsonify(str({"success": "No Content"})),204
+    else:
+        return jsonify(str(item_list)), 200
 
 
 
