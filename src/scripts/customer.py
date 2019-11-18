@@ -283,10 +283,9 @@ def get_item_by_id(item_id):
     else:
         return jsonify(str(temp_dict)), 200
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 5b7897f9d78d0df7a719d9c36940f4d7ec2d00d3
+
+
 
 
 
