@@ -48,7 +48,9 @@ def additem():
 	if request.method!='POST' :
 		return jsonify(str({"error":"Method not allowed"})),405
 	if user_type=="Canteen" or user_type=="Caterer":
-		item_id="it"+ str(db['menu'].find().count()+1)
+		metadata_doc=db['metadata'].find_one({}) 
+		last_item_id=metadata_doc['last_item_id']
+		item_id="it"+ str(last_item_id+1)
 		uid=request.cookies.get('uid')
 	
 		if user_type=="Caterer":
@@ -64,6 +66,7 @@ def additem():
 		img=request.json.get("img")
 		result={"item_id":item_id,"eid":eid,"e_type":user_type,"item_name": item_name, "item_price": item_price, "currency": currency,"status":1,"tags":tags,"avg_rating":0,"img":img}
 		db['menu'].insert_one(result)
+		db['metadata'].update_one({"last_item_id":last_item_id},{"$set":{"last_item_id":last_item_id+1}})
 		return jsonify(str({"success":"created","item_id":item_id})),201
 	else:
 		return jsonify(str({"error":"Method not allowed"})),405
