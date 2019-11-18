@@ -1,10 +1,10 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 2541,
-  "expoServerNgrokUrl": "https://b2-65c.anonymous.webui.exp.direct",
-  "packagerNgrokUrl": "https://packager.b2-65c.anonymous.webui.exp.direct",
-  "ngrokPid": 2560,
+  "packagerPid": 35611,
+  "expoServerNgrokUrl": "https://9c-x2p.anonymous.webui.exp.direct",
+  "packagerNgrokUrl": "https://packager.9c-x2p.anonymous.webui.exp.direct",
+  "ngrokPid": 35630,
   "webpackServerPort": null,
   "devToolsPort": 19002
 }
