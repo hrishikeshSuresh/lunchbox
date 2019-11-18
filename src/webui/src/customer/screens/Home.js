@@ -12,7 +12,8 @@ import argonTheme from '../../constants/Theme';
 const { width } = Dimensions.get('screen');
 // var itemlist=[]
 class Home extends React.Component {
-  helper(){
+  helper= async ()=>{
+    await this.componentDidMount(); 
     var obj=this
     var itemlist=[]
     if(withflask){
@@ -179,7 +180,7 @@ class Home extends React.Component {
   constructor(props){
     super(props);
     this.state={itemlist:[],search:"",filter:"No Filter"}
-    this.helper()
+    // this.helper()
   }
   
   renderhelper=()=>{

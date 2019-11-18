@@ -15,7 +15,7 @@ def view_previous_orders():
         return jsonify(str({"error":"Bad Request"})),400 
 
     user_type = request.cookies.get('user_type')
-    if user_type == 'Customer' and (not (request.cookies.get('uid') or request.cookies.get('iid'))):
+    if user_type == 'customer' and (not (request.cookies.get('uid') or request.cookies.get('iid'))):
         return jsonify(str({"error":"Bad Request"})),400 
     else:
         uid = request.cookies.get('uid')
@@ -26,12 +26,12 @@ def view_previous_orders():
         return jsonify(str({"success":"No Content"})),204 
     temp_dict = {}
     for order in orders:
-        if order['e_type'] == 'Canteen':
+        if order['e_type'] == 'canteen':
             e = db.canteens.find_one({"can_id":order['eid']})
             temp_e_name = e['establishment_name']
             token_or_did = "token"
             token_or_did_val = order['token']
-        elif order['e_type'] == 'Caterer':
+        elif order['e_type'] == 'caterer':
             e = db.caterers.find_one({"cat_id":order['eid']})
             temp_e_name = e['establishment_name']
             token_or_did = "did"
@@ -40,6 +40,7 @@ def view_previous_orders():
 
     return jsonify(str(temp_dict)),200
 #-----------------------------------------------------------------------------------------------------------
+
 #Customer API 5: View rating and reviews of food item
 @app.route('/api/v1/item/view_reviews', methods=['GET'])
 def item_view_reviews():
@@ -183,6 +184,7 @@ def get_item_by_id(item_id):
         return jsonify(str({"success": "No Content"})),204
     else:
         return jsonify(str(temp_dict)), 200
+
 
 
 
