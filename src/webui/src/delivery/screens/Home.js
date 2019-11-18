@@ -22,16 +22,19 @@ class Home extends React.Component {
             blockfin.push(
                 <TouchableOpacity style={styles.blockAttr} key={i}>
                     <Text style={styles.normalText}>
-                        Order ID : {this.state.order_list[i].order_id}
+                        #{i+1}
                     </Text>
-                    <Text style={styles.normalText}>
-                        Source : {this.state.order_list[i].src}
+                    <Text style={styles.boldText}>
+                        Order ID: {this.state.order_list[i].order_id}
                     </Text>
-                    <Text style={styles.normalText}>
-                        Destination : {this.state.order_list[i].dest}
+                    <Text style={styles.boldText}>
+                        Source: {this.state.order_list[i].src}
                     </Text>
-                    <Text style={styles.normalText}>
-                        Item Price : {this.state.order_list[i].item_price}
+                    <Text style={styles.boldText}>
+                        Destination: {this.state.order_list[i].dest}
+                    </Text>
+                    <Text style={styles.boldText}>
+                        Item Price: {this.state.order_list[i].item_price}
                     </Text>
                 </TouchableOpacity>
             );
@@ -153,26 +156,30 @@ const styles = StyleSheet.create({
         width: width - theme.SIZES.BASE * 2,
         paddingVertical: theme.SIZES.BASE,
     },
-    normalText: {
+    boldText: {
         padding: 20,
-        color: 'green',
+        color: '#143D59',
         fontWeight: 'bold',
         fontSize: 30,
+    },
+    normalText: {
+        color: '#143D59',
+        fontSize: 10,
     },
     blockAttr: {
         margin: 20,
-        width: 400,
+        width: 350,
         padding: 20,
-        color: 'green',
-        backgroundColor: '#808080',
+        color: 'white',
+        backgroundColor: '#E8E8E8',
         fontWeight: 'bold',
-        fontSize: 30,
-        borderRadius: 10,
+        fontSize: 20,
+        borderRadius: 5,
         borderColor: 'black',
     },
     subTitle: {
-        color: 'black',
-        backgroundColor: 'green',
+        color: 'orange',
+        backgroundColor: 'black',
         fontWeight: 'bold',
         padding: 5,
         fontSize: 50,

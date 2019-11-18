@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, Dimensions, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Dimensions, TouchableOpacity, View, Alert } from "react-native";
 // Galio components
 import { Block, Text, Button as GaButton, theme } from "galio-framework";
 // Argon themed components
@@ -27,56 +27,6 @@ class OrderView extends React.Component {
             fontWeight: 'bold',
         },
     };
-    
-    /* function to call end point
-     * for retrieving list of all previous orders made
-     * by a particular delivery guy
-     */
-    viewAvailableOrders() {
-        var order_list = [];
-        var name = "hrishi";
-        var obj = this;
-        if (withflask) {
-            const url = server_ip + '/api/v1/' + name + '/available_deliveries';
-
-            try {
-                response = fetch(url, {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then((response) => {
-                        if (response.status == 200) {
-                            console.warn(JSON.parse(response));
-                            response.json().then((res) => {
-                                var myObject = eval('(' + res + ')');
-                                for (let i = 0; i < myObject.length; i++) {
-                                    order_list.push({
-                                        name: myObject[i]["name"],
-                                        order_id: myObject[i]["order_number"],
-                                        src: myObject[i]["source"],
-                                        dest: myObject[i]["destination"],
-                                        item_price: myObject[i]["item_price"]
-                                    });
-                                    console.warn(String(myObject[i]["_id"]));
-                                }
-                            })
-                            obj.setState({ order_list: order_list });
-                            return order_list;
-                        }
-                        else {
-                            this.setState({ error: "Oops! Something isn't right" });
-                        }
-                    });
-            }
-            catch (error) {
-                console.warn('Error:', error);
-            }
-        }
-        return itemlist
-    }
 
     constructor(props) {
         super(props);
@@ -116,6 +66,101 @@ class OrderView extends React.Component {
         }).catch(err => console.error('An error occurred', err));
     }
 
+    /*
+     * API integration to check if order has been accepted on
+     * user side.
+     */
+    canAcceptOrder(orderId) {
+        const url = server_ip + '/api/v1/order/status';
+        const data = {
+            order_id: orderId,
+            status: 4
+        }
+        try {
+            response = fetch(url, {
+                method: 'GET',
+                credentials: 'include',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then((response) => {
+                    if (response.status == 200) {
+                        console.warn(JSON.parse(response));
+                        Alert.alert(
+                            'Alert Title',
+                            'ORDER HAS BEEN ASSIGNED TO YOU',
+                            [
+                                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                            ]
+                        );  
+                        console.warn("order accepted");
+                    }
+                    else {
+                        console.warn("someone else has already made order");
+                        Alert.alert(
+                            'Alert Title',
+                            'SOMEONE ELSE HAS TAKEN THE ORDER. Please try another order.',
+                            [
+                                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                            ]
+                        );  
+                    }
+                });
+        }
+        catch (error) {
+            console.warn('Error:', error);
+        }
+    }
+
+    /*
+     * API integration to confirm order
+     */
+    orderConfirmed(orderId) {
+        const url = server_ip + '/api/v1/order/status';
+        const data = {
+            order_id: orderId,
+            status: 5
+        }
+        try {
+            response = fetch(url, {
+                method: 'GET',
+                credentials: 'include',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then((response) => {
+                    if (response.status == 200) {
+                        console.warn(JSON.parse(response));
+                        Alert.alert(
+                            'Alert Title',
+                            'ORDER HAS MARKED AS DELIVERED',
+                            [
+                                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                            ]
+                        );  
+                        console.warn("order delivered");
+                    }
+                    else {
+                        console.warn("some error has occured.");
+                        Alert.alert(
+                            'Alert Title',
+                            'SOME ERROR HAS OCCURED ON THE BACK-END. Please try again',
+                            [
+                                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                            ]
+                        );
+                    }
+                });
+        }
+        catch (error) {
+            console.warn('Error:', error);
+        }
+    }
+
     /* This will be handling the UI component rendering
      */
     render() {
@@ -127,38 +172,38 @@ class OrderView extends React.Component {
         return (
             <Block flex center style={styles.home}>
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
-                    <View>
-                        <Text style={styles.normalText}>
+                    <View style={styles.blockAttr}>
+                        <Text style={styles.boldText}>
                             Order ID : {order_id}
                         </Text>
-                        <Text style={styles.normalText}>
+                        <Text style={styles.boldText}>
                             Source : {src}
                         </Text>
-                        <Text style={styles.normalText}>
+                        <Text style={styles.boldText}>
                             Destination : {dest}
                         </Text>
-                        <Text style={styles.normalText}>
+                        <Text style={styles.boldText}>
                             Item Price : {item_price}
                         </Text>
                     </View>
-                    <TouchableOpacity style={styles.optionsButton} onPress={() => console.warn("order assigned") }>
-                        <Text>
-                            Accept Order
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => console.warn("order accepted") }>
+                        <Text style={styles.normalText}>
+                            ACCEPT ORDER
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.startNavigation(sampleDest.lat, sampleDest.lon)}>
-                        <Text>
-                            Go to Source
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.startNavigation(src.lat, src.lon)}>
+                        <Text style={styles.normalText}>
+                            GO TO SOURCE
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.startNavigation(sampleDest.lat, sampleDest.lon)}>
-                        <Text>
-                            Go to Destination
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.startNavigation(dest.lat, dest.lon)}>
+                        <Text style={styles.normalText}>
+                            GO TO DESTINATION
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.optionsButton} onPress={() => console.warn("order delivered") }>
-                        <Text>
-                            Order delivery confirmed
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => console.warn("order delievered") }>
+                        <Text style={styles.normalText}>
+                            CONFIRM ORDER DELIVERY
                         </Text>
                     </TouchableOpacity>
                 </ScrollView>
@@ -170,6 +215,7 @@ class OrderView extends React.Component {
 const styles = StyleSheet.create({
     home: {
         width: width,
+        padding: 20,
     },
     map: {
         ...StyleSheet.absoluteFillObject,
@@ -178,21 +224,27 @@ const styles = StyleSheet.create({
         width: width - theme.SIZES.BASE * 2,
         paddingVertical: theme.SIZES.BASE,
     },
-    normalText: {
+    boldText: {
         padding: 20,
-        color: 'green',
+        color: '#143D59',
         fontWeight: 'bold',
         fontSize: 30,
     },
+    normalText: {
+        color: '#761137',
+        fontWeight: 'bold',
+        fontSize: 20,
+        fontSize: 10,
+    },
     blockAttr: {
         margin: 20,
-        width: 400,
+        width: 350,
         padding: 20,
-        color: 'green',
-        backgroundColor: '#808080',
+        color: 'white',
+        backgroundColor: '#E8E8E8',
         fontWeight: 'bold',
-        fontSize: 30,
-        borderRadius: 10,
+        fontSize: 20,
+        borderRadius: 5,
         borderColor: 'black',
     },
     subTitle: {
@@ -226,6 +278,7 @@ const styles = StyleSheet.create({
     optionsButton: {
         width: 400,
         height: "auto",
+        backgroundColor: "#7BDEB2",
         paddingHorizontal: theme.SIZES.BASE,
         paddingVertical: 10,
         margin: 10
