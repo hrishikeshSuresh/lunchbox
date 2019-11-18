@@ -192,16 +192,17 @@ class Cart extends React.Component {
             // navigate to ??
             obj.setState({items:[],total:0});
             AsyncStorage.setItem('cart', JSON.stringify({})); //IMPORTANT
-            obj.toggleModal()
+            // obj.toggleModal()
+            obj.setState({ isModalVisible:false})
             obj.props.navigation.navigate('Statistics')
             // response.json().then((res)=>console.warn(res));
           }
           else if(response.status==402){
-            obj.toggleModal()
+            obj.setState({ isModalVisible:false})
             obj.setState({error : "Insufficient Balance"})
           }
           else{
-            obj.toggleModal()
+            obj.setState({ isModalVisible:false})
             // console.warn("error")
             // obj.setState({items:[],total:0});
             // AsyncStorage.setItem('cart', JSON.stringify({}));
@@ -224,7 +225,7 @@ class Cart extends React.Component {
   componentWillUnmount() {
  
     navigator.geolocation.clearWatch(this.getLongLat);
- 
+    this.setState({ isModalVisible:false})
   }
   get_details(){
     return 100;
