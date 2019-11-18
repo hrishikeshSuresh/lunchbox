@@ -566,9 +566,9 @@ class Elements extends React.Component {
         while (i < this.state.order_list.length) {
             item = {
                 order_id: obj.state.order_list[i].order_id,
-                src: obj.state.order_list[i].src,
-                dest: obj.state.order_list[i].dest,
-                item_price: obj.state.order_list[i].item_price,
+                src: obj.state.order_list[i].location,
+                dest: obj.state.order_list[i].e_location,
+                amount: obj.state.order_list[i].amount,
                 order_status: 1
             }
             blockfin.push(
@@ -588,19 +588,18 @@ class Elements extends React.Component {
                         Order ID: {this.state.order_list[i].order_id}
                     </Text>
                     <Text style={styles.boldText}>
-                        Source: {this.state.order_list[i].src}
+                        Source: {this.state.order_list[i].location}
                     </Text>
                     <Text style={styles.boldText}>
-                        Destination: {this.state.order_list[i].dest}
+                        Destination: {this.state.order_list[i].e_location}
                     </Text>
                     <Text style={styles.boldText}>
-                        Item Price: {this.state.order_list[i].item_price}
+                        Item Price: {this.state.order_list[i].amount}
                     </Text>
                 </TouchableOpacity>
             );
             i++;
         }
-        console.warn("helper", blockfin);
         return blockfin;
     }
 
@@ -627,10 +626,9 @@ class Elements extends React.Component {
      */
     viewAvailableOrders() {
         var order_list = [];
-        var name = "hrishi";
         var obj = this;
         if (withflask) {
-            const url = server_ip + '/api/v1/' + name + '/available_deliveries';
+            const url = server_ip + '/api/v1/establishment/pending_orders';
 
             try {
                 response = fetch(url, {
@@ -642,9 +640,9 @@ class Elements extends React.Component {
                 })
                     .then((response) => {
                         if (response.status == 200) {
-                            console.warn(JSON.parse(response));
                             response.json().then((res) => {
                                 var myObject = eval('(' + res + ')');
+                                console.log(myObject);
                                 for (let i = 0; i < myObject.length; i++) {
                                     order_list.push({
                                         name: myObject[i]["name"],
@@ -653,7 +651,6 @@ class Elements extends React.Component {
                                         dest: myObject[i]["destination"],
                                         item_price: myObject[i]["item_price"]
                                     });
-                                    console.warn(String(myObject[i]["_id"]));
                                 }
                             })
                             obj.setState({ order_list: order_list });
@@ -665,35 +662,33 @@ class Elements extends React.Component {
                     });
             }
             catch (error) {
-                console.warn('Error:', error);
+                console.log('Error:' + error.message);
             }
         }
-        return itemlist
+        return order_list;
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            order_list: [
-                {
-                    name: "abc",
-                    order_id: "4524",
-                    src: "PES U",
-                    dest: "MG ROAD",
-                    item_price: "5424"
-                },
-                {
-                    name: "abc",
-                    order_id: "4524",
-                    src: "PES U",
-                    dest: "MG ROAD",
-                    item_price: "5424"
-                }
-            ],
+            order_list: [{
+                "order_id": "o8",
+                "uid": "u1",
+                "eid": "cat1",
+                "e_type": "Caterer",
+                "items": { "it3": 2 },
+                "amount": 100,
+                "currency": "INR",
+                "payment_option": "cash",
+                "location": [12.935958, 77.532928],
+                "e_location": [12.935958, 77.532928],
+                "status": 1,
+                "timestamp": 1573999802.8732119,
+                "did": ""
+            }],
             search: "Filter By"
         };
-        /* API will called here
-         */
+
         //this.viewAvailableOrders();
     }
 
