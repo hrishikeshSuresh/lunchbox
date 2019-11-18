@@ -123,7 +123,7 @@ menu.insert_one({"item_id":"it6","eid":"cat3","e_type":"Caterer","item_name": "S
 #------------------------------------------------------------------------------------------------------------------------------------
 # Reviews
 #------------------------------------------------------------------------------------------------------------------------------------
-reviews = db['reviews']
+reviews = db['reviews']uitt
 
 reviews.insert_one({"uid":"u1","item_id":"it1","rating":4,"review":"Really Good"})
 reviews.insert_one({"uid":"u4","item_id":"it1","rating":5,"review":"Really Good"})
