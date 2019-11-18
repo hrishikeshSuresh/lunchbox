@@ -232,25 +232,90 @@ def toggleitem():
 	else:
 		return jsonify(str({"error":"Unauthorised"})),401
 
-@app.route('/api/v1/order/status', methods=['GET'])
-def vieworderstatus():
-	uid=request.cookies.get('uid')
-	user_type=request.cookies.get('user_type')
-	order_id=request.args.get("order_id")
-	if request.method!='GET':
-		return jsonify(str({"error":"Method not allowed"})),405
-	if((not user_type ) or (not uid)):
-		return jsonify(str({"error":"bad request"})),400
+@app.route('/api/v1/order/status', methods=['GET','POST'])
+def view_or_change_orderstatus():
+	if request.method == 'GET':
+		uid=request.cookies.get('uid')
+		user_type=request.cookies.get('user_type')
+		order_id=request.args.get("order_id")
+		if request.method!='GET':
+			return jsonify(str({"error":"Method not allowed"})),405
+		if((not user_type ) or (not uid)):
+			return jsonify(str({"error":"bad request"})),400
 
 	
-	temp_doc=db['orders'].find_one({"order_id":order_id})
-	print("\n \n \n")
-	print(not temp_doc)
-	print("\n \n \n")
-	if not temp_doc:
-		return jsonify(str({"error":"order doesn't exist"})),404
+		temp_doc=db['orders'].find_one({"order_id":order_id})
+		print("\n \n \n")
+		print(not temp_doc)
+		print("\n \n \n")
+		if not temp_doc:
+			return jsonify(str({"error":"order doesn't exist"})),404
 
-	return jsonify(str({"status":temp_doc['status']})),200
+		return jsonify(str({"status":temp_doc['status']})),200
+
+	elif request.method == 'POST':
+		if not request.cookies.get('user_type'):
+			return jsonify(str({"error":"Unauthorized"})), 401
+
+		user_type = request.cookies.get('user_type')
+
+		if user_type == "Canteen":
+			if (not request.cookies.get('uid')) or (not request.cookies.get('can_id')):
+				return jsonify(str({"error":"Unauthorized"})), 401
+			else:
+				other_id = request.cookies.get('can_id')
+
+		elif user_type == "Caterer":
+			if (not request.cookies.get('uid')) or (not request.cookies.get('cat_id')):
+				return jsonify(str({"error":"Unauthorized"})), 401
+			else:
+				other_id = request.cookies.get('cat_id')
+
+		elif user_type == "Delivery":
+			if (not request.cookies.get('uid')) or (not request.cookies.get('did')):
+				return jsonify(str({"error":"Unauthorized"})), 401
+
+			else:
+				other_id = request.cookies.get('did')
+
+		uid = request.cookies.get('uid')
+
+		if (not request.json.get('order_id')) or (not request.json.get('status')):
+			return jsonify(str({"error":"Bad Request - 1"})), 400
+
+		order_id = request.json.get('order_id')
+		status_to = request.json.get('status')
+		order = db.orders.find_one({"order_id":order_id})
+
+		if not order:
+			return jsonify(str({"error":"Order not found"})), 404
+
+
+
+		if (user_type == 'Canteen' or user_type == 'Caterer') and (order['eid'] == other_id):
+			if order['status'] < status_to and (status_to in [2,3,4]):
+				db.orders.update({"order_id":order_id},{"$set":{"status":status_to}})
+				return jsonify(str({"success":"updated"})), 201
+			else:
+				return jsonify(str({"error":"Bad Request - 2"})), 400
+
+
+		if user_type == 'Delivery' and order['did'] == other_id:
+			if order['status'] == 4 and (status_to == 5):
+				db.orders.update({"order_id":order_id},{"$set":{"status":status_to}})
+				return jsonify(str({"success":"updated"})), 201
+			else:
+				
+				return jsonify(str({"error":"Bad Request - 4"})), 400
+		else:
+
+			return jsonify(str({"error":"Bad Request - 5"})), 400
+
+
+
+
+
+
 
 
 @app.route('/api/v1/order/count',methods=['GET'])
