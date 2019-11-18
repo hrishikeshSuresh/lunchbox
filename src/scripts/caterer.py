@@ -252,6 +252,34 @@ def vieworderstatus():
 
 	return jsonify(str({"status":temp_doc['status']})),200
 
+
+@app.route('/api/v1/order/count',methods=['GET'])
+def getordercountitem():
+	uid=request.cookies.get('uid')
+	user_type=request.cookies.get('user_type')
+	item_id=request.args.get("item_id")
+	check=db["menu"].find_one({"item_id":item_id})
+	
+	if request.method!='GET':
+		return jsonify(str({"error":"Method not allowed"})),405
+	if((not user_type ) or (not uid)):
+		return jsonify(str({"error":"bad request"})),400
+	#if(not check):
+		#return jsonify(str({"error":"item not found"})),404
+	count=0
+	temp_doc=db['orders'].find({})
+	for order in temp_doc:
+		if item_id in (order["items"]).keys(): 
+			count=count + (order["items"])[item_id]  
+	print("\n \n \n")
+	print(count)
+	print("\n \n \n")
+	if not temp_doc:
+		return jsonify(str({"error":"order doesn't exist"})),404
+
+	return jsonify(str({"count":count})),200
+
+
 #----------------------------------------------------------------------------------------------------    
     
     
