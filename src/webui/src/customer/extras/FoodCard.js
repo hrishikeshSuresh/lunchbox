@@ -41,7 +41,7 @@ class FoodCard extends React.Component {
         {/* <Text>Coming from blah</Text> */}
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
           <Block flex style={imgContainer}>
-            <Image source={{uri: item.img}} style={imageStyles} />
+            <Image source={{uri: 'data:image/gif;base64,'+item.img}} style={imageStyles} />
           </Block>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
@@ -55,7 +55,7 @@ class FoodCard extends React.Component {
             
             <Text size={12} muted={!ctaColor} color="grey" bold ><Image
                   source={Images.star}
-                  style={{ height: 10,width: 10}} /> {item.rating}</Text></>
+                  style={{ height: 10,width: 10}} /> {item.avg_rating}</Text></>
             )
             :
             (

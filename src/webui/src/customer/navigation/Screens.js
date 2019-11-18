@@ -100,7 +100,16 @@ const StatisticsStack = createStackNavigator(
           <Header title="My Orders" navigation={navigation} />
         )
       })
-    }
+    },
+     // Order: {
+    //   screen: Order,
+    //   navigationOptions: ({ navigation }) => ({
+    //     header: (
+    //       <Header title="Order Details" navigation={navigation} />
+    //     )
+    //   })
+    // }
+    // ,
   },
   {
     cardStyle: { backgroundColor: "#FFFFFF" },

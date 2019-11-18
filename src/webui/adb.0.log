@@ -42,3 +42,45 @@ adb I  6127  6127 main.cpp:78]
 adb I  3178  3178 main.cpp:78] Android Debug Bridge version 1.0.36
 adb I  3178  3178 main.cpp:78] Revision af05c7354fe1-android
 adb I  3178  3178 main.cpp:78] 
+adb server killed by remote request
+--- adb starting (pid 31546) ---
+adb I 31546 31546 main.cpp:78] Android Debug Bridge version 1.0.36
+adb I 31546 31546 main.cpp:78] Revision af05c7354fe1-android
+adb I 31546 31546 main.cpp:78] 
+adb server killed by remote request
+--- adb starting (pid 32261) ---
+adb I 32261 32261 main.cpp:78] Android Debug Bridge version 1.0.36
+adb I 32261 32261 main.cpp:78] Revision af05c7354fe1-android
+adb I 32261 32261 main.cpp:78] 
+--- adb starting (pid 3981) ---
+adb I  3981  3981 main.cpp:78] Android Debug Bridge version 1.0.36
+adb I  3981  3981 main.cpp:78] Revision af05c7354fe1-android
+adb I  3981  3981 main.cpp:78] 
+adb server killed by remote request
+--- adb starting (pid 4315) ---
+adb I  4315  4315 main.cpp:78] Android Debug Bridge version 1.0.36
+adb I  4315  4315 main.cpp:78] Revision af05c7354fe1-android
+adb I  4315  4315 main.cpp:78] 
+adb server killed by remote request
+--- adb starting (pid 8620) ---
+adb I  8620  8620 main.cpp:78] Android Debug Bridge version 1.0.36
+adb I  8620  8620 main.cpp:78] Revision af05c7354fe1-android
+adb I  8620  8620 main.cpp:78] 
+adb server killed by remote request
+--- adb starting (pid 9290) ---
+adb I  9290  9290 main.cpp:78] Android Debug Bridge version 1.0.36
+adb I  9290  9290 main.cpp:78] Revision af05c7354fe1-android
+adb I  9290  9290 main.cpp:78] 
+--- adb starting (pid 3035) ---
+adb I  3035  3035 main.cpp:78] Android Debug Bridge version 1.0.36
+adb I  3035  3035 main.cpp:78] Revision af05c7354fe1-android
+adb I  3035  3035 main.cpp:78] 
+adb server killed by remote request
+--- adb starting (pid 8542) ---
+adb I  8542  8542 main.cpp:78] Android Debug Bridge version 1.0.36
+adb I  8542  8542 main.cpp:78] Revision af05c7354fe1-android
+adb I  8542  8542 main.cpp:78] 
+--- adb starting (pid 3186) ---
+adb I  3186  3186 main.cpp:78] Android Debug Bridge version 1.0.36
+adb I  3186  3186 main.cpp:78] Revision af05c7354fe1-android
+adb I  3186  3186 main.cpp:78] 

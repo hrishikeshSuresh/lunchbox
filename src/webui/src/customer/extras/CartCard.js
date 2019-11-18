@@ -28,7 +28,7 @@ class CartCard extends React.Component {
         {/* <Text>Coming from blah</Text> */}
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
           <Block flex style={imgContainer}>
-            <Image source={{uri: item.img}} style={imageStyles} />
+            <Image source={{uri: 'data:image/gif;base64,'+item.img}} style={imageStyles} />
           </Block>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
