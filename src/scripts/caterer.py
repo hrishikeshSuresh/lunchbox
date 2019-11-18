@@ -41,9 +41,65 @@ def addItemToMenu(establishment_name):
         pp.pprint(mongo_cmd)
         print("item added to the menu")
         return jsonify("Added " + item_name + " priced at " + item_price), 200
+#---------------------------------------------------------------------------------------------------------
+@app.route('/api/v1/establishment/add_item', methods=['POST'])
+def additem():
+	user_type=request.cookies.get('user_type')
+	if request.method!='POST' :
+		return jsonify(str({"error":"Method not allowed"})),405
+	if user_type=="Canteen" or user_type=="Caterer":
+		item_id="it"+ str(db['menu'].find().count()+1)
+		uid=request.cookies.get('uid')
+	
+		if user_type=="Caterer":
+			temp_doc=db['caterers'].find_one({"uid":uid})
+			eid=temp_doc['cat_id']
+		if user_type=="Canteen":
+			temp_doc=db['canteens'].find_one({"uid":uid})
+			eid=temp_doc['can_id']
+		item_name=request.json.get("item_name")
+		item_price=request.json.get("item_price")
+		currency=request.json.get("currencyu")
+		tags=request.json.get("tags")
+		img=request.json.get("img")
+		result={"item_id":item_id,"eid":eid,"e_type":user_type,"item_name": item_name, "item_price": item_price, "currency": currency,"status":1,"tags":tags,"avg_rating":0,"img":img}
+		db['menu'].insert_one(result)
+		return jsonify(str({"success":"created","item_id":item_id})),201
+	else:
+		return jsonify(str({"error":"Method not allowed"})),405
 
-    
-    
+
+
+@app.route('/api/v1/establishment/remove_item', methods=['DELETE'])
+def removeitem():
+	if request.method!='DELETE':
+		return jsonify(str({"error":"Method not allowed"})),405
+	uid=request.cookies.get('uid')
+	user_type=request.cookies.get('user_type')
+	print("\n \n \n ")
+	print(user_type=="Canteen")
+	print("\n \n \n ")
+	print(user_type=="Caterer")
+	item_id=request.json.get("item_id")
+	
+	temp_doc=db['menu'].find_one({"item_id":item_id})
+	eid=temp_doc['eid']
+	e_type=temp_doc['e_type']
+	
+	if e_type=="Canteen":
+		main_doc=db["canteens"].find_one({"can_id":eid})
+	elif e_type=="Caterer":
+		main_doc=db["caterers"].find_one({"cat_id":eid})
+
+	if uid==main_doc['uid'] and user_type==e_type:
+		db['menu'].delete_one({"item_id":item_id})
+		return jsonify(str({"success":"deleted"})),200
+	else:
+		return jsonify(str({"error":"Unauthorised to delete"})),401
+
+
+
+#----------------------------------------------------------------------------------------------------    
     
     
 # edit item to the menu
