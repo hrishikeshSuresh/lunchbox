@@ -6,6 +6,102 @@ from db_connector import *
 from flask_app import *
 from common import *
 import random
+import datetime
+import collections
+import operator
+
+
+#-----------------------------------------------------------------------------------------------------------
+#Customer view API - Common - View User details
+@app.route('/api/v1/account_details',methods=['GET'])
+def view_account_details():
+    temp_dict = {}
+    if not request.cookies.get('user_type'):
+        return jsonify(str({"error":"Bad Request"})),400 
+    user_type = request.cookies.get('user_type')
+    if user_type == 'Customer':
+        if (not request.cookies.get('uid')) or (not request.cookies.get('iid')):
+            return jsonify(str({"error":"Bad Request"})),400 
+        else:
+            uid = request.cookies.get('uid')
+            iid = request.cookies.get('iid')
+            user_info = db.users.find_one({"uid":uid})
+            i_info = db.institutions.find_one({"iid":iid})
+            temp_dict["uid"] = uid
+            temp_dict["name"] = user_info["name"]
+            temp_dict["username"] = user_info["username"]
+            temp_dict["user_type"] = user_info["account_type"]
+            temp_dict["wallet"] = user_info["wallet"]
+            temp_dict["i_name"] = i_info["i_name"]
+
+    elif user_type == 'Canteen':
+        if (not request.cookies.get('uid')) or (not request.cookies.get('can_id')):
+            return jsonify(str({"error":"Bad Request"})),400 
+        else:
+            uid = request.cookies.get('uid')
+            can_id = request.cookies.get('can_id')
+            user_info = db.users.find_one({"uid":uid})
+            can_info = db.canteens.find_one({"can_id":can_id})
+            i_info = db.institutions.find_one({"iid":user_info["iid"]})
+            temp_dict["uid"] = uid
+            temp_dict["username"] = user_info["username"]
+            temp_dict["user_type"] = user_info["account_type"]
+            temp_dict["i_name"] = i_info["i_name"]
+            temp_dict["can_id"] = can_info["can_id"]
+            temp_dict["establishment_name"] = can_info["establishment_name"]
+            temp_dict["owner"] = can_info["owner"]
+
+
+    elif user_type == 'Caterer':
+        if (not request.cookies.get('uid')) or (not request.cookies.get('cat_id')):
+            return jsonify(str({"error":"Bad Request"})),400 
+        else:
+            uid = request.cookies.get('uid')
+            cat_id = request.cookies.get('cat_id')
+            user_info = db.users.find_one({"uid":uid})
+            cat_info = db.caterers.find_one({"cat_id":cat_id})
+            temp_dict["uid"] = uid
+            temp_dict["username"] = user_info["username"]
+            temp_dict["user_type"] = user_info["account_type"]
+            temp_dict["cat_id"] = cat_info["cat_id"]
+            temp_dict["establishment_name"] = cat_info["establishment_name"]
+            temp_dict["owner"] = cat_info["owner"]
+            temp_dict["location"] = cat_info["location"]
+
+            
+    elif user_type == 'Institution':
+        if (not request.cookies.get('uid')) or (not request.cookies.get('iid')):
+            return jsonify(str({"error":"Bad Request"})),400 
+        else:
+            uid = request.cookies.get('uid')
+            iid = request.cookies.get('iid')
+            user_info = db.users.find_one({"uid":uid})
+            i_info = db.institutions.find_one({"iid":iid})
+            temp_dict["uid"] = uid
+            temp_dict["username"] = user_info["username"]
+            temp_dict["user_type"] = user_info["account_type"]
+            temp_dict["iid"] = i_info["iid"]
+            temp_dict["i_name"] = i_info["i_name"]
+    elif user_type == 'Delivery':
+        if (not request.cookies.get('uid')) or (not request.cookies.get('did')):
+            return jsonify(str({"error":"Bad Request"})),400 
+        else:
+            uid = request.cookies.get('uid')
+            did = request.cookies.get('did')
+            user_info = db.users.find_one({"uid":uid})
+            d_info = db.delivery.find_one({"did":did})
+            temp_dict["uid"] = uid
+            temp_dict["username"] = user_info["username"]
+            temp_dict["user_type"] = user_info["account_type"]
+            temp_dict["did"] = did
+            temp_dict["d_name"] = d_info["d_name"]
+
+    if len(temp_dict) == 0:
+        return jsonify(str({})), 204
+    else:
+        print("\n\n\n",type(temp_dict),"\n\n\n")
+        print("\n\n\n",temp_dict,"\n\n\n")
+        return jsonify(str(temp_dict)), 200
 
 #-----------------------------------------------------------------------------------------------------------
 #Customer API 1- View previous orders
@@ -40,6 +136,9 @@ def view_previous_orders():
 
     return jsonify(str(temp_dict)),200
 #-----------------------------------------------------------------------------------------------------------
+
+
+
 #Customer API 5: View rating and reviews of food item
 @app.route('/api/v1/item/view_reviews', methods=['GET'])
 def item_view_reviews():
@@ -184,6 +283,10 @@ def get_item_by_id(item_id):
     else:
         return jsonify(str(temp_dict)), 200
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5b7897f9d78d0df7a719d9c36940f4d7ec2d00d3
 
 
 
@@ -445,7 +548,167 @@ def get_rating():
             return jsonify(str({"avg_rating":item['avg_rating']})), 200
 
 
+@app.route('/api/v1/recommendation', methods = ['GET'])
+def recommendation():
+    if request.method != 'GET':
+        return jsonify(str({"error": "Method not allowed"})),405
+    iid = request.cookies.get('iid')
+    uid = request.cookies.get('uid')
+    canteens=[]
+    caterers=[]
+    item_list=[]
+    temp_dict={}
+    temp_can = db.users.find({"iid":iid,"account_type":"Canteen"})
+    for can in temp_can:
+        x = db.canteens.find_one({"uid":can['uid']})
+        canteens.append(x['can_id'])
+    temp_cat = db.institutions.find_one({"iid":iid})
+    caterers = temp_cat['caterers']
+    for canteen in canteens:
+        temp_items = db.menu.find({"eid":canteen})
+        for temp_item in temp_items:
+            temp_dict={}
+            temp_dict["item_id"] = temp_item["item_id"]
+            temp_dict["item_name"] = temp_item["item_name"]
+            temp_dict["eid"] = temp_item["eid"]
+            temp_dict["e_type"] = temp_item["e_type"]
+            temp_dict["e_name"] = get_est_name_from_item_id(temp_item["item_id"])
+            temp_dict["item_price"] = temp_item["item_price"]
+            temp_dict["currency"] = temp_item["currency"]
+            temp_dict["status"] = temp_item["status"]
+            temp_dict["avg_rating"] = temp_item["avg_rating"]
+            temp_dict["img"] = temp_item["img"]
 
+            item_list.append(temp_dict)
+
+    for caterer in caterers:
+        temp_items = db.menu.find({"eid":caterer})
+        for temp_item in temp_items:
+            temp_dict={}
+            temp_dict["item_id"] = temp_item["item_id"]
+            temp_dict["item_name"] = temp_item["item_name"]
+            temp_dict["eid"] = temp_item["eid"]
+            temp_dict["e_type"] = temp_item["e_type"]
+            temp_dict["e_name"] = get_est_name_from_item_id(temp_item["item_id"])
+            temp_dict["item_price"] = temp_item["item_price"]
+            temp_dict["currency"] = temp_item["currency"]
+            temp_dict["status"] = temp_item["status"]
+            temp_dict["avg_rating"] = temp_item["avg_rating"]
+            temp_dict["img"] = temp_item["img"]
+            item_list.append(temp_dict)
+
+    random.shuffle(item_list)
+    veg=0
+    nonveg=0
+    spicy=0
+    sweet=0
+    snacks=0
+    breakfast=0
+    cold=0
+    hot=0
+    lunch=0
+
+    now = datetime.datetime.now()
+    #print now.year, now.month, now.day, now.hour, now.minute, now.second
+    if(now.month==12 or now.month==1 or now.month==2):
+        hot+=5
+    elif(now.month>=6 and now.month<=8):
+        cold+=5
+    elif(now.month>=9 and now.month<=11):
+        hot+=5
+        sweet+=5
+    elif(now.month>=3 and now.month<=5):
+        cold+=5
+        spicy+5
+    
+    if(now.hour>=12 and now.hour <=4):
+        lunch+=10
+    elif(now.hour>=7 and now.hour <=11):
+        breakfast+=10
+    elif(now.hour>=5 and now.hour<=7 ):
+        snacks+=10
+    
+    history_list = []
+    o_collection = db['orders']
+    for order in o_collection.find({ "uid":uid  }):
+        item_list2 = order['items']
+        for item_id2 in item_list2.keys():
+            history_list.append(item_id2)
+    history_list = set(history_list)
+
+    m_collection = db['menu']
+    for item_id in history_list:
+        record = m_collection.find_one({ "item_id":item_id })
+        tags = record["tags"]
+        for tag in tags:
+            if(tag=="veg"):
+                veg+=1
+            elif(tag=="nonveg"):
+                nonveg+=1
+            elif(tag=="spicy"):
+                spicy+=1
+            elif(tag=="sweet"):
+                sweet+=1
+            elif(tag=="snacks"):
+                snacks+=1
+            elif(tag=="breakfast"):
+                breakfast+=1
+            elif(tag=="cold"):
+                cold+=1
+            elif(tag=="hot"):
+                hot+=1
+            elif(tag=="lunch"):
+                lunch+=1
+    
+    final_item_list = []
+    tag_dict = { "veg": veg, "nonveg": nonveg, "spicy": spicy, "sweet": sweet, "snacks": snacks, "breakfast": breakfast, 
+                "cold": cold, "hot": hot, "lunch": lunch }
+    sorted_tags = sorted(tag_dict.items(), key=operator.itemgetter(1))
+
+    sorted_dict = collections.OrderedDict(sorted_tags)
+
+    tags_in_order = list(sorted_dict.items())
+
+    print(item_list)
+    for tag in tags_in_order:
+        if(len(final_item_list)>=4):
+            break
+        else:
+            tag_one = tag[0]
+            for item in item_list:
+                if(len(final_item_list)>=4):
+                    break
+                else:
+                    item_id = item["item_id"]
+                    record = m_collection.find_one({"item_id": item_id })
+                    tags_order = record["tags"]
+                    if(tag_one in tags_order):
+                        if(item_id not in final_item_list):
+                            final_item_list.append(item_id)
+    
+    return_list = []
+    print(len(final_item_list))
+    for temp_item in final_item_list:
+        temp_dict={}
+        temp_item = db.menu.find_one({"item_id":temp_item})
+        temp_dict["item_id"] = temp_item["item_id"]
+        temp_dict["item_name"] = temp_item["item_name"]
+        temp_dict["eid"] = temp_item["eid"]
+        temp_dict["e_type"] = temp_item["e_type"]
+        temp_dict["e_name"] = get_est_name_from_item_id(temp_item["item_id"])
+        temp_dict["item_price"] = temp_item["item_price"]
+        temp_dict["currency"] = temp_item["currency"]
+        temp_dict["status"] = temp_item["status"]
+        temp_dict["avg_rating"] = temp_item["avg_rating"]
+        temp_dict["img"] = temp_item["img"]
+        return_list.append(temp_dict)
+
+    print(len(return_list))
+
+    if len(return_list) == 0:
+        return jsonify(str({"success": "No Content"})),204
+    else:
+        return jsonify(str(return_list)), 200
 
 
 #----------------------
