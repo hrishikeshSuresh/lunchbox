@@ -27,11 +27,15 @@ class Articles extends React.Component {
             response.json().then((res)=>{
               var myObject = eval('(' + res + ')');
               for (let i=0;i <myObject.length;i++){
-                  console.log(obj.get_item(myObject[i]))
-                  itemlist.push(obj.get_item(myObject[i]))
+                  // console.log(obj.get_item(myObject[i]))
+                  obj.get_item(obj,myObject[i])
+                  // itemlist.push(obj.state.item)
+                  console.warn("outer",obj.state.item)
+                  // itemlist.push(obj.get_item(obj,myObject[i]))
 
                 }
                 obj.setState({itemlist:itemlist})
+                console.warn("list",obj.state.itemlist)
             });
           }
           else{
@@ -44,51 +48,52 @@ class Articles extends React.Component {
       }
     }
   }
-  get_item(item_id){
-    return {
-        "item_id": "Item ID",
-        "item_name":"<Item Name>",
-        "eid":"<Establishment ID>",
-        "e_name":"<Establishment Name>",
-        "e_type":"Canteen",
-        "item_price":10,
-        "currency":"INR",
-        "img":"img",
-        "rating":5
-        }
-    const url2 = server_ip+'/api/v1/item/'+item_id;
-    var item={}
+  get_item(obj,item_id){
+    // return {
+    //     "item_id": "Item ID",
+    //     "item_name":"<Item Name>",
+    //     "eid":"<Establishment ID>",
+    //     "e_name":"<Establishment Name>",
+    //     "e_type":"Canteen",
+    //     "item_price":10,
+    //     "currency":"INR",
+    //     "img":"img",
+    //     "rating":5,
+    //     "status":1
+    //     }
+    const url = server_ip+'/api/v1/item/'+item_id;
+
     try{
-      response2=fetch(url2, {
+      response=fetch(url, {
           method: 'GET', 
           credentials: 'include',
-          body: JSON.stringify(data),
           headers: {
             'Content-Type': 'application/json'
           }
         })
-        .then((response2) => {
-          if(response2.status==200){
-            response2.json().then((res2)=>{
-              item = eval('(' + res2 + ')');
-              return item
+        .then((response) => {
+          if(response.status==200){
+            // console.warn(JSON.parse(response))
+            response.json().then((res)=>{
+              var myObject = eval('(' + res + ')');
+                // console.warn("obj",myObject)
+                obj.setState({item:myObject})
+                console.warn("inner",obj.state.item)
             });
           }
           else{
-            this.setState({error : "Oops! Something isn't right"})
+            // this.setState({error : "Oops! Something isn't right"})
           }
-          })
-          
 
-        }
-        catch (error) {
-          // console.warn('Error:', error);
-        }
-    return item
+        })
+      } catch (error) {
+        // console.warn('Error:', error);
+      }
+    // return item
   }
   constructor(props){
     super(props);
-    this.state={itemlist:[]}
+    this.state={itemlist:[],item:{}}
     this.helper()
   }
   
@@ -96,22 +101,28 @@ class Articles extends React.Component {
     var blockfin= []
     let i=0
     while(i<this.state.itemlist.length){
+
       var block=[]
+      while(i<this.state.itemlist.length && !(this.state.itemlist[i].status)){i++;}
+      if(i<this.state.itemlist.length){
       block.push(
-        <FoodCard item={this.state.itemlist[i]} cardtype="food" qty={0}  key={1} style={{ marginRight: theme.SIZES.BASE }} />
+        <FoodCard item={this.state.itemlist[i]} qty={0} key={1} cardtype="food" style={{ marginRight: theme.SIZES.BASE }} />
         )
-      i++
+        i++;
+      }
+      while(i<this.state.itemlist.length && !(this.state.itemlist[i].status)){i++;}
       if(i<this.state.itemlist.length){
         block.push(
-        <FoodCard item={this.state.itemlist[i]}  cardtype="food" qty={0}  key={2}/>
+        <FoodCard item={this.state.itemlist[i]} qty={0} key={2} cardtype="food"/>
         )
+        i++
       }
       blockfin.push(
         <Block  flex row key={i}>
           {block}
         </Block>
       )
-      i++
+      while(i<this.state.itemlist.length && !(this.state.itemlist[i].status)){i++;}
     }
     // console.warn("helper",block)
     return blockfin
