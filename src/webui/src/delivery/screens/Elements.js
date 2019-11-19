@@ -565,18 +565,20 @@ class Elements extends React.Component {
         const { navigate } = this.props.navigation;
         while (i < this.state.order_list.length) {
             item = {
-                order_id: obj.state.order_list[i].order_id,
-                src: obj.state.order_list[i].location,
-                dest: obj.state.order_list[i].e_location,
-                amount: obj.state.order_list[i].amount,
-                order_status: 1
-            }
+                order_id: this.state.order_list[i].order_id,
+                src: this.state.order_list[i].src,
+                dest: this.state.order_list[i].dest,
+                amount: this.state.order_list[i].item_price,
+                order_status: 4
+            };
+            console.log("ITEM : " , item);
             blockfin.push(
                 <TouchableOpacity style={styles.blockAttr}
                     onPress={() => 
-                        navigate('OrderView', {
-                            item
-                        })
+                        navigate('OrderView', { 
+                            	item,
+                        	}
+                        )
                     }
                     title='Submit'
                     key={i}
@@ -588,13 +590,13 @@ class Elements extends React.Component {
                         Order ID: {this.state.order_list[i].order_id}
                     </Text>
                     <Text style={styles.boldText}>
-                        Source: {this.state.order_list[i].location}
+                        Source: {this.state.order_list[i].src}
                     </Text>
                     <Text style={styles.boldText}>
-                        Destination: {this.state.order_list[i].e_location}
+                        Destination: {this.state.order_list[i].dest}
                     </Text>
                     <Text style={styles.boldText}>
-                        Item Price: {this.state.order_list[i].amount}
+                        Item Price: {this.state.order_list[i].item_price}
                     </Text>
                 </TouchableOpacity>
             );
@@ -642,18 +644,21 @@ class Elements extends React.Component {
                         if (response.status == 200) {
                             response.json().then((res) => {
                                 var myObject = eval('(' + res + ')');
-                                console.log(myObject);
-                                for (let i = 0; i < myObject.length; i++) {
+                                for (i in myObject) {
+                                	console.log("DID is ", myObject[i]["did"]);
+                                	if(myObject[i]["did"] != '')
+                                		continue;
                                     order_list.push({
-                                        name: myObject[i]["name"],
-                                        order_id: myObject[i]["order_number"],
-                                        src: myObject[i]["source"],
-                                        dest: myObject[i]["destination"],
-                                        item_price: myObject[i]["item_price"]
+                                        name: myObject[i]["e_name"],
+                                        order_id: i,
+                                        src: myObject[i]["e_location"],
+                                        dest: myObject[i]["customer_location"],
+                                        item_price: myObject[i]["amount"]
                                     });
                                 }
+                                console.log(order_list);
+                            	obj.setState({ order_list: order_list });
                             })
-                            obj.setState({ order_list: order_list });
                             return order_list;
                         }
                         else {
@@ -671,25 +676,11 @@ class Elements extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            order_list: [{
-                "order_id": "o8",
-                "uid": "u1",
-                "eid": "cat1",
-                "e_type": "Caterer",
-                "items": { "it3": 2 },
-                "amount": 100,
-                "currency": "INR",
-                "payment_option": "cash",
-                "location": [12.935958, 77.532928],
-                "e_location": [12.935958, 77.532928],
-                "status": 1,
-                "timestamp": 1573999802.8732119,
-                "did": ""
-            }],
+            order_list: [{}],
             search: "Filter By"
         };
 
-        //this.viewAvailableOrders();
+        this.viewAvailableOrders();
     }
 
     /* This will be handling the UI component rendering
