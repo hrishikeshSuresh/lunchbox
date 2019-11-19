@@ -101,7 +101,7 @@ orders.insert_one({"order_id":"o5","uid":"u5","eid":"can2","e_type":"Canteen","i
 orders.insert_one({"order_id":"o6","uid":"u5","eid":"can1","e_type":"Canteen","items":{"it2":1},"amount":60,"currency":"INR","payment_option":"cash","location":[12.935958,77.532928],"status":1,"timestamp":1573999784.738344,"token":263846})
 orders.insert_one({"order_id":"o7","uid":"u2","eid":"can2","e_type":"Canteen","items":{"it5":1},"amount":200,"currency":"INR","payment_option":"wallet","location":[12.935958,77.532928],"status":4,"timestamp":1573999793.848091,"token":100345})
 
-orders.insert_one({"order_id":"o8","uid":"u1","eid":"cat1","e_type":"Caterer","items":{"it3":2},"amount":100,"currency":"INR","payment_option":"cash","location":[12.935958,77.532928],"status":1,"timestamp":1573999802.8732119,"did":""})
+orders.insert_one({"order_id":"o8","uid":"u1","eid":"cat1","e_type":"Caterer","items":{"it3":2},"amount":100,"currency":"INR","payment_option":"cash","location":[12.935958,77.532928],"status":2,"timestamp":1573999802.8732119,"did":""})
 orders.insert_one({"order_id":"o9","uid":"u2","eid":"cat1","e_type":"Caterer","items":{"it3":1},"amount":50,"currency":"INR","payment_option":"wallet","location":[12.935958,77.532928],"status":2,"timestamp":1573999812.811394,"did":"d1"})
 orders.insert_one({"order_id":"o10","uid":"u3","eid":"cat2","e_type":"Caterer","items":{"it4":1},"amount":90,"currency":"INR","payment_option":"cash","location":[12.935958,77.532928],"status":3,"timestamp":1573999825.455155,"did":"d2"})
 orders.insert_one({"order_id":"o11","uid":"u4","eid":"cat3","e_type":"Caterer","items":{"it6":1},"amount":300,"currency":"INR","payment_option":"cash","location":[12.935958,77.532928],"status":4,"timestamp":1573999833.468823,"did":"d3"})
