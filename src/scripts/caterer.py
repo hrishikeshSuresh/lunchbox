@@ -438,7 +438,7 @@ def view_pending_orders():
 			token_or_did="did"
 			token_or_did_val=order['did']
 		elif user_type=="Delivery":
-			if (order['status']!=2 and order['status']!=3 and order['status']!=4 ):
+			if (order['status']!=2 and order['status']!=3 and order['status']!=4 and order['did']!=''):
 				continue
 			doc = db.caterers.find_one({"cat_id":order['eid']})
 			temp_e_name=doc['establishment_name']
