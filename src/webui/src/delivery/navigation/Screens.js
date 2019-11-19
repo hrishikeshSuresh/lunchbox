@@ -150,22 +150,22 @@ const AppStack = createDrawerNavigator(
         )
       })
     },
-    Profile: {
-      screen: ProfileStack,
-      navigationOptions: navOpt => ({
-        drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Profile" title="Statistics" />
-        )
-      })
-    },
-    Account: {
-      screen: Register,
-      navigationOptions: navOpt => ({
-        drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Register" title="Account" />
-        )
-      })
-    },
+    // Profile: {
+    //   screen: ProfileStack,
+    //   navigationOptions: navOpt => ({
+    //     drawerLabel: ({ focused }) => (
+    //       <DrawerItem focused={focused} screen="Profile" title="Statistics" />
+    //     )
+    //   })
+    // },
+    // Account: {
+    //   screen: Register,
+    //   navigationOptions: navOpt => ({
+    //     drawerLabel: ({ focused }) => (
+    //       <DrawerItem focused={focused} screen="Register" title="Account" />
+    //     )
+    //   })
+    // },
     Elements: {
       screen: ElementsStack,
       navigationOptions: navOpt => ({
@@ -174,14 +174,14 @@ const AppStack = createDrawerNavigator(
         )
       })
     },
-    Articles: {
-      screen: ArticlesStack,
-      navigationOptions: navOpt => ({
-        drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Articles" title="Articles" />
-        )
-      })
-    },
+    // Articles: {
+    //   screen: ArticlesStack,
+    //   navigationOptions: navOpt => ({
+    //     drawerLabel: ({ focused }) => (
+    //       <DrawerItem focused={focused} screen="Articles" title="Articles" />
+    //     )
+    //   })
+    // },
     OrderView: {
         screen: OrderView
     }

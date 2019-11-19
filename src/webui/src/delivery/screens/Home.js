@@ -81,18 +81,18 @@ class Home extends React.Component {
                     if (response.status == 200) {
                         response.json().then((res) => {
                             var myObject = eval('(' + res + ')');
-                            console.log(myObject);
-                            for (let i = 0; i < myObject.length; i++) {
+                            for (i in myObject) {
                                 order_list.push({
-                                    name: myObject[i]["name"],
-                                    order_id: myObject[i]["order_number"],
-                                    src: myObject[i]["source"],
-                                    dest: myObject[i]["destination"],
-                                    item_price: myObject[i]["item_price"]
+                                    name: myObject[i]["e_name"],
+                                    order_id: i,
+                                    src: myObject[i]["e_location"],
+                                    dest: myObject[i]["customer_location"],
+                                    item_price: myObject[i]["amount"]
                                 });
                             }
-                        })
                         obj.setState({ order_list: order_list });
+                        })
+                        console.log(order_list);
                         return order_list;
                     }
                     else {

@@ -40,7 +40,7 @@ class OrderView extends React.Component {
     }
 
     startNavigation(latitude, longitude) {
-        console.warn("Opening Google Maps");
+        console.log("Opening Google Maps");
         var url = "https://www.google.com/maps/dir/?api=1&travelmode=driving&dir_action=navigate&destination=" + latitude + "," + longitude;
         Linking.canOpenURL(url).then(supported => {
             if (!supported) {
@@ -55,15 +55,14 @@ class OrderView extends React.Component {
      * API integration to check if order has been accepted on
      * user side.
      */
-    canAcceptOrder(orderId) {
-        const url = server_ip + '/api/v1/order/status';
+    canAcceptOrder = (orderId) => {
+        const url = server_ip + '/api/v1/delivery/select_order';
         const data = {
-            order_id: orderId,
-            status: 4
+            order_id: orderId
         }
         try {
             response = fetch(url, {
-                method: 'GET',
+                method: 'POST',
                 credentials: 'include',
                 body: JSON.stringify(data),
                 headers: {
@@ -71,19 +70,16 @@ class OrderView extends React.Component {
                 }
             })
                 .then((response) => {
+                	console.log("STATUS : ", response.status);
                     if (response.status == 200) {
-                        console.warn(JSON.parse(response));
                         Alert.alert(
                             'Alert Title',
                             'ORDER HAS BEEN ASSIGNED TO YOU',
                             [
                                 { text: 'OK', onPress: () => console.log('OK Pressed') },
                             ]
-                        );  
-                        console.warn("order accepted");
-                    }
+                        );                     }
                     else {
-                        console.warn("someone else has already made order");
                         Alert.alert(
                             'Alert Title',
                             'SOMEONE ELSE HAS TAKEN THE ORDER. Please try another order.',
@@ -102,7 +98,7 @@ class OrderView extends React.Component {
     /*
      * API integration to confirm order
      */
-    orderConfirmed(orderId) {
+    orderConfirmed = (orderId) => {
         const url = server_ip + '/api/v1/order/status';
         const data = {
             order_id: orderId,
@@ -110,7 +106,7 @@ class OrderView extends React.Component {
         }
         try {
             response = fetch(url, {
-                method: 'GET',
+                method: 'POST',
                 credentials: 'include',
                 body: JSON.stringify(data),
                 headers: {
@@ -118,19 +114,17 @@ class OrderView extends React.Component {
                 }
             })
                 .then((response) => {
-                    if (response.status == 200) {
-                        console.warn(JSON.parse(response));
+                	console.log("STATUS : ", response.status);
+                    if (response.status == 201) {
                         Alert.alert(
                             'Alert Title',
                             'ORDER HAS MARKED AS DELIVERED',
                             [
                                 { text: 'OK', onPress: () => console.log('OK Pressed') },
                             ]
-                        );  
-                        console.warn("order delivered");
+                        );
                     }
                     else {
-                        console.warn("some error has occured.");
                         Alert.alert(
                             'Alert Title',
                             'SOME ERROR HAS OCCURED ON THE BACK-END. Please try again',
@@ -153,7 +147,6 @@ class OrderView extends React.Component {
         const src = this.props.navigation.state.params.item.src;
         const dest = this.props.navigation.state.params.item.dest;
         const amount = this.props.navigation.state.params.item.amount;
-        const order_status = 1;
         return (
             <Block flex center style={styles.home}>
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
@@ -171,7 +164,7 @@ class OrderView extends React.Component {
                             Item Price : {amount}
                         </Text>
                     </View>
-                    <TouchableOpacity style={styles.optionsButton} onPress={() => console.warn("order accepted") }>
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.canAcceptOrder(order_id) }>
                         <Text style={styles.normalText}>
                             ACCEPT ORDER
                         </Text>
@@ -186,7 +179,7 @@ class OrderView extends React.Component {
                             GO TO DESTINATION
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.optionsButton} onPress={() => console.warn("order delievered") }>
+                    <TouchableOpacity style={styles.optionsButton} onPress={() => this.orderConfirmed(order_id) }>
                         <Text style={styles.normalText}>
                             CONFIRM ORDER DELIVERY
                         </Text>

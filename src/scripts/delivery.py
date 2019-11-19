@@ -32,7 +32,7 @@ def signup_delivery():
         return resp
 
 
-#Select order
+#Select order for delivery
 @app.route('/api/v1/delivery/select_order',methods=['POST'])
 def delivery_select_order():
     if ( not request.cookies.get('uid')) or (not request.cookies.get('did')) or (not request.cookies.get('user_type')):
@@ -41,11 +41,13 @@ def delivery_select_order():
         return jsonify(str({"error":"Bad Request"})), 400
 
     order_id = request.json.get('order_id')
+    print(order_id)
     did = request.cookies.get('did')
+    print(did)
     order = db.orders.find_one({"order_id":order_id})
     if order:
         if order['did'] == '':
-            db.orders.update({"order_id":order_id},{"$set":{"did":did}})
+            db.orders.update({"order_id":order_id},{"$set":{"did":did, "status": 4}})
             return jsonify(str({"success":"selected"})), 200
         else:
             return jsonify(str({"error":"Bad Request"})), 400
