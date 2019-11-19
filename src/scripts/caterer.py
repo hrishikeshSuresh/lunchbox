@@ -445,8 +445,9 @@ def view_pending_orders():
 			token_or_did="did"
 			token_or_did_val=order['did']
 
-		temp_dict[order["order_id"]]={"uid":order['uid'],"eid":order['eid'],"e_name":temp_e_name,"e_type":order['e_type'],"items":order['items'],"amount":order['amount'],"currency":order['currency'],"payment_option":order['payment_option'],"customer_location":order['location'],"status":order['status'],"timestamp":time.ctime(order['timestamp']),token_or_did:token_or_did_val}
-		if user_type=="Delivery" and order['e_type']=="Caterer":
+		temp_dict[order["order_id"]]={"uid":order['uid'],"eid":order['eid'],"e_name":temp_e_name,"e_type":order['e_type'],"items":order['items'],"amount":order['amount'],"currency":order['currency'],"payment_option":order['payment_option'],"customer_location":order['location'],"status":order['status'],"timestamp":time.ctime(order['timestamp'])}
+        temp_dict[order["order_id"]][token_or_did]=token_or_did_val
+        if user_type=="Delivery" and order['e_type']=="Caterer":
 			(temp_dict[order["order_id"]])["e_location"]=doc["location"]
 
 	return jsonify(str(temp_dict)),200

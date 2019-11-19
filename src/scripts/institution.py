@@ -108,13 +108,17 @@ def view(user_type):
             return_list = []
             iid = request.cookies.get('iid')
             user_collection = db['users']
+            can_collection = db['canteens']
             for record in user_collection.find({ 'iid':iid, "account_type":"Canteen" }):
                 #record = dumps(record)
+                print(dumps(record))
                 record_json={}
-                record_json["can_id"] = record["can_id"]
                 record_json["uid"] = record["uid"]
-                record_json["estabishment_name"] = record["establishment_name"]
-                record_json["owner"] = record["owner"]
+                uid_temp = record_json["uid"]
+                record2 = can_collection.find_one({ "uid": uid_temp }) 
+                record_json["can_id"] = record2["can_id"]
+                record_json["estabishment_name"] = record2["establishment_name"]
+                record_json["owner"] = record2["owner"]
                 return_list.append(record_json)
             return jsonify(return_list), 200
         elif(user_type == 'Caterer'):
