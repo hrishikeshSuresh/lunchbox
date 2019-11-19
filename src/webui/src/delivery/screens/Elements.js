@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, Dimensions, TouchableOpacity, View } from "react-native";
 // Galio components
 import { Block, Text, Button as GaButton, theme } from "galio-framework";
 // Argon themed components
@@ -8,136 +8,207 @@ import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 
 const { width } = Dimensions.get("screen");
 
+/*
+    ELEMENTS IS ACTUALLY PAGE FOR VIEWING PENDING ORDERS
+ */
+
+/*
 class Elements extends React.Component {
-  state = {
-    "switch-1": true,
-    "switch-2": false
-  };
+    state = {
+        "switch-1": true,
+        "switch-2": false
+    };
 
-  toggleSwitch = switchId =>
-    this.setState({ [switchId]: !this.state[switchId] });
+    toggleSwitch = switchId =>
+        this.setState({ [switchId]: !this.state[switchId] });
 
-  renderButtons = () => {
-    return (
-      <Block flex>
-        <Text bold size={16} style={styles.title}>
-          Buttons
-        </Text>
-        <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-          <Block center>
-            <Button color="default" style={styles.button}>
-              DEFAULT
-            </Button>
-          </Block>
-          <Block center>
-            <Button
-              color="secondary"
-              textStyle={{ color: "black", fontSize: 12, fontWeight: "700" }}
-              style={styles.button}
-            >
-              SECONDARY
-            </Button>
-          </Block>
-          <Block center>
-            <Button style={styles.button}>PRIMARY</Button>
-          </Block>
-          <Block center>
-            <Button color="info" style={styles.button}>
-              INFO
-            </Button>
-          </Block>
-          <Block center>
-            <Button color="success" style={styles.button}>
-              SUCCESS
-            </Button>
-          </Block>
-          <Block center>
-            <Button color="warning" style={styles.button}>
-              WARNING
-            </Button>
-          </Block>
-          <Block center>
-            <Button color="error" style={styles.button}>
-              ERROR
-            </Button>
-          </Block>
-          <Block row space="evenly">
-            <Block flex left>
-              <Select
-                defaultIndex={1}
-                options={["01", "02", "03", "04", "05"]}
-              />
+    viewAvailableOrders() {
+        var order_list = [];
+        var name = "hrishi";
+        var obj = this;
+        if (withflask) {
+            const url = server_ip + '/api/v1/' + name + '/available_deliveries';
+
+            try {
+                response = fetch(url, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then((response) => {
+                        if (response.status == 200) {
+                            console.warn(JSON.parse(response));
+                            response.json().then((res) => {
+                                var myObject = eval('(' + res + ')');
+                                for (let i = 0; i < myObject.length; i++) {
+                                    order_list.push({
+                                        name: myObject[i]["name"],
+                                        order_id: myObject[i]["order_number"],
+                                        src: myObject[i]["source"],
+                                        dest: myObject[i]["destination"],
+                                        item_price: myObject[i]["item_price"]
+                                    });
+                                    console.warn(String(myObject[i]["_id"]));
+                                }
+                            })
+                            obj.setState({ order_list: order_list });
+                            return order_list;
+                        }
+                        else {
+                            this.setState({ error: "Oops! Something isn't right" });
+                        }
+                    });
+            }
+            catch (error) {
+                console.warn('Error:', error);
+            }
+        }
+        return itemlist
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            order_list: [
+                {
+                    name: "abc",
+                    order_id: "4524",
+                    src: "PES U",
+                    dest: "MG ROAD",
+                    item_price: "5424"
+                }
+            ],
+            search: "Filter By"
+        };
+        //this.viewAvailableOrders();
+    }
+
+    renderButtons = () => {
+        return (
+        <Block flex>
+            <Text bold size={16} style={styles.title}>
+                Buttons
+            </Text>
+            <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
+            <Block center>
+                <Button color="default" style={styles.button}>
+                    DEFAULT
+                </Button>
             </Block>
-            <Block flex center>
-              <Button small center color="default" style={styles.optionsButton}>
-                DELETE
-              </Button>
+            <Block center>
+                <Button
+                    color="secondary"
+                    textStyle={{ color: "black", fontSize: 12, fontWeight: "700" }}
+                    style={styles.button}
+                >
+                    <Text> ORDER ID: {this.state.order_list[0].order_id} </Text>
+                    <Text> SOURCE: {this.state.order_list[0].src} </Text>
+                    <Text> DESTINATION: {this.state.order_list[0].dest} </Text>
+                    <Text> ITEM PRICE: {this.state.order_list[0].item_price} </Text>
+                </Button>
             </Block>
-            <Block flex={1.25} right>
-              <Button center color="default" style={styles.optionsButton}>
-                SAVE FOR LATER
-              </Button>
+            <Block center>
+                <Button style={styles.button}>PRIMARY</Button>
             </Block>
-          </Block>
+            <Block center>
+                <Button color="info" style={styles.button}>
+                    INFO
+                </Button>
+            </Block>
+            <Block center>
+                <Button color="success" style={styles.button}>
+                    SUCCESS
+                </Button>
+            </Block>
+            <Block center>
+                <Button color="warning" style={styles.button}>
+                    WARNING
+                </Button>
+            </Block>
+            <Block center>
+                <Button color="error" style={styles.button}>
+                    ERROR
+                </Button>
+            </Block>
+            <Block row space="evenly">
+                <Block flex left>
+                    <Select
+                        defaultIndex={1}
+                        options={["01", "02", "03", "04", "05"]}
+                    />
+                </Block>
+                <Block flex center>
+                    <Button small center color="default" style={styles.optionsButton}>
+                        DELETE
+                    </Button>
+                </Block>
+                    <Block flex={1.25} right>
+                        <Button center color="default" style={styles.optionsButton}>
+                            SAVE FOR LATER
+                        </Button>
+                    </Block>
+                </Block>
+            </Block>
         </Block>
-      </Block>
-    );
-  };
+        );
+    };
 
-  renderText = () => {
+    renderText = () => {
     return (
-      <Block flex style={styles.group}>
+        <Block flex style={styles.group}>
         <Text bold size={16} style={styles.title}>
-          Typography
+            Typography
         </Text>
         <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-          <Text
+            <Text
             h1
             style={{ marginBottom: theme.SIZES.BASE / 2 }}
             color={argonTheme.COLORS.DEFAULT}
-          >
+            >
             Heading 1
-          </Text>
-          <Text
+            </Text>
+            <Text
             h2
             style={{ marginBottom: theme.SIZES.BASE / 2 }}
             color={argonTheme.COLORS.DEFAULT}
-          >
+            >
             Heading 2
-          </Text>
-          <Text
+            </Text>
+            <Text
             h3
             style={{ marginBottom: theme.SIZES.BASE / 2 }}
             color={argonTheme.COLORS.DEFAULT}
-          >
+            >
             Heading 3
-          </Text>
-          <Text
+            </Text>
+            <Text
             h4
             style={{ marginBottom: theme.SIZES.BASE / 2 }}
             color={argonTheme.COLORS.DEFAULT}
-          >
+            >
             Heading 4
-          </Text>
-          <Text
+            </Text>
+            <Text
             h5
             style={{ marginBottom: theme.SIZES.BASE / 2 }}
             color={argonTheme.COLORS.DEFAULT}
-          >
+            >
             Heading 5
-          </Text>
-          <Text
+            </Text>
+            <Text
             p
             style={{ marginBottom: theme.SIZES.BASE / 2 }}
             color={argonTheme.COLORS.DEFAULT}
-          >
+            >
             Paragraph
-          </Text>
-          <Text muted>This is a muted paragraph.</Text>
+            </Text>
+            <Text muted>This is a muted paragraph.</Text>
         </Block>
-      </Block>
+        </Block>
     );
-  };
+    };
 
   renderInputs = () => {
     return (
@@ -242,36 +313,36 @@ class Elements extends React.Component {
     );
   };
 
-  renderSwitches = () => {
+    renderSwitches = () => {
     return (
-      <Block flex style={styles.group}>
+        <Block flex style={styles.group}>
         <Text bold size={16} style={styles.title}>
-          Switches
+            Switches
         </Text>
         <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-          <Block
+            <Block
             row
             middle
             space="between"
             style={{ marginBottom: theme.SIZES.BASE }}
-          >
+            >
             <Text size={14}>Switch is ON</Text>
             <Switch
-              value={this.state["switch-1"]}
-              onValueChange={() => this.toggleSwitch("switch-1")}
+                value={this.state["switch-1"]}
+                onValueChange={() => this.toggleSwitch("switch-1")}
             />
-          </Block>
-          <Block row middle space="between">
+            </Block>
+            <Block row middle space="between">
             <Text size={14}>Switch is OFF</Text>
             <Switch
-              value={this.state["switch-2"]}
-              onValueChange={() => this.toggleSwitch("switch-2")}
+                value={this.state["switch-2"]}
+                onValueChange={() => this.toggleSwitch("switch-2")}
             />
-          </Block>
+            </Block>
         </Block>
-      </Block>
+        </Block>
     );
-  };
+    };
 
   renderTableCell = () => {
     const { navigation } = this.props;
@@ -463,6 +534,267 @@ const styles = StyleSheet.create({
     borderRadius: theme.SIZES.BASE * 1.75,
     justifyContent: "center"
   },
+});
+
+export default Elements;
+*/
+class Elements extends React.Component {
+    /* render each article that has been
+     * rendered by the UI component
+     */
+
+    static navigationOptions = {
+        title: 'AvailableOrders',
+        headerStyle: {
+            backgroundColor: '#f4511e',
+        },
+        //headerTintColor: '#0ff',  
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },  
+    };
+
+    /*
+     * render a set of blocks
+     * of current orders
+     */
+    renderhelper = () => {
+        var blockfin = [];
+        let i = 0;
+        obj = this;
+        const { navigate } = this.props.navigation;
+        while (i < this.state.order_list.length) {
+            item = {
+                order_id: this.state.order_list[i].order_id,
+                src: this.state.order_list[i].src,
+                dest: this.state.order_list[i].dest,
+                amount: this.state.order_list[i].item_price,
+                order_status: 4
+            };
+            console.log("ITEM : " , item);
+            blockfin.push(
+                <TouchableOpacity style={styles.blockAttr}
+                    onPress={() => 
+                        navigate('OrderView', { 
+                            	item,
+                        	}
+                        )
+                    }
+                    title='Submit'
+                    key={i}
+                >
+                    <Text style={styles.normalText}>
+                        #{i+1}
+                    </Text>
+                    <Text style={styles.boldText}>
+                        Order ID: {this.state.order_list[i].order_id}
+                    </Text>
+                    <Text style={styles.boldText}>
+                        Source: {this.state.order_list[i].src}
+                    </Text>
+                    <Text style={styles.boldText}>
+                        Destination: {this.state.order_list[i].dest}
+                    </Text>
+                    <Text style={styles.boldText}>
+                        Item Price: {this.state.order_list[i].item_price}
+                    </Text>
+                </TouchableOpacity>
+            );
+            i++;
+        }
+        return blockfin;
+    }
+
+    renderArticles = () => {
+        // <Card item={articles[0]} horizontal  />
+        // <Card item={articles[4]} full />
+        /*<Rating
+            showRating
+            onFinishRating={this.ratingCompleted}
+            style={{ paddingVertical: 10 }}
+          />*/
+        return (
+            <Block>
+                <Text style={styles.subTitle}>
+                    SELECT ORDER FOR DELIVERY
+                </Text>
+                {this.renderhelper()}
+            </Block>
+        )
+    }
+    /* function to call end point
+     * for retrieving list of all previous orders made
+     * by a particular delivery guy
+     */
+    viewAvailableOrders() {
+        var order_list = [];
+        var obj = this;
+        if (withflask) {
+            const url = server_ip + '/api/v1/establishment/pending_orders';
+
+            try {
+                response = fetch(url, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then((response) => {
+                        if (response.status == 200) {
+                            response.json().then((res) => {
+                                var myObject = eval('(' + res + ')');
+                                for (i in myObject) {
+                                	console.log("DID is ", myObject[i]["did"]);
+                                	if(myObject[i]["did"] != '')
+                                		continue;
+                                    order_list.push({
+                                        name: myObject[i]["e_name"],
+                                        order_id: i,
+                                        src: myObject[i]["e_location"],
+                                        dest: myObject[i]["customer_location"],
+                                        item_price: myObject[i]["amount"]
+                                    });
+                                }
+                                console.log(order_list);
+                            	obj.setState({ order_list: order_list });
+                            })
+                            return order_list;
+                        }
+                        else {
+                            this.setState({ error: "Oops! Something isn't right" });
+                        }
+                    });
+            }
+            catch (error) {
+                console.log('Error:' + error.message);
+            }
+        }
+        return order_list;
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            order_list: [{}],
+            search: "Filter By"
+        };
+
+        this.viewAvailableOrders();
+    }
+
+    /* This will be handling the UI component rendering
+     */
+    render() {
+        const { navigate } = this.props.navigation;
+        return (
+            <Block flex center style={styles.home}>
+                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
+                {this.renderArticles()}
+                </ScrollView>
+            </Block>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    home: {
+        width: width,
+    },
+    map: {
+        ...StyleSheet.absoluteFillObject,
+    },
+    articles: {
+        width: width - theme.SIZES.BASE * 2,
+        paddingVertical: theme.SIZES.BASE,
+    },
+    boldText: {
+        padding: 20,
+        color: '#143D59',
+        fontWeight: 'bold',
+        fontSize: 30,
+    },
+    normalText: {
+        color: '#143D59',
+        fontSize: 10,
+    },
+    blockAttr: {
+        margin: 20,
+        width: 350,
+        padding: 20,
+        color: 'white',
+        backgroundColor: '#E8E8E8',
+        fontWeight: 'bold',
+        fontSize: 20,
+        borderRadius: 5,
+        borderColor: 'black',
+    },
+    subTitle: {
+        color: 'orange',
+        backgroundColor: 'black',
+        fontWeight: 'bold',
+        padding: 5,
+        fontSize: 25,
+        alignItems: 'center',
+        borderColor: 'orange',
+    },
+    title: {
+        paddingBottom: theme.SIZES.BASE,
+        paddingHorizontal: theme.SIZES.BASE * 2,
+        marginTop: 44,
+        color: argonTheme.COLORS.HEADER
+    },
+    group: {
+        paddingTop: theme.SIZES.BASE * 2
+    },
+    shadow: {
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 4,
+        shadowOpacity: 0.2,
+        elevation: 2
+    },
+    button: {
+        marginBottom: theme.SIZES.BASE,
+        width: width - theme.SIZES.BASE * 2
+    },
+    optionsButton: {
+        width: 400,
+        height: "auto",
+        paddingHorizontal: theme.SIZES.BASE,
+        paddingVertical: 10,
+        margin: 10
+    },
+    input: {
+        borderBottomWidth: 1
+    },
+    inputDefault: {
+        borderBottomColor: argonTheme.COLORS.PLACEHOLDER
+    },
+    inputTheme: {
+        borderBottomColor: argonTheme.COLORS.PRIMARY
+    },
+    inputTheme: {
+        borderBottomColor: argonTheme.COLORS.PRIMARY
+    },
+    inputInfo: {
+        borderBottomColor: argonTheme.COLORS.INFO
+    },
+    inputSuccess: {
+        borderBottomColor: argonTheme.COLORS.SUCCESS
+    },
+    inputWarning: {
+        borderBottomColor: argonTheme.COLORS.WARNING
+    },
+    inputDanger: {
+        borderBottomColor: argonTheme.COLORS.ERROR
+    },
+    social: {
+        width: theme.SIZES.BASE * 3.5,
+        height: theme.SIZES.BASE * 3.5,
+        borderRadius: theme.SIZES.BASE * 1.75,
+        justifyContent: "center"
+    },
 });
 
 export default Elements;

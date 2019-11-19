@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Dimensions,View, TouchableOpacity } from "react
 // Galio components
 import { Block, Text, Button as GaButton, theme } from "galio-framework";
 // Argon themed components
+
 import { argonTheme, tabs } from "../../constants/";
 import { Button, Select, Icon, Input, Header, Switch } from "../../components/";
 import Modal from "react-native-modal";
@@ -16,15 +17,46 @@ class Account extends React.Component {
     super(props);
     this.state = {
       isModalVisible: false,
+      isModalVisible2: false,
       p1:"",
       p2:"",
       p3:" ",
       error:'',
-      user:""
+      user:"",
+      account:{}
     };
-    AsyncStorage.getItem("user").then((value) => {
-      this.setState({"user": value});
-  })
+  //   AsyncStorage.getItem("user").then((value) => {
+  //     this.setState({"user": value});
+  // })
+  this.init();
+  }
+  init(){
+    try{
+      var url= server_ip+'/api/v1/account_details';
+      response=fetch(url, {
+        method: 'GET', 
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((response) => {
+        if(response.status==200){
+          // // console.warn(JSON.parse(response))
+          response.json().then((res)=>{
+            var myObject = eval('(' + res + ')');
+              this.setState({account:myObject})
+          });
+      }
+      else{
+
+      }
+    })
+  }
+  
+    catch(e){
+      // console.log("blah",e)
+    }
   }
   change_password(obj){
     // console.warn(obj.state);
@@ -33,7 +65,7 @@ class Account extends React.Component {
         password:md5(obj.state.p1),
         new_password:md5(obj.state.p2),
         confirm_password:md5(obj.state.p3) };
-        console.warn(data)
+        // console.warn(data)
       try{
       response=fetch(url, {
           method: 'POST', 
@@ -53,7 +85,7 @@ class Account extends React.Component {
 
         })
       } catch (error) {
-        console.warn('Error:', error);
+        // console.warn('Error:', error);
       }
       obj.toggleModal()
   }
@@ -70,6 +102,38 @@ class Account extends React.Component {
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };  
+  toggleModal2 = () => {
+    this.setState({ isModalVisible2: !this.state.isModalVisible2 });
+  }; 
+  logout(obj){
+    // navigate to onboarding
+    // /api/v1/logout
+    const url = server_ip+'/api/v1/logout';
+    try{
+      response=fetch(url, {
+          method: 'POST', 
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => {
+          if(response.status==200){
+            obj.toggleModal2();
+            obj.props.navigation.navigate('Onboard');
+          }
+          else{
+            // this.setState({error : "Oops! Something isn't right"})
+          }
+
+        })
+      } catch (error) {
+        // console.warn('Error:', error);
+      }
+    
+
+    // console.warn(result)
+  }
   render() {
     const { style } = this.props;
     return (
@@ -79,26 +143,39 @@ class Account extends React.Component {
           <Block style={styles.start}>
             <Text style={styles.pad}>
               <Text bold size={18} style={styles.title}>
-                Name : &nbsp;
+                User Name : &nbsp;
               </Text>
               <Text
                   p
                   style={{ marginBottom: theme.SIZES.BASE / 2 }}
                   color={argonTheme.COLORS.DEFAULT}
                 >
-                  {this.state.user}
+                  {this.state.account.username}
               </Text>
             </Text>
             <Text style={styles.pad}>
               <Text bold size={18} style={styles.title}>
-                E-mail :  &nbsp;
+                Institution : &nbsp;
               </Text>
               <Text
                   p
                   style={{ marginBottom: theme.SIZES.BASE / 2 }}
                   color={argonTheme.COLORS.DEFAULT}
                 >
-                  {this.state.user}@gmail.com
+                  {this.state.account.i_name}
+              </Text>
+            </Text>
+            
+            <Text style={styles.pad}>
+              <Text bold size={18} style={styles.title}>
+                Account Balance :  &nbsp;
+              </Text>
+              <Text
+                  p
+                  style={{ marginBottom: theme.SIZES.BASE / 2 }}
+                  color={argonTheme.COLORS.DEFAULT}
+                >
+                  {this.state.account.wallet}
               </Text>
             </Text>
             <Block center>
@@ -117,11 +194,11 @@ class Account extends React.Component {
             </Button>
           </Block> */}
             <Block center>
-              <Button color="warning" style={styles.button}>
+              <Button color="warning" style={styles.button}  onPress={() => this.toggleModal2()} >
                 Log Out
               </Button>
             </Block>
-            <Modal isVisible={this.state.isModalVisible}>
+            <Modal isVisible={this.state.isModalVisible} animationType="fade">
               <Block center>
               <Input
                         password
@@ -171,8 +248,15 @@ class Account extends React.Component {
                           />
                         }
                       />
-                <Button title="Hide modal" onPress={() => this.change_password(this)} color="success" >Change Password</Button>
-                <Button title="Hide modal2" onPress={this.toggleModal} color="default" >Close</Button>
+                <Button title="Hide modal" onPress={() => this.change_password(this)} color="success" style={styles.changepass}>Change Password</Button>
+                <Button title="Hide modal2" onPress={this.toggleModal} color="default">Close</Button>
+              </Block>
+            </Modal>
+            <Modal isVisible={this.state.isModalVisible2} animationType="fade">
+              <Block middle>
+              <Button title="Hide modal3" onPress={() => this.logout(this)} color="success" style={styles.changepass}>Confirm Log Out</Button>
+              <Button title="Hide modal4" onPress={this.toggleModal2} color="default">Close</Button>
+                
               </Block>
             </Modal>
             <Block middle>
@@ -249,6 +333,10 @@ const styles = StyleSheet.create({
     borderRadius: theme.SIZES.BASE * 1.75,
     justifyContent: "center"
   },
+  changepass:{
+    marginBottom:15,
+    marginTop:5
+  }
 });
 
 export default Account;
