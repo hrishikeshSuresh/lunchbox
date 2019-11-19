@@ -7,7 +7,7 @@ import ScreensDelivery from './delivery/navigation/Screens'
 import Onboarding from './Onboarding'
 export default createAppContainer(createSwitchNavigator(
     {
-        Onboard: Onboarding,
+      Onboard: Onboarding,
       Customer: ScreensCustomer,
       Vendor: ScreensVendor,
       Institution: ScreensInstitution,

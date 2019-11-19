@@ -9,8 +9,9 @@ import { Images,argonTheme } from '../../constants';
 const star = require("../../assets/imgs/star.png");
 
 class FoodCard extends React.Component {
+  
   render() {
-    const { navigation, item, horizontal, full, style, ctaColor, imageStyle } = this.props;
+    const { navigation, item,cardtype,qty, horizontal, full, style, ctaColor, imageStyle } = this.props;
     
     const imageStyles = [
       full ? styles.fullImage : styles.horizontalImage,
@@ -21,25 +22,47 @@ class FoodCard extends React.Component {
       horizontal ? styles.horizontalStyles : styles.verticalStyles,
       styles.shadow
     ];
+      // {
+  //   “item_id”: “<Item ID>”,
+  //   “item_name”:”<Item Name>”,
+  //   “eid”:”<Establishment ID>”,
+  //   “e_name”:”<Establishment Name>”,
+  //   “e_type”:”Canteen” OR “Caterer”,
+  //   “item_price”:<item price>,
+  //   “currency”:”INR”,
+  //   “img”:”<img base64>”,
+    // "rating":5
+  //   }
+    const food_card=(cardtype=="food");
+    // console.log("foodcard",item,qty,item["item_id"])
     return (
       
-      <Block row={horizontal} card flex style={cardContainer}>
+      <Block row={horizontal} card flex style={cardContainer} key={item.item_id}>
         {/* <Text>Coming from blah</Text> */}
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
           <Block flex style={imgContainer}>
-            <Image source={{uri: item.image}} style={imageStyles} />
+            <Image source={{uri: 'data:image/gif;base64,'+item.img}} style={imageStyles} />
           </Block>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Food',{itempara:item})}>
           <Block flex space="between" style={styles.cardDescription}>
-            <Text size={14} style={styles.cardTitle}>{item.title}</Text>
-            <Text size={12}>{item.from}</Text>
+            <Text size={14} style={styles.cardTitle}>{item.item_name}</Text>
+            <Text size={12}>{item.e_name}</Text>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold style={{}}>{item.cta}</Text>
+            {food_card?
+            (<>
+              <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold style={{}}>{item.currency} {item.item_price}</Text>
             
             <Text size={12} muted={!ctaColor} color="grey" bold ><Image
                   source={Images.star}
-                  style={{ height: 10,width: 10}} /> {item.rating}</Text>
+                  style={{ height: 10,width: 10}} /> {item.avg_rating}</Text></>
+            )
+            :
+            (
+                    <><Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold style={{}}>{item.currency} {item.item_price}</Text>
+                    <Text size={12} muted={!ctaColor} color="grey" bold > Qty: {qty}</Text></>
+            
+            )}
             </View></Block>
         </TouchableWithoutFeedback>
       </Block>

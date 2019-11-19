@@ -16,6 +16,7 @@ import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
+import OrderView from "../screens/OrderView";
 // drawer
 import Menu from "./Menu";
 import DrawerItem from "../../components/DrawerItem";
@@ -65,7 +66,7 @@ const ElementsStack = createStackNavigator({
   Elements: {
     screen: Elements,
     navigationOptions: ({ navigation }) => ({
-      header: <Header title="Elements" navigation={navigation} />
+      header: <Header title="Search for Available Orders" navigation={navigation} />
     })
   }
 },{
@@ -169,7 +170,7 @@ const AppStack = createDrawerNavigator(
       screen: ElementsStack,
       navigationOptions: navOpt => ({
         drawerLabel: ({ focused }) => (
-          <DrawerItem focused={focused} screen="Elements" title="Elements" />
+          <DrawerItem focused={focused} screen="Elements" title="Search for available orders" />
         )
       })
     },
@@ -180,6 +181,9 @@ const AppStack = createDrawerNavigator(
           <DrawerItem focused={focused} screen="Articles" title="Articles" />
         )
       })
+    },
+    OrderView: {
+        screen: OrderView
     }
   },
   Menu

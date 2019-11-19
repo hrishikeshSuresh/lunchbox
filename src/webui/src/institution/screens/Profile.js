@@ -47,15 +47,21 @@ class Profile extends React.Component {
                   >
                     <Button
                       small
-                      style={{ backgroundColor: argonTheme.COLORS.INFO }}
+                      style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
                     >
-                      CONNECT
+                      Manage Vendors
                     </Button>
                     <Button
                       small
                       style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
                     >
-                      MESSAGE
+                      Manage Caterers
+                    </Button>
+                    <Button
+                      small
+                      style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
+                    >
+                      Manage Customers
                     </Button>
                   </Block>
                   <Block row space="between">

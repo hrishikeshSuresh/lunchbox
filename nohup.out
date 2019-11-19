@@ -1,0 +1,7 @@
+emulator: ERROR: AdbHostServer.cpp:93: Unable to connect to adb daemon on port: 5037
+emulator: ERROR: AdbHostServer.cpp:93: Unable to connect to adb daemon on port: 5037
+queryCoreProfileSupport: swap interval not found
+emulator: ERROR: VkCommonOperations.cpp:496: Failed to create Vulkan instance.
+qemu-system-x86_64: warning: TSC frequency mismatch between VM (2592008 kHz) and host (2591990 kHz), and TSC scaling unavailable
+qemu-system-x86_64: warning: TSC frequency mismatch between VM (2592008 kHz) and host (2591990 kHz), and TSC scaling unavailable
+emulator: Saving state on exit with session uptime 466252 ms

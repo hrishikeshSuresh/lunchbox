@@ -1,0 +1,57 @@
+from db_connector import *
+from flask_app import *
+from common import *
+
+
+#Signup
+@app.route('/api/v1/delivery/signup', methods = [ 'POST' ]   )
+def signup_delivery():
+    if request.method == 'POST':
+        delivery_name = request.json.get('delivery_name')
+        username = request.json.get('username')
+        password = request.json.get('password').upper()
+
+        #print(json.loads(dumps(db['metadata'].find())))
+        metadata = db['metadata'].find_one()
+        last_did = metadata['last_did']
+        last_uid = metadata['last_uid']
+        did = last_did + 1
+        uid = last_uid + 1
+        db['metadata'].update( { 'last_did': last_did, 'last_uid':last_uid}, { "$set": { 'last_did':did, 'last_uid':uid }} )
+        did = 'd' + str(did)
+        uid = 'u' + str(uid)
+        #print(password)
+        d_collection = db['delivery']
+        u_collection = db['users']
+        d_collection.insert_one({ "did": did, "uid": uid, "d_name": delivery_name })
+        u_collection.insert_one({ "uid": uid, "username": username, "password": password, "account_type": "Delivery" })
+        resp = make_response(jsonify({"success": "created"}), 201)
+        resp.set_cookie('uid',value=uid, max_age=60*60*24*365*2)  
+        resp.set_cookie('did',value=did, max_age=60*60*24*365*2)  
+        resp.set_cookie('user_type',value="Delivery",max_age=60*60*24*365*2)
+        return resp
+
+
+#Select order
+@app.route('/api/v1/delivery/select_order',methods=['POST'])
+def delivery_select_order():
+    if ( not request.cookies.get('uid')) or (not request.cookies.get('did')) or (not request.cookies.get('user_type')):
+        return jsonify(str({"error":"Unauthorized"})), 401
+    if not request.json.get('order_id'):
+        return jsonify(str({"error":"Bad Request"})), 400
+
+    order_id = request.json.get('order_id')
+    did = request.cookies.get('did')
+    order = db.orders.find_one({"order_id":order_id})
+    if order:
+        if order['did'] == '':
+            db.orders.update({"order_id":order_id},{"$set":{"did":did}})
+            return jsonify(str({"success":"selected"})), 200
+        else:
+            return jsonify(str({"error":"Bad Request"})), 400
+
+    else:
+        return jsonify(str({"error":"Order not found"})), 404
+
+
+
