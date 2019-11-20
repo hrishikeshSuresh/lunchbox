@@ -10,7 +10,7 @@ import { Linking } from 'expo';
 
 const { width } = Dimensions.get("screen");
 const sampleDest = { lat: 28.771707, lon: 77.4053769 };
-const GOOGLE_MAPS_APIKEY = "AIzaSyDp-y5B5CWDY4kgI43jDMQAfcMu7kvkT9Y";
+const GOOGLE_MAPS_APIKEY = "XXXXX";
 
 class OrderView extends React.Component {
     /* render each article that has been
